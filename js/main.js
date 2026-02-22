@@ -517,7 +517,7 @@ document.addEventListener('DOMContentLoaded', function () {
       openProduct(state.product, true);
     } else if (state && state.page === 'catalog') {
       closeModal(true);
-    } else {
+    } else if (state && state.page === 'exit') {
       window.location.href = 'https://sale91.com';
     }
   });
