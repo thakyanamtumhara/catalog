@@ -287,7 +287,10 @@ function openProduct(productId, skipPush) {
   }
   var picks = sameCategory.concat(others).slice(0, 6);
 
-  var sugHtml = '<div class="suggestions-heading">You May Also Like</div><div class="suggestion-scroll">';
+  var sugHtml = '<div class="suggestions-heading">You May Also Like</div>' +
+    '<div class="suggestion-scroll-wrapper">' +
+    '<button class="suggestion-arrow suggestion-arrow-left" aria-label="Scroll left">&#8249;</button>' +
+    '<div class="suggestion-scroll">';
   for (var m = 0; m < picks.length; m++) {
     var sp = picks[m];
     var sDots = '';
@@ -306,8 +309,30 @@ function openProduct(productId, skipPush) {
       '</div>' +
     '</div>';
   }
-  sugHtml += '</div>';
+  sugHtml += '</div>' +
+    '<button class="suggestion-arrow suggestion-arrow-right" aria-label="Scroll right">&#8250;</button>' +
+    '</div>';
   suggestions.innerHTML = sugHtml;
+
+  // Desktop arrow scroll handlers
+  var scrollWrapper = suggestions.querySelector('.suggestion-scroll-wrapper');
+  if (scrollWrapper) {
+    var scrollEl = scrollWrapper.querySelector('.suggestion-scroll');
+    var leftBtn = scrollWrapper.querySelector('.suggestion-arrow-left');
+    var rightBtn = scrollWrapper.querySelector('.suggestion-arrow-right');
+    var updateArrows = function () {
+      leftBtn.style.display = scrollEl.scrollLeft > 5 ? '' : 'none';
+      rightBtn.style.display = scrollEl.scrollLeft < scrollEl.scrollWidth - scrollEl.clientWidth - 5 ? '' : 'none';
+    };
+    leftBtn.addEventListener('click', function () {
+      scrollEl.scrollBy({ left: -260, behavior: 'smooth' });
+    });
+    rightBtn.addEventListener('click', function () {
+      scrollEl.scrollBy({ left: 260, behavior: 'smooth' });
+    });
+    scrollEl.addEventListener('scroll', updateArrows);
+    updateArrows();
+  }
 
   // Show modal
   overlay.classList.add('active');

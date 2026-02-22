@@ -546,6 +546,10 @@ img { max-width: 100%; display: block; }
   border-top: 1px solid #f1f5f9;
 }
 
+.suggestion-scroll-wrapper {
+  position: relative;
+}
+
 .suggestion-scroll {
   display: flex;
   gap: 10px;
@@ -556,6 +560,34 @@ img { max-width: 100%; display: block; }
   scrollbar-width: none;
 }
 .suggestion-scroll::-webkit-scrollbar { display: none; }
+
+/* Desktop-only scroll arrows */
+.suggestion-arrow {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #e2e8f0;
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  font-size: 22px;
+  line-height: 1;
+  color: #334155;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.suggestion-arrow:hover {
+  background: #fff;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.18);
+}
+.suggestion-arrow-left { left: -6px; }
+.suggestion-arrow-right { right: -6px; }
 
 .suggestion-card {
   min-width: 120px;
@@ -634,6 +666,7 @@ img { max-width: 100%; display: block; }
   .modal-overlay { align-items: center; }
   .suggestion-card { min-width: 140px; max-width: 140px; }
   .category-tabs { padding: 14px 16px; }
+  .suggestion-arrow { display: flex; }
 }
 
 /* ===== Desktop ===== */
