@@ -21,7 +21,7 @@ function getAllProducts() {
         bulkPrices: product.bulkPrices,
         catalogUrl: product.catalogUrl,
         images: product.images || product.colorCodes.map(function (_, i) {
-          return 'images/' + slugify(product.name) + '/' + (i + 1) + '.jpg';
+          return 'images/' + slugify(product.name) + '/' + (i + 1) + '.webp';
         }),
         video: product.video,
         categoryName: cat.name,
