@@ -456,8 +456,8 @@ img { max-width: 100%; display: block; }
   padding: 0 0 6px;
 }
 
-/* View Catalog Photos button */
-.catalog-link-btn {
+/* Order Now button */
+.order-now-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -473,8 +473,8 @@ img { max-width: 100%; display: block; }
   cursor: pointer;
   text-decoration: none;
 }
-.catalog-link-btn:active { background: #1d4ed8; }
-.catalog-link-btn svg { width: 20px; height: 20px; }
+.order-now-btn:active { background: #1d4ed8; }
+.order-now-btn svg { width: 20px; height: 20px; }
 
 /* Share Product */
 .share-product-btn {
