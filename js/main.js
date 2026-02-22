@@ -1,3 +1,6 @@
+// ===== State =====
+var currentCategory = 'all';
+
 // ===== Flatten all products with category info =====
 function getAllProducts() {
   var products = [];
@@ -5,12 +8,20 @@ function getAllProducts() {
     cat.products.forEach(function (product, idx) {
       products.push({
         id: cat.id + '-' + idx,
+        categoryId: cat.id,
         name: product.name,
+        nickname: product.nickname,
         description: product.description,
         rate: product.rate,
+        samplePrice: product.samplePrice,
+        weight: product.weight,
         colors: product.colors,
         colorCodes: product.colorCodes,
         sizes: product.sizes,
+        bulkPrices: product.bulkPrices,
+        catalogUrl: product.catalogUrl,
+        images: product.images,
+        video: product.video,
         categoryName: cat.name,
         categoryIcon: cat.icon,
         categoryColor: cat.color
@@ -30,34 +41,102 @@ function placeholder(icon, color, w, h) {
   );
 }
 
-// ===== Render All Products — Grid: photo + rate + color dots =====
+// ===== Render Category Tabs =====
+function renderCategoryTabs() {
+  var container = document.getElementById('categoryTabs');
+  if (!container) return;
+
+  var all = getAllProducts();
+  var html = '<button class="category-tab active" data-category="all">All <span class="tab-count">' + all.length + '</span></button>';
+
+  CATALOG_DATA.categories.forEach(function (cat) {
+    html += '<button class="category-tab" data-category="' + cat.id + '">' +
+      cat.icon + ' ' + cat.name +
+      ' <span class="tab-count">' + cat.products.length + '</span>' +
+    '</button>';
+  });
+
+  container.innerHTML = html;
+
+  // Tab click handler
+  container.addEventListener('click', function (e) {
+    var tab = e.target.closest('.category-tab');
+    if (!tab) return;
+
+    currentCategory = tab.getAttribute('data-category');
+    container.querySelectorAll('.category-tab').forEach(function (t) {
+      t.classList.toggle('active', t === tab);
+    });
+    renderAllProducts();
+  });
+}
+
+// ===== Render All Products — Grid =====
 function renderAllProducts() {
   var grid = document.getElementById('productGrid');
   if (!grid) return;
 
   var all = getAllProducts();
+  var filtered = currentCategory === 'all'
+    ? all
+    : all.filter(function (p) { return p.categoryId === currentCategory; });
+
   var html = '';
 
-  for (var i = 0; i < all.length; i++) {
-    var p = all[i];
+  for (var i = 0; i < filtered.length; i++) {
+    var p = filtered[i];
     var dots = '';
-    for (var c = 0; c < p.colorCodes.length; c++) {
-      dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + '"></span>';
+    var maxDots = Math.min(p.colorCodes.length, 6);
+    for (var c = 0; c < maxDots; c++) {
+      var border = (p.colorCodes[c].toUpperCase() === '#FFFFFF' || p.colorCodes[c].toUpperCase() === '#FAF5E4')
+        ? 'border:1.5px solid #cbd5e1;' : 'border:1.5px solid #e2e8f0;';
+      dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + ';' + border + '"></span>';
+    }
+    if (p.colorCodes.length > 6) {
+      dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
     }
 
     html += '<div class="product-card" onclick="openProduct(\'' + p.id + '\')">' +
       '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
-        '<img src="' + placeholder(p.categoryIcon, p.categoryColor, 400, 400) + '" alt="' + p.name + '">' +
+        '<img src="' + (p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400)) + '" alt="' + p.name + '" loading="lazy">' +
+        '<span class="product-card-badge">' + p.weight + ' kg</span>' +
       '</div>' +
       '<div class="product-card-body">' +
         '<div class="product-card-name">' + p.name + '</div>' +
-        '<div class="product-card-rate">\u20B9' + p.rate.toLocaleString('en-IN') + '</div>' +
+        '<div class="product-card-nickname">' + p.nickname + '</div>' +
+        '<div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>' +
+        '<div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>' +
         '<div class="product-card-colors">' + dots + '</div>' +
       '</div>' +
     '</div>';
   }
 
+  if (filtered.length === 0) {
+    html = '<div style="grid-column:1/-1;text-align:center;padding:40px 16px;color:#94a3b8;">No products in this category</div>';
+  }
+
   grid.innerHTML = html;
+}
+
+// ===== Build price summary (group sizes by price) =====
+function buildPriceSummary(sizes, bulkPrices) {
+  var groups = [];
+  var currentPrice = bulkPrices[0];
+  var startIdx = 0;
+
+  for (var i = 1; i <= bulkPrices.length; i++) {
+    if (i === bulkPrices.length || bulkPrices[i] !== currentPrice) {
+      var startSize = sizes[startIdx];
+      var endSize = sizes[i - 1];
+      var label = startIdx === i - 1 ? startSize : startSize + '–' + endSize;
+      groups.push({ label: label, price: currentPrice });
+      if (i < bulkPrices.length) {
+        currentPrice = bulkPrices[i];
+        startIdx = i;
+      }
+    }
+  }
+  return groups;
 }
 
 // ===== Open Product Detail =====
@@ -73,11 +152,10 @@ function openProduct(productId) {
   var body = document.getElementById('modalBody');
   var suggestions = document.getElementById('modalSuggestions');
 
-  // Build swipeable images (one per color variant + optional video)
+  // Build swipeable images (one per color variant)
   var slides = '';
   var slideCount = product.colorCodes.length;
 
-  // If product has a video, add it as first slide
   if (product.video) {
     slides += '<div class="swipe-slide">' +
       '<video src="' + product.video + '" playsinline muted loop preload="metadata" onclick="this.paused?this.play():this.pause()"></video>' +
@@ -102,8 +180,10 @@ function openProduct(productId) {
   // Color list with names
   var colorList = '';
   for (var c = 0; c < product.colors.length; c++) {
+    var border = (product.colorCodes[c].toUpperCase() === '#FFFFFF' || product.colorCodes[c].toUpperCase() === '#FAF5E4')
+      ? 'border:2px solid #cbd5e1;' : 'border:2px solid #e2e8f0;';
     colorList += '<div class="color-swatch">' +
-      '<span class="color-dot" style="background:' + product.colorCodes[c] + '"></span>' +
+      '<span class="color-dot" style="background:' + product.colorCodes[c] + ';' + border + '"></span>' +
       '<span class="color-name">' + product.colors[c] + '</span>' +
     '</div>';
   }
@@ -114,6 +194,23 @@ function openProduct(productId) {
     sizeBadges += '<span class="size-badge">' + product.sizes[z] + '</span>';
   }
 
+  // Price table
+  var priceGroups = buildPriceSummary(product.sizes, product.bulkPrices);
+  var priceTableHtml = '<div class="price-table-wrap"><table class="price-table">';
+  priceTableHtml += '<tr><th>Size</th><th>Bulk Price/pc</th></tr>';
+  for (var pt = 0; pt < priceGroups.length; pt++) {
+    priceTableHtml += '<tr><td>' + priceGroups[pt].label + '</td><td class="price-cell">\u20B9' + priceGroups[pt].price + '</td></tr>';
+  }
+  priceTableHtml += '</table></div>';
+
+  // Meta tags (weight, gsm)
+  var metaHtml = '<div class="detail-meta">' +
+    '<span class="detail-meta-tag">\u2696\uFE0F ' + product.weight + ' kg</span>' +
+  '</div>';
+
+  // Escape product name for onclick
+  var safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+
   body.innerHTML =
     '<div class="swipe-container" id="swipeContainer">' +
       '<div class="swipe-track" id="swipeTrack">' + slides + '</div>' +
@@ -121,47 +218,67 @@ function openProduct(productId) {
     '</div>' +
     '<div class="detail-info">' +
       '<div class="detail-name">' + product.name + '</div>' +
-      '<div class="detail-rate">\u20B9' + product.rate.toLocaleString('en-IN') + '</div>' +
+      '<div class="detail-nickname">' + product.nickname + ' \u00B7 ' + product.categoryName + '</div>' +
+      '<div class="detail-rate">\u20B9' + product.rate + '/pc <span style="font-size:14px;color:#64748b;font-weight:600;">Bulk</span></div>' +
+      '<div class="detail-sample-price">Sample: <strong>\u20B9' + product.samplePrice + '/pc</strong></div>' +
+      metaHtml +
       '<div class="detail-desc">' + product.description + '</div>' +
-      '<div class="detail-label">Colors</div>' +
+      '<div class="detail-label">Pricing by Size</div>' +
+      priceTableHtml +
+      '<div class="detail-label">Colors (' + product.colors.length + ')</div>' +
       '<div class="color-swatches">' + colorList + '</div>' +
-      '<div class="detail-label">Sizes</div>' +
+      '<div class="detail-label">Sizes (' + product.sizes.length + ')</div>' +
       '<div class="size-badges">' + sizeBadges + '</div>' +
-      '<button class="whatsapp-enquiry-btn" onclick="enquireWhatsApp(\'' + product.name.replace(/'/g, "\\'") + '\', ' + product.rate + ')">' +
-        '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
-        ' Enquire on WhatsApp' +
-      '</button>' +
+      '<div class="detail-actions">' +
+        (product.catalogUrl
+          ? '<a href="' + product.catalogUrl + '" target="_blank" rel="noopener" class="catalog-link-btn">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>' +
+              ' View Catalog Photos' +
+            '</a>'
+          : '') +
+        '<button class="whatsapp-enquiry-btn" onclick="enquireWhatsApp(\'' + safeName + '\', ' + product.rate + ', ' + product.samplePrice + ', \'' + product.nickname + '\')">' +
+          '<svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
+          ' Enquire on WhatsApp' +
+        '</button>' +
+      '</div>' +
     '</div>';
 
   // Setup swipe
   initSwipe();
 
-  // Render suggestions
+  // Render suggestions (same category first, then others)
+  var sameCategory = [];
   var others = [];
   for (var j = 0; j < all.length; j++) {
-    if (all[j].id !== productId) others.push(all[j]);
+    if (all[j].id === productId) continue;
+    if (all[j].categoryId === product.categoryId) {
+      sameCategory.push(all[j]);
+    } else {
+      others.push(all[j]);
+    }
   }
-  // Shuffle
+  // Shuffle others
   for (var k = others.length - 1; k > 0; k--) {
     var r = Math.floor(Math.random() * (k + 1));
     var tmp = others[k]; others[k] = others[r]; others[r] = tmp;
   }
-  var picks = others.slice(0, 6);
+  var picks = sameCategory.concat(others).slice(0, 6);
 
   var sugHtml = '<div class="suggestions-heading">You May Also Like</div><div class="suggestion-scroll">';
   for (var m = 0; m < picks.length; m++) {
     var sp = picks[m];
     var sDots = '';
-    for (var sc = 0; sc < sp.colorCodes.length; sc++) {
+    var sMaxDots = Math.min(sp.colorCodes.length, 4);
+    for (var sc = 0; sc < sMaxDots; sc++) {
       sDots += '<span class="color-dot-small" style="background:' + sp.colorCodes[sc] + '"></span>';
     }
     sugHtml += '<div class="suggestion-card" onclick="openProduct(\'' + sp.id + '\')">' +
       '<div class="suggestion-card-image" style="background:' + sp.categoryColor + '10">' +
-        '<img src="' + placeholder(sp.categoryIcon, sp.categoryColor, 200, 200) + '" alt="' + sp.name + '">' +
+        '<img src="' + (sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200)) + '" alt="' + sp.name + '" loading="lazy">' +
       '</div>' +
       '<div class="suggestion-card-body">' +
         '<div class="suggestion-card-name">' + sp.name + '</div>' +
-        '<div class="suggestion-card-rate">\u20B9' + sp.rate.toLocaleString('en-IN') + '</div>' +
+        '<div class="suggestion-card-rate">\u20B9' + sp.rate + '/pc</div>' +
         '<div class="product-card-colors">' + sDots + '</div>' +
       '</div>' +
     '</div>';
@@ -193,14 +310,12 @@ function initSwipe() {
     if (index >= slides.length) index = slides.length - 1;
     currentIndex = index;
     track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
-    // Update dots
     var allDots = dotsContainer.querySelectorAll('.swipe-dot');
     for (var i = 0; i < allDots.length; i++) {
       allDots[i].classList.toggle('active', i === currentIndex);
     }
   }
 
-  // Touch events
   container.addEventListener('touchstart', function (e) {
     startX = e.touches[0].clientX;
     dragging = true;
@@ -227,7 +342,6 @@ function initSwipe() {
     diffX = 0;
   });
 
-  // Dot clicks
   dotsContainer.addEventListener('click', function (e) {
     if (e.target.classList.contains('swipe-dot')) {
       goToSlide(parseInt(e.target.getAttribute('data-index')));
@@ -242,18 +356,24 @@ function closeModal() {
 }
 
 // ===== WhatsApp Enquiry =====
-function enquireWhatsApp(name, rate) {
-  var msg = 'Hi! I\'m interested in "' + name + '" (\u20B9' + rate.toLocaleString('en-IN') + ') from Sale91.\n' + window.location.href;
+function enquireWhatsApp(name, bulkRate, sampleRate, nickname) {
+  var msg = 'Hi! I\'m interested in *' + name + '* (' + nickname + ')\n' +
+    'Bulk: \u20B9' + bulkRate + '/pc | Sample: \u20B9' + sampleRate + '/pc\n' +
+    'From Sale91 Catalog\n' +
+    window.location.href;
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
 // ===== Init =====
 document.addEventListener('DOMContentLoaded', function () {
+  // Render category tabs
+  renderCategoryTabs();
+
   // WhatsApp FAB
   var fab = document.getElementById('whatsappBtn');
   if (fab) {
     fab.addEventListener('click', function () {
-      var msg = 'Check out Sale91 Fashion Catalog!\n' + window.location.href;
+      var msg = 'Check out Sale91 Catalog!\n' + window.location.href;
       window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
     });
   }
