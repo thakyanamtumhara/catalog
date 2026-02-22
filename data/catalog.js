@@ -266,7 +266,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1UbsXeU0ykL8SVWzfuMT2-84ZFrizxoUTElEkoZ-g4A4/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Sweatshirt (Premium)",
+          name: "Sweatshirt 2",
           nickname: "Sweatshirt-2",
           description: "Sweatshirt, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           rate: 240,
