@@ -20,7 +20,9 @@ function getAllProducts() {
         sizes: product.sizes,
         bulkPrices: product.bulkPrices,
         catalogUrl: product.catalogUrl,
-        images: product.images,
+        images: product.images || product.colorCodes.map(function (_, i) {
+          return 'images/' + slugify(product.name) + '/' + (i + 1) + '.jpg';
+        }),
         video: product.video,
         categoryName: cat.name,
         categoryIcon: cat.icon,
@@ -112,7 +114,7 @@ function renderAllProducts() {
 
     html += '<div class="product-card" onclick="openProduct(\'' + p.id + '\')">' +
       '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
-        '<img src="' + (p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400)) + '" alt="' + p.name + '" loading="lazy">' +
+        '<img src="' + (p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400)) + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'") + '\'">' +
         '<span class="product-card-badge">' + p.weight + ' kg</span>' +
       '</div>' +
       '<div class="product-card-body">' +
@@ -186,7 +188,7 @@ function openProduct(productId, skipPush) {
 
   for (var s = 0; s < product.colorCodes.length; s++) {
     slides += '<div class="swipe-slide">' +
-      '<img src="' + (product.images && product.images[s] ? product.images[s] : placeholder(product.categoryIcon, product.colorCodes[s], 600, 600)) + '" alt="' + product.colors[s] + '">' +
+      '<img src="' + (product.images && product.images[s] ? product.images[s] : placeholder(product.categoryIcon, product.colorCodes[s], 600, 600)) + '" alt="' + product.colors[s] + '" onerror="this.onerror=null;this.src=\'' + placeholder(product.categoryIcon, product.colorCodes[s], 600, 600).replace(/'/g, "\\'") + '\'">' +
       '<div class="swipe-slide-label">' + product.colors[s] + '</div>' +
     '</div>';
   }
@@ -300,7 +302,7 @@ function openProduct(productId, skipPush) {
     }
     sugHtml += '<div class="suggestion-card" onclick="openProduct(\'' + sp.id + '\')">' +
       '<div class="suggestion-card-image" style="background:' + sp.categoryColor + '10">' +
-        '<img src="' + (sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200)) + '" alt="' + sp.name + '" loading="lazy">' +
+        '<img src="' + (sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200)) + '" alt="' + sp.name + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + placeholder(sp.categoryIcon, sp.categoryColor, 200, 200).replace(/'/g, "\\'") + '\'">' +
       '</div>' +
       '<div class="suggestion-card-body">' +
         '<div class="suggestion-card-name">' + sp.name + '</div>' +
