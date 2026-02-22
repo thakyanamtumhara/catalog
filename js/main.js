@@ -140,13 +140,18 @@ function buildPriceSummary(sizes, bulkPrices) {
 }
 
 // ===== Open Product Detail =====
-function openProduct(productId) {
+function openProduct(productId, skipPush) {
   var all = getAllProducts();
   var product = null;
   for (var i = 0; i < all.length; i++) {
     if (all[i].id === productId) { product = all[i]; break; }
   }
   if (!product) return;
+
+  // Update URL hash for shareable link
+  if (!skipPush) {
+    history.pushState({ product: productId }, '', '#product=' + productId);
+  }
 
   var overlay = document.getElementById('modalOverlay');
   var body = document.getElementById('modalBody');
@@ -230,6 +235,10 @@ function openProduct(productId) {
       '<div class="detail-label">Sizes (' + product.sizes.length + ')</div>' +
       '<div class="size-badges">' + sizeBadges + '</div>' +
       '<div class="detail-actions">' +
+        '<button class="share-product-btn" onclick="shareProduct(\'' + safeName + '\', \'' + product.id + '\')">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
+          ' Share This Product' +
+        '</button>' +
         (product.catalogUrl
           ? '<a href="' + product.catalogUrl + '" target="_blank" rel="noopener" class="catalog-link-btn">' +
               '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>' +
@@ -350,16 +359,52 @@ function initSwipe() {
 }
 
 // ===== Close Modal =====
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('active');
+function closeModal(skipHistory) {
+  var overlay = document.getElementById('modalOverlay');
+  if (!overlay.classList.contains('active')) return;
+  overlay.classList.remove('active');
   document.body.style.overflow = '';
+  // Go back in history to remove the product hash (unless already triggered by popstate)
+  if (!skipHistory && window.location.hash.indexOf('#product=') === 0) {
+    history.back();
+  }
+}
+
+// ===== Share Product =====
+function shareProduct(name, productId) {
+  var url = window.location.origin + window.location.pathname + '#product=' + productId;
+  var text = name + ' — sale91.com Catalog';
+
+  if (navigator.share) {
+    navigator.share({ title: text, url: url }).catch(function() {});
+  } else {
+    // Fallback: copy to clipboard
+    var temp = document.createElement('input');
+    document.body.appendChild(temp);
+    temp.value = url;
+    temp.select();
+    document.execCommand('copy');
+    document.body.removeChild(temp);
+    showToast('Link copied!');
+  }
+}
+
+// ===== Toast notification =====
+function showToast(msg) {
+  var existing = document.querySelector('.toast-msg');
+  if (existing) existing.remove();
+  var el = document.createElement('div');
+  el.className = 'toast-msg';
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(function() { el.remove(); }, 2000);
 }
 
 // ===== WhatsApp Enquiry =====
 function enquireWhatsApp(name, bulkRate, sampleRate, nickname) {
   var msg = 'Hi! I\'m interested in *' + name + '* (' + nickname + ')\n' +
     'Bulk: \u20B9' + bulkRate + '/pc | Sample: \u20B9' + sampleRate + '/pc\n' +
-    'From Sale91 Catalog\n' +
+    'From sale91.com Catalog\n' +
     window.location.href;
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
@@ -373,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var fab = document.getElementById('whatsappBtn');
   if (fab) {
     fab.addEventListener('click', function () {
-      var msg = 'Check out Sale91 Catalog!\n' + window.location.href;
+      var msg = 'Check out sale91.com Catalog!\n' + window.location.href;
       window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
     });
   }
@@ -382,8 +427,40 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('modalOverlay').addEventListener('click', function (e) {
     if (e.target === this) closeModal();
   });
-  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalClose').addEventListener('click', function () {
+    closeModal();
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeModal();
   });
+
+  // ===== History / Back Button =====
+  // Setup: replace current state, then push catalog state
+  // So pressing back on main catalog → goes to sale91.com
+  history.replaceState({ page: 'exit' }, '');
+  history.pushState({ page: 'catalog' }, '', window.location.pathname + window.location.search);
+
+  // Handle back/forward
+  window.addEventListener('popstate', function (e) {
+    var state = e.state;
+    if (state && state.product) {
+      // Navigating forward to a product
+      openProduct(state.product, true);
+    } else if (state && state.page === 'catalog') {
+      // Back from product → close modal
+      closeModal(true);
+    } else {
+      // Back from catalog → redirect to sale91.com
+      window.location.href = 'https://sale91.com';
+    }
+  });
+
+  // ===== Open product from shared URL hash =====
+  if (window.location.hash.indexOf('#product=') === 0) {
+    var pid = window.location.hash.replace('#product=', '');
+    if (pid) {
+      history.replaceState({ page: 'catalog' }, '', window.location.pathname);
+      openProduct(pid);
+    }
+  }
 });
