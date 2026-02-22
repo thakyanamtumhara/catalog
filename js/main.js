@@ -495,6 +495,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ===== Catalog: History / Back Button =====
+  // Capture hash before history setup overwrites it
+  var startHash = window.location.hash;
+
   history.replaceState({ page: 'exit' }, '');
   history.pushState({ page: 'catalog' }, '', window.location.pathname + window.location.search);
 
@@ -509,11 +512,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Open product from hash URL
-  if (window.location.hash.indexOf('#product=') === 0) {
-    var pid = window.location.hash.replace('#product=', '');
+  // Open product from hash URL (on refresh / direct link)
+  if (startHash.indexOf('#product=') === 0) {
+    var pid = startHash.replace('#product=', '');
     if (pid) {
-      history.replaceState({ page: 'catalog' }, '', window.location.pathname);
       openProduct(pid);
     }
   }
