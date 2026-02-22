@@ -279,6 +279,33 @@ img { max-width: 100%; display: block; }
   gap: 3px;
 }
 
+/* Swipe Arrow Buttons (desktop) */
+.swipe-arrow {
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  cursor: pointer;
+  line-height: 1;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
+}
+.swipe-arrow:hover { background: rgba(0,0,0,0.7); }
+.swipe-arrow-left { left: 10px; }
+.swipe-arrow-right { right: 10px; }
+@media (min-width: 600px) {
+  .swipe-arrow { display: flex; align-items: center; justify-content: center; }
+}
+
 .swipe-dots {
   position: absolute;
   bottom: 10px;

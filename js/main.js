@@ -233,6 +233,8 @@ function openProduct(productId, skipPush) {
   body.innerHTML =
     '<div class="swipe-container" id="swipeContainer">' +
       '<div class="swipe-track" id="swipeTrack">' + slides + '</div>' +
+      '<button class="swipe-arrow swipe-arrow-left" id="swipeLeft" aria-label="Previous">&#8249;</button>' +
+      '<button class="swipe-arrow swipe-arrow-right" id="swipeRight" aria-label="Next">&#8250;</button>' +
       '<div class="swipe-dots" id="swipeDots">' + dots + '</div>' +
     '</div>' +
     '<div class="detail-info">' +
@@ -351,6 +353,14 @@ function initSwipe() {
   var diffX = 0;
   var dragging = false;
 
+  var leftArrow = document.getElementById('swipeLeft');
+  var rightArrow = document.getElementById('swipeRight');
+
+  function updateArrows() {
+    if (leftArrow) leftArrow.style.display = currentIndex > 0 ? '' : 'none';
+    if (rightArrow) rightArrow.style.display = currentIndex < slides.length - 1 ? '' : 'none';
+  }
+
   function goToSlide(index) {
     if (index < 0) index = 0;
     if (index >= slides.length) index = slides.length - 1;
@@ -360,7 +370,12 @@ function initSwipe() {
     for (var i = 0; i < allDots.length; i++) {
       allDots[i].classList.toggle('active', i === currentIndex);
     }
+    updateArrows();
   }
+
+  if (leftArrow) leftArrow.addEventListener('click', function () { goToSlide(currentIndex - 1); });
+  if (rightArrow) rightArrow.addEventListener('click', function () { goToSlide(currentIndex + 1); });
+  updateArrows();
 
   container.addEventListener('touchstart', function (e) {
     startX = e.touches[0].clientX;
