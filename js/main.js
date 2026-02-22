@@ -31,6 +31,20 @@ function getAllProducts() {
   return products;
 }
 
+// ===== Slugify =====
+function slugify(text) {
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+// ===== Get product page URL =====
+function getProductPageUrl(productName) {
+  var slug = slugify(productName);
+  var path = window.location.pathname;
+  var idx = path.indexOf('/catalog');
+  var base = idx >= 0 ? path.substring(0, idx + 8) : '';
+  return window.location.origin + base + '/p/' + slug + '/';
+}
+
 // ===== SVG Placeholder =====
 function placeholder(icon, color, w, h) {
   return 'data:image/svg+xml,' + encodeURIComponent(
@@ -148,8 +162,8 @@ function openProduct(productId, skipPush) {
   }
   if (!product) return;
 
-  // Update URL hash for shareable link
-  if (!skipPush) {
+  // Update URL hash for shareable link (skip on product pages)
+  if (!skipPush && !(typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE)) {
     history.pushState({ product: productId }, '', '#product=' + productId);
   }
 
@@ -364,6 +378,11 @@ function closeModal(skipHistory) {
   if (!overlay.classList.contains('active')) return;
   overlay.classList.remove('active');
   document.body.style.overflow = '';
+  // Product page: close → go to main catalog
+  if (typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE) {
+    window.location.href = PRODUCT_PAGE.baseUrl;
+    return;
+  }
   // Go back in history to remove the product hash (unless already triggered by popstate)
   if (!skipHistory && window.location.hash.indexOf('#product=') === 0) {
     history.back();
@@ -372,7 +391,7 @@ function closeModal(skipHistory) {
 
 // ===== Share Product =====
 function shareProduct(name, productId) {
-  var url = window.location.origin + window.location.pathname + '#product=' + productId;
+  var url = getProductPageUrl(name);
   var text = name + ' — sale91.com Catalog';
 
   if (navigator.share) {
@@ -402,10 +421,11 @@ function showToast(msg) {
 
 // ===== WhatsApp Enquiry =====
 function enquireWhatsApp(name, bulkRate, sampleRate, nickname) {
+  var productUrl = getProductPageUrl(name);
   var msg = 'Hi! I\'m interested in *' + name + '* (' + nickname + ')\n' +
     'Bulk: \u20B9' + bulkRate + '/pc | Sample: \u20B9' + sampleRate + '/pc\n' +
     'From sale91.com Catalog\n' +
-    window.location.href;
+    productUrl;
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
@@ -434,28 +454,28 @@ document.addEventListener('DOMContentLoaded', function () {
     if (e.key === 'Escape') closeModal();
   });
 
-  // ===== History / Back Button =====
-  // Setup: replace current state, then push catalog state
-  // So pressing back on main catalog → goes to sale91.com
+  // ===== Product Page Mode =====
+  if (typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE) {
+    openProduct(PRODUCT_PAGE.id, true);
+    return;
+  }
+
+  // ===== Catalog: History / Back Button =====
   history.replaceState({ page: 'exit' }, '');
   history.pushState({ page: 'catalog' }, '', window.location.pathname + window.location.search);
 
-  // Handle back/forward
   window.addEventListener('popstate', function (e) {
     var state = e.state;
     if (state && state.product) {
-      // Navigating forward to a product
       openProduct(state.product, true);
     } else if (state && state.page === 'catalog') {
-      // Back from product → close modal
       closeModal(true);
     } else {
-      // Back from catalog → redirect to sale91.com
       window.location.href = 'https://sale91.com';
     }
   });
 
-  // ===== Open product from shared URL hash =====
+  // Open product from hash URL
   if (window.location.hash.indexOf('#product=') === 0) {
     var pid = window.location.hash.replace('#product=', '');
     if (pid) {
