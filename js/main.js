@@ -112,9 +112,13 @@ function renderAllProducts() {
       dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
     }
 
+    var mainImg = 'images/' + slugify(p.name) + '/m.webp';
+    var fallbackImg = p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400);
+    var placeholderImg = placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'");
+
     html += '<div class="product-card" onclick="openProduct(\'' + p.id + '\')">' +
       '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
-        '<img src="' + (p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400)) + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'") + '\'">' +
+        '<img src="' + mainImg + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + placeholderImg + '\'};this.src=\'' + fallbackImg.replace(/'/g, "\\'") + '\'">' +
         '<span class="product-card-badge">' + p.weight + ' kg</span>' +
       '</div>' +
       '<div class="product-card-body">' +
@@ -310,9 +314,13 @@ function openProduct(productId, skipPush) {
     for (var sc = 0; sc < sMaxDots; sc++) {
       sDots += '<span class="color-dot-small" style="background:' + sp.colorCodes[sc] + '"></span>';
     }
+    var sugMainImg = 'images/' + slugify(sp.name) + '/m.webp';
+    var sugFallback = sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200);
+    var sugPlaceholder = placeholder(sp.categoryIcon, sp.categoryColor, 200, 200).replace(/'/g, "\\'");
+
     sugHtml += '<div class="suggestion-card" onclick="openProduct(\'' + sp.id + '\')">' +
       '<div class="suggestion-card-image" style="background:' + sp.categoryColor + '10">' +
-        '<img src="' + (sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200)) + '" alt="' + sp.name + '" loading="lazy" onerror="this.onerror=null;this.src=\'' + placeholder(sp.categoryIcon, sp.categoryColor, 200, 200).replace(/'/g, "\\'") + '\'">' +
+        '<img src="' + sugMainImg + '" alt="' + sp.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + sugPlaceholder + '\'};this.src=\'' + sugFallback.replace(/'/g, "\\'") + '\'">' +
       '</div>' +
       '<div class="suggestion-card-body">' +
         '<div class="suggestion-card-name">' + sp.name + '</div>' +
