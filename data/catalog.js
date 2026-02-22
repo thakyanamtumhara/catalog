@@ -4,7 +4,7 @@
 
 const CATALOG_DATA = {
   siteName: "Sale91",
-  baseUrl: "https://catalog.sale91.com",
+  baseUrl: "https://thakyanamtumhara.github.io/catalog",
   categories: [
     {
       id: "oversized-tees",
