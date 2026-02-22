@@ -119,7 +119,7 @@ function renderAllProducts() {
     html += '<div class="product-card" onclick="openProduct(\'' + p.id + '\')">' +
       '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
         '<img src="' + mainImg + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + placeholderImg + '\'};this.src=\'' + fallbackImg.replace(/'/g, "\\'") + '\'">' +
-        '<span class="product-card-badge">' + p.weight + ' kg</span>' +
+        '<span class="product-card-badge">' + ((p.description.match(/(\d+)\s*gsm/i) || [])[1] || '') + ' GSM</span>' +
       '</div>' +
       '<div class="product-card-body">' +
         '<div class="product-card-name">' + p.name + '</div>' +
@@ -228,11 +228,6 @@ function openProduct(productId, skipPush) {
   }
   priceTableHtml += '</table></div>';
 
-  // Meta tags (weight, gsm)
-  var metaHtml = '<div class="detail-meta">' +
-    '<span class="detail-meta-tag">\u2696\uFE0F ' + product.weight + ' kg</span>' +
-  '</div>';
-
   // Escape product name for onclick
   var safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
@@ -248,7 +243,6 @@ function openProduct(productId, skipPush) {
       '<div class="detail-nickname">' + product.nickname + ' \u00B7 ' + product.categoryName + '</div>' +
       '<div class="detail-rate">\u20B9' + product.rate + '/pc <span style="font-size:14px;color:#64748b;font-weight:600;">Bulk</span></div>' +
       '<div class="detail-sample-price">Sample: <strong>\u20B9' + product.samplePrice + '/pc</strong></div>' +
-      metaHtml +
       '<div class="detail-desc">' + product.description + '</div>' +
       '<div class="detail-label">Pricing by Size</div>' +
       priceTableHtml +
