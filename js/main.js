@@ -444,12 +444,7 @@ function showToast(msg) {
 
 // ===== WhatsApp Enquiry =====
 function enquireWhatsApp(name, bulkRate, sampleRate, nickname) {
-  var productUrl = getProductPageUrl(name);
-  var msg = 'Hi! I\'m interested in *' + name + '* (' + nickname + ')\n' +
-    'Bulk: \u20B9' + bulkRate + '/pc | Sample: \u20B9' + sampleRate + '/pc\n' +
-    'From sale91.com Catalog\n' +
-    productUrl;
-  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+  window.open('https://whatsapp.sale91.com', '_blank');
 }
 
 // ===== Init =====
@@ -461,8 +456,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var fab = document.getElementById('whatsappBtn');
   if (fab) {
     fab.addEventListener('click', function () {
-      var msg = 'Check out sale91.com Catalog!\n' + window.location.href;
-      window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+      window.open('https://whatsapp.sale91.com', '_blank');
     });
   }
 
