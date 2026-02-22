@@ -4,7 +4,7 @@
 
 const CATALOG_DATA = {
   siteName: "Sale91",
-  baseUrl: "https://sale91.com/catalog",
+  baseUrl: "https://catalog.sale91.com",
   categories: [
     {
       id: "oversized-tees",
