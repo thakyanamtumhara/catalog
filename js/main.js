@@ -189,7 +189,7 @@ function openProduct(productId, skipPush) {
   for (var s = 0; s < product.colorCodes.length; s++) {
     slides += '<div class="swipe-slide">' +
       '<img src="' + (product.images && product.images[s] ? product.images[s] : placeholder(product.categoryIcon, product.colorCodes[s], 600, 600)) + '" alt="' + product.colors[s] + '" onerror="this.onerror=null;this.src=\'' + placeholder(product.categoryIcon, product.colorCodes[s], 600, 600).replace(/'/g, "\\'") + '\'">' +
-      '<div class="swipe-slide-label">' + product.colors[s] + '</div>' +
+      '' +
     '</div>';
   }
 
@@ -205,7 +205,7 @@ function openProduct(productId, skipPush) {
       ? 'border:2px solid #cbd5e1;' : 'border:2px solid #e2e8f0;';
     colorList += '<div class="color-swatch">' +
       '<span class="color-dot" style="background:' + product.colorCodes[c] + ';' + border + '"></span>' +
-      '<span class="color-name">' + product.colors[c] + '</span>' +
+      '' +
     '</div>';
   }
 
