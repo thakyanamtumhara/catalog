@@ -1,0 +1,46 @@
+name: Deploy to AWS S3 + CloudFront
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Sync to S3
+        run: |
+          aws s3 sync . s3://bulkplaintshirt.com/catalog/ \
+            --delete \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "generate-pages.js" \
+            --exclude ".nojekyll"
+
+      - name: Set cache headers for images
+        run: |
+          aws s3 sync ./images s3://bulkplaintshirt.com/catalog/images/ \
+            --cache-control "public, max-age=31536000, immutable"
+
+      - name: Set cache headers for CSS/JS
+        run: |
+          aws s3 sync ./css s3://bulkplaintshirt.com/catalog/css/ \
+            --cache-control "public, max-age=86400"
+          aws s3 sync ./js s3://bulkplaintshirt.com/catalog/js/ \
+            --cache-control "public, max-age=86400"
+
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id E21QLU9SBUBY7Z \
+            --paths "/catalog/*"
