@@ -18,6 +18,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
+      - name: Detect changed files (dry run)
+        id: detect
+        run: |
+          aws s3 sync . s3://bulkplaintshirt.com/catalog/ \
+            --dryrun \
+            --delete \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude "generate-pages.js" \
+            --exclude ".nojekyll" \
+            | grep -oP 's3://bulkplaintshirt\.com/catalog/\K.*' \
+            | sed 's|^|/catalog/|' \
+            > /tmp/changed-paths.txt || true
+          echo "Changed files:"
+          cat /tmp/changed-paths.txt
+          echo "count=$(wc -l < /tmp/changed-paths.txt | tr -d ' ')" >> "$GITHUB_OUTPUT"
+
       - name: Sync to S3
         run: |
           aws s3 sync . s3://bulkplaintshirt.com/catalog/ \
@@ -39,8 +56,11 @@ jobs:
           aws s3 sync ./js s3://bulkplaintshirt.com/catalog/js/ \
             --cache-control "public, max-age=86400"
 
-      - name: Invalidate CloudFront Cache
+      - name: Invalidate changed paths in CloudFront
+        if: steps.detect.outputs.count != '0'
         run: |
+          PATHS=$(cat /tmp/changed-paths.txt | head -50 | tr '\n' ' ')
+          echo "Invalidating: $PATHS"
           aws cloudfront create-invalidation \
             --distribution-id E21QLU9SBUBY7Z \
-            --paths "/catalog/*"
+            --paths $PATHS
