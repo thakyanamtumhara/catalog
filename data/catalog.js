@@ -4,7 +4,7 @@
 
 const CATALOG_DATA = {
   siteName: "Sale91",
-  baseUrl: "https://thakyanamtumhara.github.io/catalog",
+  baseUrl: "https://www.bulkplaintshirt.com/catalog",
   categories: [
     {
       id: "oversized-tees",
