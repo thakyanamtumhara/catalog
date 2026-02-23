@@ -156,54 +156,77 @@ function renderCategoryTabs() {
 }
 
 // ===== Render All Products — Grid =====
+// Renders all product cards once; category switching only toggles visibility
+var _productsRendered = false;
+
 function renderAllProducts() {
   var grid = document.getElementById('productGrid');
   if (!grid) return;
 
   var all = getAllProducts();
-  var filtered = currentCategory === 'all'
-    ? all
-    : all.filter(function (p) { return p.categoryId === currentCategory; });
 
-  var html = '';
+  // Build the full grid only once
+  if (!_productsRendered) {
+    var html = '';
 
-  for (var i = 0; i < filtered.length; i++) {
-    var p = filtered[i];
-    var dots = '';
-    var maxDots = Math.min(p.colorCodes.length, 6);
-    for (var c = 0; c < maxDots; c++) {
-      var border = (p.colorCodes[c].toUpperCase() === '#FFFFFF' || p.colorCodes[c].toUpperCase() === '#FAF5E4')
-        ? 'border:1.5px solid #cbd5e1;' : 'border:1.5px solid #e2e8f0;';
-      dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + ';' + border + '"></span>';
+    for (var i = 0; i < all.length; i++) {
+      var p = all[i];
+      var dots = '';
+      var maxDots = Math.min(p.colorCodes.length, 6);
+      for (var c = 0; c < maxDots; c++) {
+        var border = (p.colorCodes[c].toUpperCase() === '#FFFFFF' || p.colorCodes[c].toUpperCase() === '#FAF5E4')
+          ? 'border:1.5px solid #cbd5e1;' : 'border:1.5px solid #e2e8f0;';
+        dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + ';' + border + '"></span>';
+      }
+      if (p.colorCodes.length > 6) {
+        dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
+      }
+
+      var mainImg = '/catalog/images/' + slugify(p.name) + '/m.webp';
+      var fallbackImg = p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400);
+      var placeholderImg = placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'");
+
+      html += '<div class="product-card" data-category="' + p.categoryId + '" onclick="openProduct(\'' + p.id + '\')">' +
+        '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
+          '<img src="' + mainImg + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + placeholderImg + '\'};this.src=\'' + fallbackImg.replace(/'/g, "\\'") + '\'">' +
+          '<span class="product-card-badge">' + ((p.description.match(/(\d+)\s*gsm/i) || [])[1] || '') + ' GSM</span>' +
+        '</div>' +
+        '<div class="product-card-body">' +
+          '<div class="product-card-name">' + p.name + '</div>' +
+          '<div class="product-card-nickname">' + p.nickname + '</div>' +
+          '<div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>' +
+          '<div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>' +
+          '<div class="product-card-colors">' + dots + '</div>' +
+        '</div>' +
+      '</div>';
     }
-    if (p.colorCodes.length > 6) {
-      dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
-    }
 
-    var mainImg = '/catalog/images/' + slugify(p.name) + '/m.webp';
-    var fallbackImg = p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400);
-    var placeholderImg = placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'");
-
-    html += '<div class="product-card" onclick="openProduct(\'' + p.id + '\')">' +
-      '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
-        '<img src="' + mainImg + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + placeholderImg + '\'};this.src=\'' + fallbackImg.replace(/'/g, "\\'") + '\'">' +
-        '<span class="product-card-badge">' + ((p.description.match(/(\d+)\s*gsm/i) || [])[1] || '') + ' GSM</span>' +
-      '</div>' +
-      '<div class="product-card-body">' +
-        '<div class="product-card-name">' + p.name + '</div>' +
-        '<div class="product-card-nickname">' + p.nickname + '</div>' +
-        '<div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>' +
-        '<div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>' +
-        '<div class="product-card-colors">' + dots + '</div>' +
-      '</div>' +
-    '</div>';
+    grid.innerHTML = html;
+    _productsRendered = true;
   }
 
-  if (filtered.length === 0) {
-    html = '<div style="grid-column:1/-1;text-align:center;padding:40px 16px;color:#94a3b8;">No products in this category</div>';
+  // Toggle visibility based on selected category
+  var cards = grid.querySelectorAll('.product-card');
+  var visibleCount = 0;
+  for (var j = 0; j < cards.length; j++) {
+    var show = currentCategory === 'all' || cards[j].getAttribute('data-category') === currentCategory;
+    cards[j].style.display = show ? '' : 'none';
+    if (show) visibleCount++;
   }
 
-  grid.innerHTML = html;
+  // Handle empty state
+  var emptyMsg = grid.querySelector('.product-grid-empty');
+  if (visibleCount === 0) {
+    if (!emptyMsg) {
+      var div = document.createElement('div');
+      div.className = 'product-grid-empty';
+      div.style.cssText = 'grid-column:1/-1;text-align:center;padding:40px 16px;color:#94a3b8;';
+      div.textContent = 'No products in this category';
+      grid.appendChild(div);
+    }
+  } else if (emptyMsg) {
+    emptyMsg.remove();
+  }
 }
 
 // ===== Build price summary (group sizes by price) =====
@@ -338,7 +361,7 @@ function openProduct(productId, skipPush) {
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
           ' Share This Product' +
         '</button>' +
-        '<a href="https://sale91.com" target="_blank" rel="noopener" class="order-now-btn">' +
+        '<a href="https://bulkplaintshirt.com" target="_blank" rel="noopener" class="order-now-btn">' +
           '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
           ' Order Now' +
         '</a>' +
@@ -623,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (state && state.page === 'catalog') {
       closeModal(true);
     } else if (state && state.page === 'exit') {
-      window.location.href = 'https://sale91.com';
+      window.location.href = 'https://bulkplaintshirt.com';
     }
   });
 
