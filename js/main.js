@@ -156,54 +156,77 @@ function renderCategoryTabs() {
 }
 
 // ===== Render All Products — Grid =====
+// Renders all product cards once; category switching only toggles visibility
+var _productsRendered = false;
+
 function renderAllProducts() {
   var grid = document.getElementById('productGrid');
   if (!grid) return;
 
   var all = getAllProducts();
-  var filtered = currentCategory === 'all'
-    ? all
-    : all.filter(function (p) { return p.categoryId === currentCategory; });
 
-  var html = '';
+  // Build the full grid only once
+  if (!_productsRendered) {
+    var html = '';
 
-  for (var i = 0; i < filtered.length; i++) {
-    var p = filtered[i];
-    var dots = '';
-    var maxDots = Math.min(p.colorCodes.length, 6);
-    for (var c = 0; c < maxDots; c++) {
-      var border = (p.colorCodes[c].toUpperCase() === '#FFFFFF' || p.colorCodes[c].toUpperCase() === '#FAF5E4')
-        ? 'border:1.5px solid #cbd5e1;' : 'border:1.5px solid #e2e8f0;';
-      dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + ';' + border + '"></span>';
+    for (var i = 0; i < all.length; i++) {
+      var p = all[i];
+      var dots = '';
+      var maxDots = Math.min(p.colorCodes.length, 6);
+      for (var c = 0; c < maxDots; c++) {
+        var border = (p.colorCodes[c].toUpperCase() === '#FFFFFF' || p.colorCodes[c].toUpperCase() === '#FAF5E4')
+          ? 'border:1.5px solid #cbd5e1;' : 'border:1.5px solid #e2e8f0;';
+        dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + ';' + border + '"></span>';
+      }
+      if (p.colorCodes.length > 6) {
+        dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
+      }
+
+      var mainImg = '/catalog/images/' + slugify(p.name) + '/m.webp';
+      var fallbackImg = p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400);
+      var placeholderImg = placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'");
+
+      html += '<div class="product-card" data-category="' + p.categoryId + '" onclick="openProduct(\'' + p.id + '\')">' +
+        '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
+          '<img src="' + mainImg + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + placeholderImg + '\'};this.src=\'' + fallbackImg.replace(/'/g, "\\'") + '\'">' +
+          '<span class="product-card-badge">' + ((p.description.match(/(\d+)\s*gsm/i) || [])[1] || '') + ' GSM</span>' +
+        '</div>' +
+        '<div class="product-card-body">' +
+          '<div class="product-card-name">' + p.name + '</div>' +
+          '<div class="product-card-nickname">' + p.nickname + '</div>' +
+          '<div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>' +
+          '<div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>' +
+          '<div class="product-card-colors">' + dots + '</div>' +
+        '</div>' +
+      '</div>';
     }
-    if (p.colorCodes.length > 6) {
-      dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
-    }
 
-    var mainImg = '/catalog/images/' + slugify(p.name) + '/m.webp';
-    var fallbackImg = p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400);
-    var placeholderImg = placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'");
-
-    html += '<div class="product-card" onclick="openProduct(\'' + p.id + '\')">' +
-      '<div class="product-card-image" style="background:' + p.categoryColor + '10">' +
-        '<img src="' + mainImg + '" alt="' + p.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + placeholderImg + '\'};this.src=\'' + fallbackImg.replace(/'/g, "\\'") + '\'">' +
-        '<span class="product-card-badge">' + ((p.description.match(/(\d+)\s*gsm/i) || [])[1] || '') + ' GSM</span>' +
-      '</div>' +
-      '<div class="product-card-body">' +
-        '<div class="product-card-name">' + p.name + '</div>' +
-        '<div class="product-card-nickname">' + p.nickname + '</div>' +
-        '<div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>' +
-        '<div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>' +
-        '<div class="product-card-colors">' + dots + '</div>' +
-      '</div>' +
-    '</div>';
+    grid.innerHTML = html;
+    _productsRendered = true;
   }
 
-  if (filtered.length === 0) {
-    html = '<div style="grid-column:1/-1;text-align:center;padding:40px 16px;color:#94a3b8;">No products in this category</div>';
+  // Toggle visibility based on selected category
+  var cards = grid.querySelectorAll('.product-card');
+  var visibleCount = 0;
+  for (var j = 0; j < cards.length; j++) {
+    var show = currentCategory === 'all' || cards[j].getAttribute('data-category') === currentCategory;
+    cards[j].style.display = show ? '' : 'none';
+    if (show) visibleCount++;
   }
 
-  grid.innerHTML = html;
+  // Handle empty state
+  var emptyMsg = grid.querySelector('.product-grid-empty');
+  if (visibleCount === 0) {
+    if (!emptyMsg) {
+      var div = document.createElement('div');
+      div.className = 'product-grid-empty';
+      div.style.cssText = 'grid-column:1/-1;text-align:center;padding:40px 16px;color:#94a3b8;';
+      div.textContent = 'No products in this category';
+      grid.appendChild(div);
+    }
+  } else if (emptyMsg) {
+    emptyMsg.remove();
+  }
 }
 
 // ===== Build price summary (group sizes by price) =====
