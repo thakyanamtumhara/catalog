@@ -520,6 +520,10 @@ img { max-width: 100%; display: block; }
 .sc-popup-overlay.active {
   display: flex;
 }
+.sc-popup-container {
+  width: 100%;
+  max-width: 500px;
+}
 .sc-popup-header {
   display: flex;
   align-items: center;

@@ -524,7 +524,8 @@ function initSwipe() {
 function openSizeChart(chartKey) {
   var chart = SIZE_CHARTS[chartKey];
   if (!chart) return;
-  var html = '<div class="sc-popup-header"><span class="sc-popup-title">Size Chart</span><button class="sc-popup-close" onclick="closeSizeChart()">&times;</button></div>';
+  var html = '<div class="sc-popup-container">';
+  html += '<div class="sc-popup-header"><span class="sc-popup-title">Size Chart</span><button class="sc-popup-close" onclick="closeSizeChart()">&times;</button></div>';
   html += '<div class="sc-popup-body">';
   html += '<div class="sc-chart-name">' + chart.title + '</div>';
   html += '<div class="sc-table-wrap"><table class="sc-table"><thead><tr><th></th>';
@@ -541,6 +542,7 @@ function openSizeChart(chartKey) {
   }
   html += '</tbody></table></div>';
   html += '<div class="sc-note">All in inches. Expect tolerance by \u00B11 inch.</div>';
+  html += '</div>';
   html += '</div>';
   var popup = document.getElementById('sizeChartPopup');
   popup.innerHTML = html;
