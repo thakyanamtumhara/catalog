@@ -20,8 +20,9 @@ function getAllProducts() {
         sizes: product.sizes,
         bulkPrices: product.bulkPrices,
         catalogUrl: product.catalogUrl,
-        images: product.images || product.colorCodes.map(function (_, i) {
-          return 'images/' + slugify(product.name) + '/' + (i + 1) + '.webp';
+        imageFiles: product.imageFiles || product.colorCodes.map(function (_, i) { return i + 1; }),
+        images: (product.imageFiles || product.colorCodes.map(function (_, i) { return i + 1; })).map(function (n) {
+          return 'images/' + slugify(product.name) + '/' + n + '.webp';
         }),
         video: product.video,
         categoryName: cat.name,
@@ -177,9 +178,19 @@ function openProduct(productId, skipPush) {
   var body = document.getElementById('modalBody');
   var suggestions = document.getElementById('modalSuggestions');
 
-  // Build swipeable images — color variants only
+  // Build swipeable images — main image first, then all product photos
   var slides = '';
-  var slideCount = product.colorCodes.length;
+  var slideCount = 0;
+  var imgBasePath = 'images/' + slugify(product.name) + '/';
+  var fallbackPlaceholder = placeholder(product.categoryIcon, product.categoryColor, 600, 600).replace(/'/g, "\\'");
+
+  // Main product image (m.webp) as first slide
+  var mainImg = imgBasePath + 'm.webp';
+  var mainFallback = product.images && product.images[0] ? product.images[0] : placeholder(product.categoryIcon, product.categoryColor, 600, 600);
+  slides += '<div class="swipe-slide">' +
+    '<img src="' + mainImg + '" alt="' + product.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'};this.src=\'' + mainFallback.replace(/'/g, "\\'") + '\'">' +
+  '</div>';
+  slideCount++;
 
   if (product.video) {
     slides += '<div class="swipe-slide">' +
@@ -190,11 +201,12 @@ function openProduct(productId, skipPush) {
     slideCount++;
   }
 
-  for (var s = 0; s < product.colorCodes.length; s++) {
+  // All product photos from imageFiles
+  for (var s = 0; s < product.images.length; s++) {
     slides += '<div class="swipe-slide">' +
-      '<img src="' + (product.images && product.images[s] ? product.images[s] : placeholder(product.categoryIcon, product.colorCodes[s], 600, 600)) + '" alt="' + product.colors[s] + '" onerror="this.onerror=null;this.src=\'' + placeholder(product.categoryIcon, product.colorCodes[s], 600, 600).replace(/'/g, "\\'") + '\'">' +
-      '' +
+      '<img src="' + product.images[s] + '" alt="' + product.name + ' - Photo ' + (s + 1) + '" onerror="this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'">' +
     '</div>';
+    slideCount++;
   }
 
   var dots = '';
