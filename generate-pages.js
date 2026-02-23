@@ -100,7 +100,7 @@ CATALOG_DATA.categories.forEach(function (cat) {
       colorCodes: product.colorCodes,
       sizes: product.sizes,
       bulkPrices: product.bulkPrices,
-      images: product.images || [],
+      imageFiles: product.imageFiles || [],
       categoryName: cat.name,
       categoryId: cat.id
     });
@@ -123,7 +123,7 @@ products.forEach(function (p) {
     '. Premium blank apparel at wholesale prices from sale91.com';
   // Truncate description to 160 chars for meta
   var metaDesc = desc.length > 160 ? desc.substring(0, 157) + '...' : desc;
-  var ogImage = p.images[0] || '';
+  var ogImage = p.imageFiles.length ? '/catalog/images/' + p.slug + '/m.webp' : '';
   var canonicalUrl = SITE_DOMAIN + '/p/' + p.slug + '/';
 
   var reviews = generateReviews(p);
@@ -279,6 +279,15 @@ products.forEach(function (p) {
     '- Best blank apparel suppliers in India\n' +
     '- Bulk ' + p.categoryName.toLowerCase() + ' for branding/printing\n' +
     '-->\n';
+
+  // Static product images for SEO
+  var staticImagesHtml = '';
+  // Main image first
+  staticImagesHtml += '      <img src="/catalog/images/' + p.slug + '/m.webp" alt="' + esc(p.name) + ' - Main Product Image" width="600" height="600" loading="lazy">\n';
+  // All numbered images from imageFiles
+  for (var ii = 0; ii < p.imageFiles.length; ii++) {
+    staticImagesHtml += '      <img src="/catalog/images/' + p.slug + '/' + p.imageFiles[ii] + '.webp" alt="' + esc(p.name) + ' - Photo ' + (ii + 1) + '" width="400" height="400" loading="lazy">\n';
+  }
 
   // Noscript content — rich HTML for crawlers (2000+ words equivalent)
   var noscriptContent = '<div style="padding:16px;max-width:800px;margin:0 auto;">' +
@@ -443,12 +452,21 @@ llmsComment +
 '    </div>\n' +
 '  </header>\n' +
 '\n' +
-'  <!-- Category Tabs -->\n' +
-'  <div class="category-tabs" id="categoryTabs"></div>\n' +
-'\n' +
 '  <!-- Main Content -->\n' +
 '  <main class="main-content">\n' +
-'    <div class="product-grid" id="productGrid"></div>\n' +
+'    <!-- Static product images for SEO + LLM crawlers -->\n' +
+'    <div class="static-product-images">\n' +
+     staticImagesHtml +
+'    </div>\n' +
+'    <!-- Static product info for SEO -->\n' +
+'    <div style="padding:0 16px 16px;">\n' +
+'      <h1>' + esc(p.name) + ' (' + esc(p.nickname) + ') — Premium Blank ' + esc(p.categoryName) + ' Wholesale India | Sale91</h1>\n' +
+'      <p style="font-size:18px;font-weight:700;color:#16a34a;margin:8px 0;">\u20B9' + p.rate + '/pc Bulk | \u20B9' + p.samplePrice + '/pc Sample</p>\n' +
+'      <p style="color:#64748b;margin-bottom:8px;">' + esc(p.description) + '</p>\n' +
+'      <p><strong>Colors (' + p.colors.length + '):</strong> ' + esc(p.colors.join(', ')) + '</p>\n' +
+'      <p><strong>Sizes:</strong> ' + esc(p.sizes.join(', ')) + '</p>\n' +
+'      <p style="margin-top:8px;"><a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Enquire on WhatsApp</a> | <a href="https://bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order Now</a></p>\n' +
+'    </div>\n' +
 '    <noscript>' + noscriptContent + '</noscript>\n' +
 '  </main>\n' +
 '\n' +
@@ -471,7 +489,6 @@ llmsComment +
 '\n' +
 '  <script src="/catalog/data/catalog.js"></script>\n' +
 '  <script src="/catalog/js/main.js"></script>\n' +
-'  <script>renderAllProducts();</script>\n' +
 '</body>\n' +
 '</html>\n';
 
@@ -479,4 +496,120 @@ llmsComment +
   console.log('Generated: p/' + p.slug + '/index.html');
 });
 
-console.log('\nDone! Generated ' + products.length + ' product pages.');
+// ===== Generate Main index.html with static content =====
+function generateMainPage() {
+  var indexPath = path.join(__dirname, 'index.html');
+  var existing = fs.readFileSync(indexPath, 'utf8');
+
+  // Extract head section (everything up to </head>)
+  var headEndIdx = existing.indexOf('</head>');
+  var headSection = existing.substring(0, headEndIdx + '</head>'.length);
+
+  // Build radio inputs for CSS-only filtering
+  var radios = '  <input type="radio" name="cat" id="cat-all" class="cat-radio" checked>\n';
+  CATALOG_DATA.categories.forEach(function (cat) {
+    radios += '  <input type="radio" name="cat" id="cat-' + cat.id + '" class="cat-radio">\n';
+  });
+
+  // Build category tabs as labels
+  var tabs = '  <div class="category-tabs" id="categoryTabs">\n';
+  tabs += '    <label for="cat-all" class="category-tab">All <span class="tab-count">' + products.length + '</span></label>\n';
+  CATALOG_DATA.categories.forEach(function (cat) {
+    tabs += '    <label for="cat-' + cat.id + '" class="category-tab">' + cat.icon + ' ' + esc(cat.name) + ' <span class="tab-count">' + cat.products.length + '</span></label>\n';
+  });
+  tabs += '  </div>\n';
+
+  // Build product grid with static <a> cards
+  var grid = '  <div class="product-grid" id="productGrid">\n';
+  products.forEach(function (p) {
+    var catColor = '';
+    CATALOG_DATA.categories.forEach(function (cat) {
+      if (cat.id === p.categoryId) catColor = cat.color;
+    });
+    var gsm = (p.description.match(/(\d+)\s*gsm/i) || ['', ''])[1];
+
+    // Color dots
+    var dots = '';
+    var maxDots = Math.min(p.colorCodes.length, 6);
+    for (var c = 0; c < maxDots; c++) {
+      var cc = p.colorCodes[c].toUpperCase();
+      var border = (cc === '#FFFFFF' || cc === '#FAF5E4') ? 'border:1.5px solid #cbd5e1;' : 'border:1.5px solid #e2e8f0;';
+      dots += '<span class="color-dot-small" style="background:' + p.colorCodes[c] + ';' + border + '"></span>';
+    }
+    if (p.colorCodes.length > 6) {
+      dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
+    }
+
+    grid += '    <a href="/catalog/p/' + p.slug + '/" class="product-card" data-category="' + p.categoryId + '" data-id="' + p.id + '">\n';
+    grid += '      <div class="product-card-image" style="background:' + catColor + '10">\n';
+    grid += '        <img src="/catalog/images/' + p.slug + '/m.webp" alt="' + esc(p.name) + ' - Premium Blank ' + esc(p.categoryName) + ' Wholesale" loading="lazy">\n';
+    if (gsm) grid += '        <span class="product-card-badge">' + gsm + ' GSM</span>\n';
+    grid += '      </div>\n';
+    grid += '      <div class="product-card-body">\n';
+    grid += '        <div class="product-card-name">' + esc(p.name) + '</div>\n';
+    grid += '        <div class="product-card-nickname">' + esc(p.nickname) + '</div>\n';
+    grid += '        <div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>\n';
+    grid += '        <div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>\n';
+    grid += '        <div class="product-card-colors">' + dots + '</div>\n';
+    grid += '      </div>\n';
+    grid += '    </a>\n';
+  });
+  grid += '  </div>\n';
+
+  // llms.txt comment (preserve from existing)
+  var llmsStart = existing.indexOf('<!--\nAI ASSISTANT');
+  var llmsEnd = existing.indexOf('-->', llmsStart);
+  var llmsComment = '';
+  if (llmsStart !== -1 && llmsEnd !== -1) {
+    llmsComment = existing.substring(llmsStart, llmsEnd + '-->'.length) + '\n\n';
+  }
+
+  // Assemble body
+  var body = '<body>\n\n' +
+    llmsComment +
+    '  <!-- Header -->\n' +
+    '  <header class="site-header">\n' +
+    '    <a href="https://bulkplaintshirt.com" class="header-content" target="_blank" rel="noopener">\n' +
+    '      <div class="site-logo">sale<span>91</span>.com <span class="header-cta">&larr; Order Now</span></div>\n' +
+    '      <div class="site-tagline">Premium Blank Apparel Catalog</div>\n' +
+    '    </a>\n' +
+    '  </header>\n\n' +
+    '  <!-- SEO: Hidden h1 for crawlers -->\n' +
+    '  <h1 class="sr-only">Sale91 \u2014 Premium Blank T-Shirts, Hoodies & Apparel Wholesale Catalog India</h1>\n\n' +
+    '  <!-- CSS-only Category Filtering -->\n' +
+    radios + '\n' +
+    '  <!-- Category Tabs -->\n' +
+    tabs + '\n' +
+    '  <!-- Main Content: All Products -->\n' +
+    '  <main class="main-content">\n' +
+    grid +
+    '  </main>\n\n' +
+    '  <!-- Product Detail Modal -->\n' +
+    '  <div class="modal-overlay" id="modalOverlay">\n' +
+    '    <div class="modal-container">\n' +
+    '      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>\n' +
+    '      <div class="modal-body" id="modalBody"></div>\n' +
+    '      <div class="modal-suggestions" id="modalSuggestions"></div>\n' +
+    '    </div>\n' +
+    '  </div>\n\n' +
+    '  <!-- Footer -->\n' +
+    '  <footer class="site-footer">\n' +
+    '    &copy; 2026 <a href="https://bulkplaintshirt.com">bulkplaintshirt.com</a>. All rights reserved.\n' +
+    '  </footer>\n\n' +
+    '  <!-- WhatsApp Share FAB -->\n' +
+    '  <button class="whatsapp-fab" id="whatsappBtn" aria-label="Share on WhatsApp">\n' +
+    '    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>\n' +
+    '  </button>\n\n' +
+    '  <!-- Size Chart Popup -->\n' +
+    '  <div class="sc-popup-overlay" id="sizeChartPopup" onclick="if(event.target===this)closeSizeChart()"></div>\n\n' +
+    '  <script src="/catalog/data/catalog.js"></script>\n' +
+    '  <script src="/catalog/js/main.js"></script>\n' +
+    '</body>\n</html>\n';
+
+  var fullHtml = headSection + '\n' + body;
+  fs.writeFileSync(indexPath, fullHtml);
+  console.log('Generated: index.html (static grid + CSS-only filtering)');
+}
+
+generateMainPage();
+console.log('\nDone! Generated ' + products.length + ' product pages + main index.html.');
