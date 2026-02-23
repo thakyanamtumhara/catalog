@@ -67,12 +67,6 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 .category-tab:active { transform: scale(0.96); }
-.category-tab.active {
-  background: #2563eb;
-  color: #fff;
-  border-color: #2563eb;
-}
-
 .category-tab .tab-count {
   display: inline-block;
   background: rgba(0,0,0,0.08);
@@ -83,8 +77,68 @@ img { max-width: 100%; display: block; }
   border-radius: 10px;
   margin-left: 4px;
 }
-.category-tab.active .tab-count {
+
+/* ===== CSS-only Category Filtering ===== */
+.cat-radio { position: absolute; opacity: 0; pointer-events: none; }
+
+/* Active tab styling via :checked */
+#cat-all:checked ~ .category-tabs [for="cat-all"],
+#cat-oversized-tees:checked ~ .category-tabs [for="cat-oversized-tees"],
+#cat-roundneck-tees:checked ~ .category-tabs [for="cat-roundneck-tees"],
+#cat-polo-tees:checked ~ .category-tabs [for="cat-polo-tees"],
+#cat-hoodies:checked ~ .category-tabs [for="cat-hoodies"],
+#cat-sweatshirts:checked ~ .category-tabs [for="cat-sweatshirts"],
+#cat-kids-and-more:checked ~ .category-tabs [for="cat-kids-and-more"] {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+#cat-all:checked ~ .category-tabs [for="cat-all"] .tab-count,
+#cat-oversized-tees:checked ~ .category-tabs [for="cat-oversized-tees"] .tab-count,
+#cat-roundneck-tees:checked ~ .category-tabs [for="cat-roundneck-tees"] .tab-count,
+#cat-polo-tees:checked ~ .category-tabs [for="cat-polo-tees"] .tab-count,
+#cat-hoodies:checked ~ .category-tabs [for="cat-hoodies"] .tab-count,
+#cat-sweatshirts:checked ~ .category-tabs [for="cat-sweatshirts"] .tab-count,
+#cat-kids-and-more:checked ~ .category-tabs [for="cat-kids-and-more"] .tab-count {
   background: rgba(255,255,255,0.25);
+}
+
+/* Hide cards when specific category is selected */
+#cat-oversized-tees:checked ~ .main-content .product-card,
+#cat-roundneck-tees:checked ~ .main-content .product-card,
+#cat-polo-tees:checked ~ .main-content .product-card,
+#cat-hoodies:checked ~ .main-content .product-card,
+#cat-sweatshirts:checked ~ .main-content .product-card,
+#cat-kids-and-more:checked ~ .main-content .product-card {
+  display: none;
+}
+
+/* Show only matching category */
+#cat-oversized-tees:checked ~ .main-content [data-category="oversized-tees"],
+#cat-roundneck-tees:checked ~ .main-content [data-category="roundneck-tees"],
+#cat-polo-tees:checked ~ .main-content [data-category="polo-tees"],
+#cat-hoodies:checked ~ .main-content [data-category="hoodies"],
+#cat-sweatshirts:checked ~ .main-content [data-category="sweatshirts"],
+#cat-kids-and-more:checked ~ .main-content [data-category="kids-and-more"] {
+  display: block;
+}
+
+/* Static product content on individual pages */
+.static-product-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-bottom: 16px;
+}
+.static-product-images img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+}
+.static-product-images img:first-child {
+  grid-column: 1 / -1;
+  aspect-ratio: 4/3;
 }
 
 /* ===== Main ===== */
