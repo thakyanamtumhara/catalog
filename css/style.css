@@ -37,6 +37,7 @@ img { max-width: 100%; display: block; }
 .header-content { max-width: 1200px; margin: 0 auto; display: block; }
 .site-logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
 .site-logo span { color: #93c5fd; }
+.header-cta { font-size: 12px; font-weight: 600; color: #93c5fd; letter-spacing: 0; }
 .site-tagline { font-size: 11px; opacity: 0.8; margin-top: 1px; }
 
 /* ===== Category Tabs ===== */
