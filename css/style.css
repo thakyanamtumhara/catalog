@@ -79,7 +79,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ===== CSS-only Category Filtering ===== */
-.cat-radio { position: absolute; opacity: 0; pointer-events: none; }
+.cat-radio { display: none; }
 
 /* Active tab styling via :checked */
 #cat-all:checked ~ .category-tabs [for="cat-all"],
