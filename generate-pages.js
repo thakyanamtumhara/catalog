@@ -11,7 +11,7 @@ var dataMatch = catalogJs.match(/const CATALOG_DATA\s*=\s*(\{[\s\S]*\});?\s*$/);
 if (!dataMatch) { console.error('Could not parse catalog data'); process.exit(1); }
 var CATALOG_DATA = eval('(' + dataMatch[1] + ')');
 
-var SITE_DOMAIN = 'https://thakyanamtumhara.github.io/catalog';
+var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

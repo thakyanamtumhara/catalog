@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://thakyanamtumhara.github.io/catalog/sitemap.xml
+Sitemap: https://www.bulkplaintshirt.com/catalog/sitemap.xml
