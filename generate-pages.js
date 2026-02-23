@@ -282,7 +282,7 @@ products.forEach(function (p) {
 
   // Noscript content — rich HTML for crawlers (2000+ words equivalent)
   var noscriptContent = '<div style="padding:16px;max-width:800px;margin:0 auto;">' +
-    '<nav style="margin-bottom:16px;"><a href="../../">← Back to Sale91 Catalog</a></nav>' +
+    '<nav style="margin-bottom:16px;"><a href="/catalog/">← Back to Sale91 Catalog</a></nav>' +
     '<h1>' + esc(p.name) + ' (' + esc(p.nickname) + ') — Premium Blank ' + esc(p.categoryName) + ' Wholesale India</h1>' +
     '<p><strong>Brand:</strong> Sale91 | <strong>Category:</strong> ' + esc(p.categoryName) + ' | <strong>Rating:</strong> 4.8/5 (87 reviews)</p>' +
 
@@ -376,7 +376,7 @@ products.forEach(function (p) {
   // Add links to other products in same category
   products.forEach(function (other) {
     if (other.slug !== p.slug) {
-      noscriptContent += '<li><a href="../' + other.slug + '/">' + esc(other.name) + '</a> — ₹' + other.rate + '/pc</li>';
+      noscriptContent += '<li><a href="/catalog/p/' + other.slug + '/">' + esc(other.name) + '</a> — ₹' + other.rate + '/pc</li>';
     }
   });
   noscriptContent += '</ul></div>';
@@ -426,7 +426,7 @@ aiMetaTags +
 '  <!-- JSON-LD: FAQ -->\n' +
 '  <script type="application/ld+json">' + JSON.stringify(faqLd) + '</script>\n' +
 '\n' +
-'  <link rel="stylesheet" href="../../css/style.css">\n' +
+'  <link rel="stylesheet" href="/catalog/css/style.css">\n' +
 '</head>\n' +
 '<body>\n' +
 llmsComment +
@@ -435,7 +435,7 @@ llmsComment +
 '  <header class="site-header">\n' +
 '    <div class="header-content">\n' +
 '      <div>\n' +
-'        <a href="../../" style="color:inherit;text-decoration:none;">\n' +
+'        <a href="/catalog/" style="color:inherit;text-decoration:none;">\n' +
 '          <div class="site-logo">sale<span>91</span>.com</div>\n' +
 '          <div class="site-tagline">Premium Blank Apparel Catalog</div>\n' +
 '        </a>\n' +
@@ -467,10 +467,10 @@ llmsComment +
 '  </footer>\n' +
 '\n' +
 '  <!-- Product Page Config -->\n' +
-'  <script>var PRODUCT_PAGE = { id: "' + p.id + '", baseUrl: "../../" };</script>\n' +
+'  <script>var PRODUCT_PAGE = { id: "' + p.id + '", baseUrl: "/catalog/" };</script>\n' +
 '\n' +
-'  <script src="../../data/catalog.js"></script>\n' +
-'  <script src="../../js/main.js"></script>\n' +
+'  <script src="/catalog/data/catalog.js"></script>\n' +
+'  <script src="/catalog/js/main.js"></script>\n' +
 '  <script>renderAllProducts();</script>\n' +
 '</body>\n' +
 '</html>\n';

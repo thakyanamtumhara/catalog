@@ -91,7 +91,7 @@ function getAllProducts() {
         catalogUrl: product.catalogUrl,
         imageFiles: product.imageFiles || product.colorCodes.map(function (_, i) { return i + 1; }),
         images: (product.imageFiles || product.colorCodes.map(function (_, i) { return i + 1; })).map(function (n) {
-          return 'images/' + slugify(product.name) + '/' + n + '.webp';
+          return '/catalog/images/' + slugify(product.name) + '/' + n + '.webp';
         }),
         sizeChart: product.sizeChart,
         video: product.video,
@@ -112,10 +112,7 @@ function slugify(text) {
 // ===== Get product page URL =====
 function getProductPageUrl(productName) {
   var slug = slugify(productName);
-  var path = window.location.pathname;
-  var idx = path.indexOf('/catalog');
-  var base = idx >= 0 ? path.substring(0, idx + 8) : '';
-  return window.location.origin + base + '/p/' + slug + '/';
+  return window.location.origin + '/catalog/p/' + slug + '/';
 }
 
 // ===== SVG Placeholder =====
@@ -183,7 +180,7 @@ function renderAllProducts() {
       dots += '<span style="font-size:10px;color:#94a3b8;font-weight:600;">+' + (p.colorCodes.length - 6) + '</span>';
     }
 
-    var mainImg = 'images/' + slugify(p.name) + '/m.webp';
+    var mainImg = '/catalog/images/' + slugify(p.name) + '/m.webp';
     var fallbackImg = p.images && p.images[0] ? p.images[0] : placeholder(p.categoryIcon, p.categoryColor, 400, 400);
     var placeholderImg = placeholder(p.categoryIcon, p.categoryColor, 400, 400).replace(/'/g, "\\'");
 
@@ -251,7 +248,7 @@ function openProduct(productId, skipPush) {
   // Build swipeable images — main image first, then all product photos
   var slides = '';
   var slideCount = 0;
-  var imgBasePath = 'images/' + slugify(product.name) + '/';
+  var imgBasePath = '/catalog/images/' + slugify(product.name) + '/';
   var fallbackPlaceholder = placeholder(product.categoryIcon, product.categoryColor, 600, 600).replace(/'/g, "\\'");
 
   // Main product image (m.webp) as first slide
@@ -384,7 +381,7 @@ function openProduct(productId, skipPush) {
     for (var sc = 0; sc < sMaxDots; sc++) {
       sDots += '<span class="color-dot-small" style="background:' + sp.colorCodes[sc] + '"></span>';
     }
-    var sugMainImg = 'images/' + slugify(sp.name) + '/m.webp';
+    var sugMainImg = '/catalog/images/' + slugify(sp.name) + '/m.webp';
     var sugFallback = sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200);
     var sugPlaceholder = placeholder(sp.categoryIcon, sp.categoryColor, 200, 200).replace(/'/g, "\\'");
 
