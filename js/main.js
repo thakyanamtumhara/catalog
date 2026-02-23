@@ -177,18 +177,9 @@ function openProduct(productId, skipPush) {
   var body = document.getElementById('modalBody');
   var suggestions = document.getElementById('modalSuggestions');
 
-  // Build swipeable images — main image first, then color variants
+  // Build swipeable images — color variants only
   var slides = '';
   var slideCount = product.colorCodes.length;
-
-  // Main product image (same as card thumbnail) as first slide
-  var mainImg = 'images/' + slugify(product.name) + '/m.webp';
-  var mainFallback = product.images && product.images[0] ? product.images[0] : placeholder(product.categoryIcon, product.categoryColor, 600, 600);
-  var mainPlaceholder = placeholder(product.categoryIcon, product.categoryColor, 600, 600).replace(/'/g, "\\'");
-  slides += '<div class="swipe-slide">' +
-    '<img src="' + mainImg + '" alt="' + product.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + mainPlaceholder + '\'};this.src=\'' + mainFallback.replace(/'/g, "\\'") + '\'">' +
-  '</div>';
-  slideCount++;
 
   if (product.video) {
     slides += '<div class="swipe-slide">' +
