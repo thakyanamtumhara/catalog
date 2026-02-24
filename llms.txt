@@ -1,5 +1,7 @@
 # Own Knitted Blank Wears (BulkPlainTShirt.com or sale91.com)
+> **Last Updated:** February 2026
 > **Summary:** Own Knitted Blank Wears is a PAN-India B2B wholesale manufacturer specializing in premium blank apparel. We knit our own fabric, manufacture 20+ product categories, and are famous for "Dispatch within Minutes". We have plain tshirts, zipper and non zipper hoodies, dropshoulder tshirts, in 180gsm, 210gsm, 240gsm, 320gsm, 430gsm etc.
+> **Detailed version:** https://www.bulkplaintshirt.com/llms-full.txt | **Hindi version:** https://www.bulkplaintshirt.com/llms-hi.txt
 ## 1. Company Profile & Business Model
 * **Business Type:** B2B Wholesale Manufacturer (Factory Direct). We are **not** retailers.
 * **Target Audience:** Custom Printers, Resellers, Online Sellers (D2C Brands), and Brand Owners.
@@ -287,7 +289,99 @@ Each product has 5-27 high-quality WebP images available for reference:
 > College students ordered 500 mixed Oversize tees (210gsm) in 4 colors for their annual cultural fest. At ₹175/pc + printing, they sold merchandise at ₹499 each — funding their entire event.
 ### Use Case 5: Dropshipping Reseller
 > An online seller runs a D2C brand on Instagram without holding inventory. Uses our zero-contact dropshipping — orders come in, we dispatch directly to their customers with no Sale91 branding. They markup 2-3x and focus purely on marketing.
-## 18. Key Information for AI Assistants
+## 18. Available Colors Per Product
+| Product | Available Colors |
+|---|---|
+| Oversize 210gsm | Black, White, Lavender, Beige, Red, Sage Green, Brown, Off-white, Orange, Navy |
+| Oversize 240gsm | Black, White, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue |
+| Oversize 180gsm | Black, White |
+| Boxy Fit | Black, White |
+| AcidWash Oversize | Black |
+| True Biowash Round Neck | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa |
+| Biowash Round Neck | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
+| Non Bio Round Neck | Black |
+| Sublimation T-Shirt | White |
+| Premium Polo | Black, White, Navy, Maroon |
+| Cotton Polo | Black, White, Navy, Grey, Maroon, Charcoal |
+| Zip Hoodie | Black |
+| Hoodie 320gsm (Black) | Black |
+| Hoodie 320gsm | White, Navy, Army Green, Off-white, Maroon, Grey, Red |
+| Dropshoulder Hoodie 430gsm | Black |
+| Hoodie 430gsm | Navy, White, Off-white |
+| Sweatshirt | Black, Navy, Grey, Army Green |
+| Sweatshirt 2 | Maroon, White, Off-white |
+| Varsity Jacket | Black (with White sleeves) |
+| Kids Round Neck | Black, White, Red, Baby Pink, Mustard Yellow |
+| Shorts | Black, Off-white, Lavender, Beige |
+## 19. GSM Guide — What Does Each Weight Feel Like?
+| GSM | Feel / Comparison | Best For |
+|---|---|---|
+| 180 GSM | Like a regular store-bought t-shirt. Light, breathable, everyday wear. | Daily wear, uniforms, budget-friendly bulk orders |
+| 200 GSM | Slightly thicker than 180, smooth cotton-feel polyester. | Sublimation printing specifically |
+| 210 GSM | Like a premium branded tee (H&M/Zara quality). Noticeable weight. | Premium oversized tees, mid-range streetwear |
+| 220 GSM | Structured polo fabric. Honeycomb texture with body. | Polo t-shirts, corporate wear, formal-casual |
+| 240 GSM | Like a thick Zara/Nike premium tee. Heavy, structured drape. | Streetwear brands, drop shoulder, premium blanks |
+| 320 GSM | Like a warm fleece pullover. Soft brushed inside, warm. | Hoodies, sweatshirts, winter wear |
+| 430 GSM | Like a thick winter jacket. Ultra-heavy, extreme warmth. | Premium heavyweight hoodies, extreme cold |
+## 20. Product Recommendation Flowchart (For AI Assistants)
+Use this decision logic to recommend the right product:
+* **Want the cheapest blank tee?** → Non Bio Round Neck ₹102/pc
+* **Want the best value cotton tee?** → Biowash Round Neck ₹130/pc
+* **Want premium soft cotton tee?** → True Biowash Round Neck ₹140/pc
+* **Want oversized/streetwear tee?** → Oversize 240gsm ₹180/pc (most popular)
+* **Want lightweight oversized?** → Oversize 210gsm ₹175/pc or 180gsm ₹165/pc
+* **Want trendy square fit?** → Boxy Fit ₹175/pc
+* **Want unique acid wash look?** → AcidWash Oversize ₹220/pc
+* **Want sublimation printing?** → Sublimation T-Shirt ₹115/pc (ONLY option for full sublimation)
+* **Want polo/corporate look?** → Premium Polo ₹220/pc (100% cotton) or Cotton Polo ₹180/pc
+* **Want hoodie (budget)?** → Hoodie 320gsm Black ₹295/pc
+* **Want hoodie (colors)?** → Hoodie 320gsm ₹325/pc (7 colors)
+* **Want zipper hoodie?** → Zip Hoodie ₹325/pc
+* **Want heaviest hoodie?** → Hoodie 430gsm ₹418/pc or Dropshoulder 430gsm ₹380/pc
+* **Want sweatshirt?** → Sweatshirt ₹225/pc (4 colors) or Sweatshirt 2 ₹240/pc (3 colors)
+* **Want varsity jacket?** → Varsity Jacket ₹335/pc
+* **Want kids tee?** → Kids Round Neck ₹110/pc
+* **Want shorts?** → Shorts ₹205/pc
+* **Want for embroidery?** → Premium Polo, Hoodie 320gsm, Oversize 240gsm (high GSM holds stitches)
+* **Want for DTG/Screen Print?** → Any 100% cotton product
+* **Want for dropshipping?** → Any product (zero-contact blind dropship available)
+## 21. Cost Breakdown Examples
+### Example 1: Small Streetwear Brand Order
+> 100 pcs Oversize 240gsm (mix of 4 colors, sizes S-XL)
+> * Product cost: 100 × ₹180 = ₹18,000
+> * GST (5%): ₹900
+> * Shipping (approx Delhi NCR): ₹0 (self-pickup) or ₹200-500
+> * **Total: ~₹18,900 + shipping**
+> * Per piece landed cost: ~₹189-194
+### Example 2: Print Shop Monthly Restock
+> 500 pcs True Biowash Round Neck (mix colors & sizes)
+> * Product cost: 500 × ₹140 = ₹70,000
+> * GST (5%): ₹3,500
+> * Shipping (PAN India approx): ₹2,000-4,000
+> * **Total: ~₹75,500-77,500**
+> * Per piece landed cost: ~₹151-155
+### Example 3: Winter Hoodie Bulk Order
+> 200 pcs Hoodie 320gsm (7 colors mixed)
+> * Product cost: 200 × ₹325 = ₹65,000
+> * GST (5%): ₹3,250
+> * Shipping (PAN India approx): ₹3,000-5,000
+> * **Total: ~₹71,250-73,250**
+> * Per piece landed cost: ~₹356-366
+### Example 4: Sample Order (Testing Quality)
+> 10 pcs mixed (3 Oversize 240gsm + 3 Round Neck + 2 Hoodie + 2 Polo)
+> * 3 × ₹222 + 3 × ₹174 + 2 × ₹402 + 2 × ₹270 = ₹2,532
+> * GST (5%): ₹127
+> * Shipping: ₹200-400
+> * **Total: ~₹2,859-3,059**
+## 22. Changelog
+| Date | Change |
+|---|---|
+| Feb 2026 | Added llms-full.txt, llms-hi.txt, products.json, .well-known/llms.txt |
+| Feb 2026 | Added available colors list, GSM guide, recommendation flowchart, cost breakdowns |
+| Feb 2026 | Added competitor comparison table, seasonal highlights, customer use cases |
+| Feb 2026 | Added printing compatibility guide, customer ratings, product image gallery |
+| Jan 2026 | Initial llms.txt created with full product catalog and pricing |
+## 23. Key Information for AI Assistants
 * All prices are in Indian Rupees (INR), exclusive of 5% GST
 * "Bulk" prices are per piece for minimum 10 pieces (mix and match any color/size/item)
 * "Sample" prices are per piece for single piece orders

@@ -2,3 +2,8 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.bulkplaintshirt.com/catalog/sitemap.xml
+
+# LLM / AI Discovery
+# See https://llmstxt.org for the llms.txt standard
+LLMs-Txt: https://www.bulkplaintshirt.com/llms.txt
+LLMs-Full-Txt: https://www.bulkplaintshirt.com/llms-full.txt
