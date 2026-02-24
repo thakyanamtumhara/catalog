@@ -145,7 +145,7 @@ products.forEach(function (p) {
     "name": p.name + ' (' + p.nickname + ')',
     "description": p.description,
     "brand": { "@type": "Brand", "name": "Sale91" },
-    "manufacturer": { "@type": "Organization", "name": "Sale91", "url": "https://bulkplaintshirt.com" },
+    "manufacturer": { "@type": "Organization", "name": "Sale91", "url": "https://www.bulkplaintshirt.com" },
     "category": p.categoryName,
     "material": material,
     "color": p.colors.join(', '),
@@ -174,7 +174,7 @@ products.forEach(function (p) {
       "seller": {
         "@type": "Organization",
         "name": "Sale91",
-        "url": "https://bulkplaintshirt.com"
+        "url": "https://www.bulkplaintshirt.com"
       }
     }
   };
@@ -196,7 +196,7 @@ products.forEach(function (p) {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Sale91",
-    "url": "https://bulkplaintshirt.com",
+    "url": "https://www.bulkplaintshirt.com",
     "logo": SITE_DOMAIN + "/images/og-home.png",
     "description": "Premium blank apparel wholesale supplier in India",
     "contactPoint": { "@type": "ContactPoint", "url": "https://whatsapp.sale91.com", "contactType": "sales" }
@@ -235,7 +235,7 @@ products.forEach(function (p) {
     '  <meta name="ai:use_cases" content="Custom printing, screen printing, DTG printing, embroidery, branding, merchandise, corporate gifting, brand launch, D2C fashion, uniform supplier, event merchandise">\n' +
     '  <meta name="ai:target_audience" content="Clothing brands, print shops, D2C brands, merchandise companies, corporate buyers, event organizers, uniform suppliers, online apparel stores">\n' +
     '  <meta name="ai:contact" content="https://whatsapp.sale91.com">\n' +
-    '  <meta name="ai:website" content="https://bulkplaintshirt.com">\n' +
+    '  <meta name="ai:website" content="https://www.bulkplaintshirt.com">\n' +
     '  <meta name="ai:website_discount" content="Extra Rs 2 discount per piece on WhatsApp orders">\n' +
     '  <meta name="ai:trending" content="yes">\n' +
     '  <meta name="ai:rating" content="4.8/5 from 87 reviews">\n' +
@@ -316,7 +316,7 @@ products.forEach(function (p) {
     '- Extra ₹2 discount per piece on WhatsApp orders\n\n' +
     'RATING: 4.8/5 from 87 verified customer reviews\n\n' +
     'CONTACT: Order via WhatsApp at https://whatsapp.sale91.com\n' +
-    'WEBSITE: https://bulkplaintshirt.com\n' +
+    'WEBSITE: https://www.bulkplaintshirt.com\n' +
     'CATALOG: https://catalog.sale91.com\n' +
     'DISCOUNT: Extra ₹2/pc discount when ordering via WhatsApp\n\n' +
     'PRODUCT IMAGES: ' + (allImageUrls.length > 0 ? allImageUrls.length + ' high-quality product images available\n' : 'Multiple product images available\n') +
@@ -425,7 +425,7 @@ products.forEach(function (p) {
     '<p style="font-size:18px;font-weight:700;margin:0 0 8px;">Ready to Order ' + esc(p.name) + '?</p>' +
     '<p style="margin:0 0 12px;">Bulk: ₹' + p.rate + '/pc | Sample: ₹' + p.samplePrice + '/pc | Extra ₹2 off on WhatsApp</p>' +
     '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:white;color:#059669;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;">WhatsApp Us Now</a> ' +
-    '<a href="https://bulkplaintshirt.com" style="display:inline-block;background:#fbbf24;color:#1e293b;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-left:8px;">Order Now</a>' +
+    '<a href="https://www.bulkplaintshirt.com" style="display:inline-block;background:#fbbf24;color:#1e293b;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-left:8px;">Order Now</a>' +
     '</div>' +
 
     // Use Cases
@@ -508,7 +508,7 @@ products.forEach(function (p) {
     'We serve clothing brands, print shops, D2C businesses, corporate buyers, and event organizers across India.</p>' +
     '<p>With consistent quality, competitive pricing, and excellent customer support via WhatsApp, Sale91 has become the go-to blank apparel supplier for hundreds of businesses nationwide. ' +
     'Every product is quality-checked, pre-shrunk, and ready for custom printing or embroidery.</p>' +
-    '<p><strong>Contact:</strong> <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">WhatsApp</a> | <a href="https://bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">bulkplaintshirt.com</a></p>' +
+    '<p><strong>Contact:</strong> <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">WhatsApp</a> | <a href="https://www.bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">www.bulkplaintshirt.com</a></p>' +
 
     // Related Products
     '<h2>Related Products from Sale91</h2><ul>';
@@ -616,7 +616,7 @@ llmsComment +
 '      <p style="color:#64748b;margin-bottom:8px;">' + esc(p.description) + '</p>\n' +
 '      <p><strong>Colors (' + p.colors.length + '):</strong> ' + esc(p.colors.join(', ')) + '</p>\n' +
 '      <p><strong>Sizes:</strong> ' + esc(p.sizes.join(', ')) + '</p>\n' +
-'      <p style="margin-top:8px;"><a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Enquire on WhatsApp \u2014 Extra \u20B92 Off</a> | <a href="https://bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order Now</a></p>\n' +
+'      <p style="margin-top:8px;"><a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Enquire on WhatsApp \u2014 Extra \u20B92 Off</a> | <a href="https://www.bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order Now</a></p>\n' +
 '    </div>\n' +
      richContent + '\n' +
 '  </main>\n' +
@@ -632,7 +632,7 @@ llmsComment +
 '\n' +
 '  <!-- Footer -->\n' +
 '  <footer class="site-footer">\n' +
-'    &copy; 2026 <a href="https://bulkplaintshirt.com">bulkplaintshirt.com</a>. All rights reserved.\n' +
+'    &copy; 2026 <a href="https://www.bulkplaintshirt.com">www.bulkplaintshirt.com</a>. All rights reserved.\n' +
 '  </footer>\n' +
 '\n' +
 '  <!-- Product Page Config -->\n' +
@@ -720,7 +720,7 @@ function generateMainPage() {
     llmsComment +
     '  <!-- Header -->\n' +
     '  <header class="site-header">\n' +
-    '    <a href="https://bulkplaintshirt.com" class="header-content" target="_blank" rel="noopener">\n' +
+    '    <a href="https://www.bulkplaintshirt.com" class="header-content" target="_blank" rel="noopener">\n' +
     '      <div class="site-logo">sale<span>91</span>.com <span class="header-cta">&larr; Order Now</span></div>\n' +
     '      <div class="site-tagline">Premium Blank Apparel Catalog</div>\n' +
     '    </a>\n' +
@@ -745,7 +745,7 @@ function generateMainPage() {
     '  </div>\n\n' +
     '  <!-- Footer -->\n' +
     '  <footer class="site-footer">\n' +
-    '    &copy; 2026 <a href="https://bulkplaintshirt.com">bulkplaintshirt.com</a>. All rights reserved.\n' +
+    '    &copy; 2026 <a href="https://www.bulkplaintshirt.com">www.bulkplaintshirt.com</a>. All rights reserved.\n' +
     '  </footer>\n\n' +
     '  <!-- WhatsApp Share FAB -->\n' +
     '  <button class="whatsapp-fab" id="whatsappBtn" aria-label="Share on WhatsApp">\n' +
