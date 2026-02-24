@@ -866,6 +866,11 @@ img { max-width: 100%; display: block; }
 }
 .site-footer a { color: #2563eb; font-weight: 600; }
 
+/* ===== Mobile: fix close btn hidden behind Android URL bar ===== */
+@media (max-width: 767px) {
+  .modal-close { top: 32px; }
+}
+
 /* ===== Tablet ===== */
 @media (min-width: 768px) {
   .main-content { padding: 0 16px 16px; }
