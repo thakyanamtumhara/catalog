@@ -317,7 +317,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Hoodie 430gsm | Navy, White, Off-white |
 | Sweatshirt | Black, Navy, Grey, Army Green |
 | Sweatshirt 2 | Maroon, White, Off-white |
-| Varsity Jacket | Black (with White sleeves) |
+| Varsity Jacket | Black |
 | Kids Round Neck | Black, White, Red, Baby Pink, Mustard Yellow |
 | Shorts | Black, Off-white, Lavender, Beige |
 ## 19. GSM Guide — What Does Each Weight Feel Like?
