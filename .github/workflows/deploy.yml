@@ -10,8 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -20,106 +18,47 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Sync to S3 (excluding images, css, js for separate cache control)
+      # 1. Sync Images (Combined)
+      # AWS CLI automatically detects correct content-types (image/png, image/webp) 
+      # so you don't need separate steps. 
+      - name: Sync Images (Immutable Cache)
+        run: |
+          aws s3 sync ./images s3://bulkplaintshirt.com/catalog/images/ \
+            --delete \
+            --size-only \
+            --cache-control "public, max-age=31536000, immutable"
+
+      # 2. Sync CSS & JS
+      - name: Sync CSS and JS
+        run: |
+          aws s3 sync ./css s3://bulkplaintshirt.com/catalog/css/ \
+            --delete \
+            --size-only \
+            --cache-control "public, max-age=86400"
+          aws s3 sync ./js s3://bulkplaintshirt.com/catalog/js/ \
+            --delete \
+            --size-only \
+            --cache-control "public, max-age=86400"
+
+      # 3. Sync Root & HTML Files (Aggressive cache invalidation for entry points)
+      - name: Sync HTML and Root Configs
         run: |
           aws s3 sync . s3://bulkplaintshirt.com/catalog/ \
             --delete \
+            --size-only \
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude "generate-pages.js" \
             --exclude ".nojekyll" \
             --exclude "images/*" \
             --exclude "css/*" \
-            --exclude "js/*"
+            --exclude "js/*" \
+            --cache-control "no-cache, no-store, must-revalidate"
 
-      - name: Sync webp images with correct content-type and cache headers
-        run: |
-          aws s3 sync ./images s3://bulkplaintshirt.com/catalog/images/ \
-            --cache-control "public, max-age=31536000, immutable" \
-            --content-type "image/webp" \
-            --exclude "*" \
-            --include "*.webp"
-
-      - name: Sync png images with correct content-type and cache headers
-        run: |
-          aws s3 sync ./images s3://bulkplaintshirt.com/catalog/images/ \
-            --cache-control "public, max-age=31536000, immutable" \
-            --content-type "image/png" \
-            --exclude "*" \
-            --include "*.png"
-
-      - name: Sync CSS with cache headers
-        run: |
-          aws s3 sync ./css s3://bulkplaintshirt.com/catalog/css/ \
-            --cache-control "public, max-age=86400"
-
-      - name: Sync JS with cache headers
-        run: |
-          aws s3 sync ./js s3://bulkplaintshirt.com/catalog/js/ \
-            --cache-control "public, max-age=86400"
-
-      - name: Determine CloudFront invalidation paths
-        id: invalidation
-        run: |
-          BEFORE_SHA="${{ github.event.before }}"
-
-          # Fallback to wildcard for first push, workflow_dispatch, or missing SHA
-          if [ -z "$BEFORE_SHA" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
-            echo "reason=no previous SHA (first push or manual dispatch)" >> "$GITHUB_OUTPUT"
-            echo "paths=/catalog/*" >> "$GITHUB_OUTPUT"
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          CHANGED=$(git diff --name-only "$BEFORE_SHA" HEAD 2>/dev/null || true)
-
-          if [ -z "$CHANGED" ]; then
-            echo "reason=no files changed" >> "$GITHUB_OUTPUT"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          PATHS=""
-          while IFS= read -r file; do
-            # Skip non-deployed files
-            case "$file" in
-              .git/*|.github/*|generate-pages.js|.nojekyll|scripts/*|data/*|cloudfront/*|node_modules/*) continue ;;
-            esac
-            # Skip images - they use immutable cache headers (1 year)
-            case "$file" in
-              images/*) continue ;;
-            esac
-            # Map to CloudFront path
-            PATHS="$PATHS /catalog/$file"
-            # For index.html, also invalidate the directory URL
-            if echo "$file" | grep -q '/index\.html$'; then
-              DIR_PATH=$(echo "/catalog/$file" | sed 's|/index\.html$|/|')
-              PATHS="$PATHS $DIR_PATH"
-            fi
-          done <<< "$CHANGED"
-
-          # Deduplicate and count
-          PATHS=$(echo "$PATHS" | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | xargs)
-          PATH_COUNT=$(echo "$PATHS" | wc -w)
-
-          if [ "$PATH_COUNT" -eq 0 ]; then
-            echo "reason=no deployed files changed (only images/config)" >> "$GITHUB_OUTPUT"
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          elif [ "$PATH_COUNT" -gt 20 ]; then
-            echo "reason=too many paths changed ($PATH_COUNT), using wildcard" >> "$GITHUB_OUTPUT"
-            echo "paths=/catalog/*" >> "$GITHUB_OUTPUT"
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "reason=targeted invalidation ($PATH_COUNT paths)" >> "$GITHUB_OUTPUT"
-            echo "paths=$PATHS" >> "$GITHUB_OUTPUT"
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-
+      # 4. Smart Invalidation
+      # Only invalidate entry files, styles, and scripts. Leave images cached at the edge.
       - name: Invalidate CloudFront Cache
-        if: steps.invalidation.outputs.skip != 'true'
         run: |
-          echo "Invalidation: ${{ steps.invalidation.outputs.reason }}"
-          echo "Paths: ${{ steps.invalidation.outputs.paths }}"
           aws cloudfront create-invalidation \
             --distribution-id E21QLU9SBUBY7Z \
-            --paths ${{ steps.invalidation.outputs.paths }}
+            --paths "/catalog/*.html" "/catalog/css/*" "/catalog/js/*" "/catalog/images/*"
