@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -56,8 +58,68 @@ jobs:
           aws s3 sync ./js s3://bulkplaintshirt.com/catalog/js/ \
             --cache-control "public, max-age=86400"
 
-      - name: Invalidate CloudFront Cache
+      - name: Determine CloudFront invalidation paths
+        id: invalidation
         run: |
+          BEFORE_SHA="${{ github.event.before }}"
+
+          # Fallback to wildcard for first push, workflow_dispatch, or missing SHA
+          if [ -z "$BEFORE_SHA" ] || [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            echo "reason=no previous SHA (first push or manual dispatch)" >> "$GITHUB_OUTPUT"
+            echo "paths=/catalog/*" >> "$GITHUB_OUTPUT"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          CHANGED=$(git diff --name-only "$BEFORE_SHA" HEAD 2>/dev/null || true)
+
+          if [ -z "$CHANGED" ]; then
+            echo "reason=no files changed" >> "$GITHUB_OUTPUT"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          PATHS=""
+          while IFS= read -r file; do
+            # Skip non-deployed files
+            case "$file" in
+              .git/*|.github/*|generate-pages.js|.nojekyll|scripts/*|data/*|cloudfront/*|node_modules/*) continue ;;
+            esac
+            # Skip images - they use immutable cache headers (1 year)
+            case "$file" in
+              images/*) continue ;;
+            esac
+            # Map to CloudFront path
+            PATHS="$PATHS /catalog/$file"
+            # For index.html, also invalidate the directory URL
+            if echo "$file" | grep -q '/index\.html$'; then
+              DIR_PATH=$(echo "/catalog/$file" | sed 's|/index\.html$|/|')
+              PATHS="$PATHS $DIR_PATH"
+            fi
+          done <<< "$CHANGED"
+
+          # Deduplicate and count
+          PATHS=$(echo "$PATHS" | tr ' ' '\n' | grep -v '^$' | sort -u | tr '\n' ' ' | xargs)
+          PATH_COUNT=$(echo "$PATHS" | wc -w)
+
+          if [ "$PATH_COUNT" -eq 0 ]; then
+            echo "reason=no deployed files changed (only images/config)" >> "$GITHUB_OUTPUT"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          elif [ "$PATH_COUNT" -gt 20 ]; then
+            echo "reason=too many paths changed ($PATH_COUNT), using wildcard" >> "$GITHUB_OUTPUT"
+            echo "paths=/catalog/*" >> "$GITHUB_OUTPUT"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "reason=targeted invalidation ($PATH_COUNT paths)" >> "$GITHUB_OUTPUT"
+            echo "paths=$PATHS" >> "$GITHUB_OUTPUT"
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Invalidate CloudFront Cache
+        if: steps.invalidation.outputs.skip != 'true'
+        run: |
+          echo "Invalidation: ${{ steps.invalidation.outputs.reason }}"
+          echo "Paths: ${{ steps.invalidation.outputs.paths }}"
           aws cloudfront create-invalidation \
             --distribution-id E21QLU9SBUBY7Z \
-            --paths "/catalog/*"
+            --paths ${{ steps.invalidation.outputs.paths }}
