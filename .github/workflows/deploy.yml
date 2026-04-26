@@ -56,9 +56,20 @@ jobs:
             --cache-control "no-cache, no-store, must-revalidate"
 
       # 4. Smart Invalidation
-      # Only invalidate entry files, styles, and scripts. Leave images cached at the edge.
+      # Cover directory URLs (e.g. /catalog/, /catalog/p/<slug>/) which don't end in .html,
+      # plus all HTML, CSS, JS, JSON, and TXT entry points. Leave images cached at the edge.
       - name: Invalidate CloudFront Cache
         run: |
           aws cloudfront create-invalidation \
             --distribution-id E21QLU9SBUBY7Z \
-            --paths "/catalog/*.html" "/catalog/css/*" "/catalog/js/*" "/catalog/images/*"
+            --paths \
+              "/catalog/" \
+              "/catalog/index.html" \
+              "/catalog/p/*" \
+              "/catalog/*.html" \
+              "/catalog/*.json" \
+              "/catalog/*.txt" \
+              "/catalog/*.xml" \
+              "/catalog/css/*" \
+              "/catalog/js/*" \
+              "/catalog/.well-known/*"
