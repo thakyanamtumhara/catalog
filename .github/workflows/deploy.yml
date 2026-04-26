@@ -72,4 +72,5 @@ jobs:
               "/catalog/*.xml" \
               "/catalog/css/*" \
               "/catalog/js/*" \
+              "/catalog/data/*" \
               "/catalog/.well-known/*"
