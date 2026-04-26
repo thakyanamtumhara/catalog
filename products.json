@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02",
+  "lastUpdated": "2026-04",
   "currency": "INR",
   "gstRate": 5,
   "moq": 10,
@@ -21,8 +21,8 @@
           "slug": "oversize-210gsm",
           "description": "Oversized Drop Shoulder 210gsm, Terry Cotton Loopknit Heavy Gauge, 100% Cotton Supercombed Red Lable Premium Fabric",
           "gsm": 210,
-          "bulkPrice": 175,
-          "samplePrice": 210,
+          "bulkPrice": 185,
+          "samplePrice": 222,
           "weightKg": 0.27,
           "colors": [
             "Black",
@@ -64,12 +64,13 @@
           "slug": "oversize-240gsm",
           "description": "Oversized Drop-shoulder, 240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Premium Quality Biowash Fabric",
           "gsm": 240,
-          "bulkPrice": 180,
-          "samplePrice": 222,
+          "bulkPrice": 190,
+          "samplePrice": 228,
           "weightKg": 0.32,
           "colors": [
             "Black",
             "White",
+            "Navy",
             "Red",
             "Maroon",
             "Off-white",
@@ -79,11 +80,13 @@
             "Rose Pink",
             "Charcoal",
             "Army Green",
-            "Powder Blue"
+            "Powder Blue",
+            "Royal Blue"
           ],
           "colorCodes": [
             "#222222",
             "#FFFFFF",
+            "#1E3A5F",
             "#DC143C",
             "#800020",
             "#FAF5E4",
@@ -93,7 +96,8 @@
             "#FF8FAB",
             "#36454F",
             "#4B5320",
-            "#B0D4F1"
+            "#B0D4F1",
+            "#4169E1"
           ],
           "sizes": [
             "XS",
@@ -112,8 +116,8 @@
           "slug": "oversize-180gsm",
           "description": "Oversized Drop-shoulder 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           "gsm": 180,
-          "bulkPrice": 165,
-          "samplePrice": 198,
+          "bulkPrice": 173,
+          "samplePrice": 208,
           "weightKg": 0.26,
           "colors": [
             "Black",
@@ -167,14 +171,26 @@
           "slug": "acidwash-oversize",
           "description": "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
           "gsm": 240,
-          "bulkPrice": 220,
-          "samplePrice": 264,
+          "bulkPrice": 233,
+          "samplePrice": 280,
           "weightKg": 0.27,
           "colors": [
-            "Black"
+            "Black",
+            "Brown",
+            "Navy",
+            "Maroon",
+            "Charcoal",
+            "Red",
+            "Army Green"
           ],
           "colorCodes": [
-            "#222222"
+            "#222222",
+            "#8B4513",
+            "#1E3A5F",
+            "#800020",
+            "#36454F",
+            "#DC143C",
+            "#4B5320"
           ],
           "sizes": [
             "XS",
@@ -199,8 +215,8 @@
           "slug": "true-biowash-round-neck",
           "description": "Regular Fit, True Biowash Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           "gsm": 180,
-          "bulkPrice": 140,
-          "samplePrice": 174,
+          "bulkPrice": 146,
+          "samplePrice": 181,
           "weightKg": 0.21,
           "colors": [
             "Black",
@@ -215,7 +231,8 @@
             "Lavender",
             "Sky",
             "Grey",
-            "Bhagwa"
+            "Bhagwa",
+            "Army Green"
           ],
           "colorCodes": [
             "#222222",
@@ -230,7 +247,8 @@
             "#C4B7D5",
             "#87CEEB",
             "#808080",
-            "#FF6600"
+            "#FF6600",
+            "#4B5320"
           ],
           "sizes": [
             "36",
@@ -249,8 +267,8 @@
           "slug": "biowash-round-neck",
           "description": "Regular Fit, Biowash Round neck, 180gsm, 100% Cotton Premium Quality Fabric",
           "gsm": 180,
-          "bulkPrice": 130,
-          "samplePrice": 162,
+          "bulkPrice": 136,
+          "samplePrice": 170,
           "weightKg": 0.21,
           "colors": [
             "Black",
@@ -291,7 +309,7 @@
           "slug": "non-bio-round-neck",
           "description": "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
           "gsm": 180,
-          "bulkPrice": 102,
+          "bulkPrice": 105,
           "samplePrice": 129,
           "weightKg": 0.21,
           "colors": [
@@ -317,7 +335,7 @@
           "slug": "sublimation-t-shirt",
           "description": "Regular Fit Round neck, 200gsm, Cotton Feel Polyester Sublimation tshirt, Premium Quality Sarina Knitting Type",
           "gsm": 200,
-          "bulkPrice": 115,
+          "bulkPrice": 118,
           "samplePrice": 144,
           "weightKg": 0.21,
           "colors": [
@@ -349,8 +367,8 @@
           "slug": "premium-polo",
           "description": "Most Premium Honeycomb Polo, 220gsm, 100% Cotton Supercombed Red Lable Fabric",
           "gsm": 220,
-          "bulkPrice": 220,
-          "samplePrice": 270,
+          "bulkPrice": 232,
+          "samplePrice": 285,
           "weightKg": 0.26,
           "colors": [
             "Black",
@@ -381,7 +399,7 @@
           "slug": "cotton-polo",
           "description": "Cotton Matty Polo neck, 220gsm, 88% Cotton, 12% Polyester",
           "gsm": 220,
-          "bulkPrice": 180,
+          "bulkPrice": 185,
           "samplePrice": 222,
           "weightKg": 0.26,
           "colors": [
@@ -390,7 +408,8 @@
             "Navy",
             "Grey",
             "Maroon",
-            "Charcoal"
+            "Charcoal",
+            "Red"
           ],
           "colorCodes": [
             "#222222",
@@ -398,7 +417,8 @@
             "#1E3A5F",
             "#808080",
             "#800020",
-            "#36454F"
+            "#36454F",
+            "#DC143C"
           ],
           "sizes": [
             "36",
@@ -662,7 +682,7 @@
           "slug": "kids-round-neck",
           "description": "True Biowash Kids Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           "gsm": 180,
-          "bulkPrice": 110,
+          "bulkPrice": 114,
           "samplePrice": 144,
           "weightKg": 0.16,
           "colors": [
@@ -698,8 +718,8 @@
           "slug": "shorts",
           "description": "240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Supercombed Premium Quality Red Lable Fabric, (Zipper Left and Right pocket, 1 back pocket)",
           "gsm": 240,
-          "bulkPrice": 205,
-          "samplePrice": 246,
+          "bulkPrice": 217,
+          "samplePrice": 261,
           "weightKg": 0.25,
           "colors": [
             "Black",

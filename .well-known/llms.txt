@@ -1,5 +1,5 @@
 # Own Knitted Blank Wears (BulkPlainTShirt.com or sale91.com)
-> **Last Updated:** February 2026
+> **Last Updated:** April 2026
 > **Summary:** Own Knitted Blank Wears is a PAN-India B2B wholesale manufacturer specializing in premium blank apparel. We knit our own fabric, manufacture 20+ product categories, and are famous for "Dispatch within Minutes". We have plain tshirts, zipper and non zipper hoodies, dropshoulder tshirts, in 180gsm, 210gsm, 240gsm, 320gsm, 430gsm etc.
 > **Detailed version:** https://www.bulkplaintshirt.com/llms-full.txt | **Hindi version:** https://www.bulkplaintshirt.com/llms-hi.txt
 ## 1. Company Profile & Business Model
@@ -31,17 +31,17 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 ### Complete Price List (Bulk Rates)
 | Product | Bulk Price | Sample Price | GSM | Colors | Material |
 |---|---|---|---|---|---|
-| Oversize 210gsm | ₹175/pc | ₹210/pc | 210 | 10 | 100% Cotton |
-| Oversize 240gsm | ₹180/pc | ₹222/pc | 240 | 12 | 100% Cotton Biowash |
-| Oversize 180gsm | ₹165/pc | ₹198/pc | 180 | 2 | 100% Cotton |
+| Oversize 210gsm | ₹185/pc | ₹222/pc | 210 | 10 | 100% Cotton |
+| Oversize 240gsm | ₹190/pc | ₹228/pc | 240 | 14 | 100% Cotton Biowash |
+| Oversize 180gsm | ₹173/pc | ₹208/pc | 180 | 2 | 100% Cotton |
 | Boxy Fit | ₹175/pc | ₹204/pc | 180 | 2 | 100% Cotton |
-| AcidWash Oversize | ₹220/pc | ₹264/pc | 240 | 1 | 100% Cotton Biowash |
-| True Biowash Round Neck | ₹140/pc | ₹174/pc | 180 | 13 | 100% Cotton |
-| Biowash Round Neck | ₹130/pc | ₹162/pc | 180 | 9 | 100% Cotton |
-| Non Bio Round Neck | ₹102/pc | ₹129/pc | 180 | 1 | 88% Cotton, 12% Polyester |
-| Sublimation T-Shirt | ₹115/pc | ₹144/pc | 200 | 1 | Cotton Feel Polyester |
-| Premium Polo | ₹220/pc | ₹270/pc | 220 | 4 | 100% Cotton Honeycomb |
-| Cotton Polo | ₹180/pc | ₹222/pc | 220 | 6 | 88% Cotton, 12% Polyester |
+| AcidWash Oversize | ₹233/pc | ₹280/pc | 240 | 7 | 100% Cotton Biowash |
+| True Biowash Round Neck | ₹146/pc | ₹181/pc | 180 | 14 | 100% Cotton |
+| Biowash Round Neck | ₹136/pc | ₹170/pc | 180 | 9 | 100% Cotton |
+| Non Bio Round Neck | ₹105/pc | ₹129/pc | 180 | 1 | 88% Cotton, 12% Polyester |
+| Sublimation T-Shirt | ₹118/pc | ₹144/pc | 200 | 1 | Cotton Feel Polyester |
+| Premium Polo | ₹232/pc | ₹285/pc | 220 | 4 | 100% Cotton Honeycomb |
+| Cotton Polo | ₹185/pc | ₹222/pc | 220 | 7 | 88% Cotton, 12% Polyester |
 | Zip Hoodie | ₹325/pc | ₹390/pc | 320 | 1 | 88% Cotton, 12% Polyester |
 | Hoodie 320gsm (Black) | ₹295/pc | ₹366/pc | 320 | 1 | 88% Cotton, 12% Polyester |
 | Hoodie 320gsm | ₹325/pc | ₹402/pc | 320 | 7 | 88% Cotton, 12% Polyester |
@@ -50,8 +50,8 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Sweatshirt | ₹225/pc | ₹276/pc | 320 | 4 | 88% Cotton, 12% Polyester |
 | Sweatshirt 2 | ₹240/pc | ₹288/pc | 320 | 3 | 88% Cotton, 12% Polyester |
 | Varsity Jacket | ₹335/pc | ₹402/pc | 320 | 1 | 88% Cotton, 12% Polyester |
-| Kids Round Neck | ₹110/pc | ₹144/pc | 180 | 5 | 100% Cotton |
-| Shorts | ₹205/pc | ₹246/pc | 240 | 4 | 100% Cotton |
+| Kids Round Neck | ₹114/pc | ₹144/pc | 180 | 5 | 100% Cotton |
+| Shorts | ₹217/pc | ₹261/pc | 240 | 4 | 100% Cotton |
 ## 3. Logistics & Dispatch (Fastest in India)
 We are known for "Dispatch within Minutes".
 * **Delhi NCR Delivery:**
@@ -300,16 +300,16 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Product | Available Colors |
 |---|---|
 | Oversize 210gsm | Black, White, Lavender, Beige, Red, Sage Green, Brown, Off-white, Orange, Navy |
-| Oversize 240gsm | Black, White, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue |
+| Oversize 240gsm | Black, White, Navy, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue, Royal Blue |
 | Oversize 180gsm | Black, White |
 | Boxy Fit | Black, White |
-| AcidWash Oversize | Black |
-| True Biowash Round Neck | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa |
+| AcidWash Oversize | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
+| True Biowash Round Neck | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa, Army Green |
 | Biowash Round Neck | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
 | Non Bio Round Neck | Black |
 | Sublimation T-Shirt | White |
 | Premium Polo | Black, White, Navy, Maroon |
-| Cotton Polo | Black, White, Navy, Grey, Maroon, Charcoal |
+| Cotton Polo | Black, White, Navy, Grey, Maroon, Charcoal, Red |
 | Zip Hoodie | Black |
 | Hoodie 320gsm (Black) | Black |
 | Hoodie 320gsm | White, Navy, Army Green, Off-white, Maroon, Grey, Red |
