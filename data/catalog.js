@@ -59,6 +59,7 @@ const CATALOG_DATA = {
         },
         {
           name: "Boxy Fit",
+          hidden: true,
           nickname: "Boxy",
           description: "Boxy Fit Drop-shoulder Tshirt, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           sizeChart: "boxy",
@@ -316,6 +317,7 @@ const CATALOG_DATA = {
         },
         {
           name: "Varsity Jacket",
+          hidden: true,
           nickname: "Varsity",
           description: "Varsity Jacket, 320gsm, Cotton Brushed Loopknit, White Sleeve/Black Body, 88% cotton, 12% polyester",
           sizeChart: "hoodie320",

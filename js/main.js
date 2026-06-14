@@ -74,6 +74,7 @@ function getAllProducts() {
     cat.products.forEach(function (product, idx) {
       products.push({
         id: cat.id + '-' + idx,
+        hidden: product.hidden,
         categoryId: cat.id,
         name: product.name,
         nickname: product.nickname,
@@ -277,6 +278,7 @@ function openProduct(productId, skipPush) {
   var others = [];
   for (var j = 0; j < all.length; j++) {
     if (all[j].id === productId) continue;
+    if (all[j].hidden) continue;
     if (all[j].categoryId === product.categoryId) {
       sameCategory.push(all[j]);
     } else {

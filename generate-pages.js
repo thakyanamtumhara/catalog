@@ -89,6 +89,7 @@ CATALOG_DATA.categories.forEach(function (cat) {
   cat.products.forEach(function (product, idx) {
     products.push({
       id: cat.id + '-' + idx,
+      hidden: product.hidden,
       slug: slugify(product.name),
       name: product.name,
       nickname: product.nickname,
@@ -513,7 +514,7 @@ products.forEach(function (p) {
     // Related Products
     '<h2>Related Products from Sale91</h2><ul>';
   products.forEach(function (other) {
-    if (other.slug !== p.slug) {
+    if (other.slug !== p.slug && !other.hidden) {
       richContent += '<li><a href="/catalog/p/' + other.slug + '/">' + esc(other.name) + '</a> — ₹' + other.rate + '/pc bulk</li>';
     }
   });
@@ -664,15 +665,18 @@ function generateMainPage() {
 
   // Build category tabs as labels
   var tabs = '  <div class="category-tabs" id="categoryTabs">\n';
-  tabs += '    <label for="cat-all" class="category-tab">All <span class="tab-count">' + products.length + '</span></label>\n';
+  var visibleCount = products.filter(function (p) { return !p.hidden; }).length;
+  tabs += '    <label for="cat-all" class="category-tab">All <span class="tab-count">' + visibleCount + '</span></label>\n';
   CATALOG_DATA.categories.forEach(function (cat) {
-    tabs += '    <label for="cat-' + cat.id + '" class="category-tab">' + cat.icon + ' ' + esc(cat.name) + ' <span class="tab-count">' + cat.products.length + '</span></label>\n';
+    var catVisible = cat.products.filter(function (p) { return !p.hidden; }).length;
+    tabs += '    <label for="cat-' + cat.id + '" class="category-tab">' + cat.icon + ' ' + esc(cat.name) + ' <span class="tab-count">' + catVisible + '</span></label>\n';
   });
   tabs += '  </div>\n';
 
   // Build product grid with static <a> cards
   var grid = '  <div class="product-grid" id="productGrid">\n';
   products.forEach(function (p) {
+    if (p.hidden) return;
     var catColor = '';
     CATALOG_DATA.categories.forEach(function (cat) {
       if (cat.id === p.categoryId) catColor = cat.color;
