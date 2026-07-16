@@ -9,10 +9,10 @@ function handler(event) {
     // yt-shorts-bot/blog_history.json entries with redirect_to.
     var redirects = {
         '/p/240gsmtshirt.html': '/p/Dropshoulders.html',
-        '/p/AcidWashTshirt.html': '/p/acid-wash-tshirts.html',
-        '/p/DelhiBIGGESTPlainTShirtWarehouse.html': '/p/Biggest-Plain-Tshirt-Warehouse.html',
+        '/p/acid-wash-tshirts.html': '/p/AcidWashTshirt.html',
+        '/p/Biggest-Plain-Tshirt-Warehouse.html': '/p/DelhiBIGGESTPlainTShirtWarehouse.html',
         '/p/Wholesale-Blanks.html': '/p/wholesale-blank-t-shirts.html',
-        '/p/bulk-plain-t-shirt-wholesale-warehouse-delhi-live-tour.html': '/p/Biggest-Plain-Tshirt-Warehouse.html',
+        '/p/bulk-plain-t-shirt-wholesale-warehouse-delhi-live-tour.html': '/p/DelhiBIGGESTPlainTShirtWarehouse.html',
         '/p/wholesale-plain-t-shirts.html': '/p/premium-plain-t-shirts-bulk-supplier-india.html',
         '/p/180-gsm-vs-220-gsm-in-summer-600-pieces-unsold.html': '/p/stop-using-180-gsm-for-printing-heres-proof.html',
         '/p/200-gsm-but-feels-cheap-check-these-3-things.html': '/p/240-gsm-vs-200-gsm-plain-t-shirt-why-heavier-feels-cheap.html',
