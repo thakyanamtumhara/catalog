@@ -17,7 +17,7 @@ var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
 // so an edit to either stays invisible for up to a day even after the deploy invalidation.
 // The HTML is no-cache, so bumping this ships a fresh URL key immediately.
 // BUMP THIS whenever css/style.css or js/main.js changes.
-var ASSET_V = '2';
+var ASSET_V = '3';
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -108,6 +108,7 @@ CATALOG_DATA.categories.forEach(function (cat) {
       sizes: product.sizes,
       bulkPrices: product.bulkPrices,
       imageFiles: product.imageFiles || [],
+      mainImage: product.mainImage || 'm',
       categoryName: cat.name,
       categoryId: cat.id
     });
@@ -130,12 +131,12 @@ products.forEach(function (p) {
     '. Premium blank apparel at wholesale prices from sale91.com';
   // Truncate description to 160 chars for meta
   var metaDesc = desc.length > 160 ? desc.substring(0, 157) + '...' : desc;
-  var ogImage = p.imageFiles.length ? SITE_DOMAIN + '/images/' + p.slug + '/m.webp' : '';
+  var ogImage = p.imageFiles.length ? SITE_DOMAIN + '/images/' + p.slug + '/' + p.mainImage + '.webp' : '';
 
   // Build array of ALL product image absolute URLs for schema
   var allImageUrls = [];
   if (p.imageFiles.length) {
-    allImageUrls.push(SITE_DOMAIN + '/images/' + p.slug + '/m.webp');
+    allImageUrls.push(SITE_DOMAIN + '/images/' + p.slug + '/' + p.mainImage + '.webp');
     for (var imgIdx = 0; imgIdx < p.imageFiles.length; imgIdx++) {
       allImageUrls.push(SITE_DOMAIN + '/images/' + p.slug + '/' + p.imageFiles[imgIdx] + '.webp');
     }
@@ -344,7 +345,7 @@ products.forEach(function (p) {
   // Static product images for SEO with keyword-rich alt tags
   var staticImagesHtml = '';
   // Main image first (not lazy — above the fold)
-  staticImagesHtml += '      <img src="/catalog/images/' + p.slug + '/m.webp" alt="' + esc(p.name) + ' - Premium Blank ' + esc(p.categoryName) + ' Wholesale India by Sale91" width="600" height="600">\n';
+  staticImagesHtml += '      <img src="/catalog/images/' + p.slug + '/' + p.mainImage + '.webp" alt="' + esc(p.name) + ' - Premium Blank ' + esc(p.categoryName) + ' Wholesale India by Sale91" width="600" height="600">\n';
   // All numbered images from imageFiles with descriptive alt tags
   var altVariations = [
     'Front View', 'Back View', 'Side View', 'Close-up Detail', 'Fabric Texture',
@@ -706,7 +707,7 @@ function generateMainPage() {
 
     grid += '    <a href="/catalog/p/' + p.slug + '/" class="product-card" data-category="' + p.categoryId + '" data-id="' + p.id + '">\n';
     grid += '      <div class="product-card-image" style="background:' + catColor + '10">\n';
-    grid += '        <img src="/catalog/images/' + p.slug + '/m.webp" alt="' + esc(p.name) + ' - Premium Blank ' + esc(p.categoryName) + ' Wholesale" loading="lazy">\n';
+    grid += '        <img src="/catalog/images/' + p.slug + '/' + p.mainImage + '.webp" alt="' + esc(p.name) + ' - Premium Blank ' + esc(p.categoryName) + ' Wholesale" loading="lazy">\n';
     if (gsm) grid += '        <span class="product-card-badge">' + gsm + ' GSM</span>\n';
     grid += '      </div>\n';
     grid += '      <div class="product-card-body">\n';

@@ -94,6 +94,7 @@ function getAllProducts() {
         weight: product.weight,
         colors: product.colors,
         colorCodes: product.colorCodes,
+        mainImage: product.mainImage || 'm',
         sizes: product.sizes,
         bulkPrices: product.bulkPrices,
         catalogUrl: product.catalogUrl,
@@ -179,7 +180,7 @@ function openProduct(productId, skipPush) {
   var fallbackPlaceholder = placeholder(product.categoryIcon, product.categoryColor, 600, 600).replace(/'/g, "\\'");
 
   // Main product image (m.webp) as first slide
-  var mainImg = imgBasePath + 'm.webp';
+  var mainImg = imgBasePath + (product.mainImage || 'm') + '.webp';
   var mainFallback = product.images && product.images[0] ? product.images[0] : placeholder(product.categoryIcon, product.categoryColor, 600, 600);
   slides += '<div class="swipe-slide">' +
     '<img src="' + mainImg + '" alt="' + product.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'};this.src=\'' + mainFallback.replace(/'/g, "\\'") + '\'">' +
@@ -313,7 +314,7 @@ function openProduct(productId, skipPush) {
     for (var sc = 0; sc < sMaxDots; sc++) {
       sDots += '<span class="color-dot-small" style="background:' + sp.colorCodes[sc] + '"></span>';
     }
-    var sugMainImg = '/catalog/images/' + slugify(sp.name) + '/m.webp';
+    var sugMainImg = '/catalog/images/' + slugify(sp.name) + '/' + (sp.mainImage || 'm') + '.webp';
     var sugFallback = sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200);
     var sugPlaceholder = placeholder(sp.categoryIcon, sp.categoryColor, 200, 200).replace(/'/g, "\\'");
 

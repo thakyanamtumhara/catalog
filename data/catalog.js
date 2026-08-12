@@ -99,6 +99,7 @@ const CATALOG_DATA = {
           colors: ["Black", "White"],
           colorCodes: ["#222222", "#FFFFFF"],
           imageFiles: ["1b","2b","3b","4b","5b","6b","7b","8b","9b"],
+          mainImage: "mb",
           sizes: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"],
           bulkPrices: [190, 195, 205, 220, 225, 230, 240, 255]
         }
