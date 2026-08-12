@@ -87,6 +87,20 @@ const CATALOG_DATA = {
           sizes: ["XS", "S", "M", "L", "XL", "XXL"],
           bulkPrices: [233, 233, 233, 233, 233, 233],
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTkrBu6AtzfU5w-qu84ySWFrIOaVQNGR7-laG9PQfUV0P6Y9ate-SU7s6QSz7Qy9lJbos2S0a8ffn4L/pub?start=false&loop=false&delayms=3000"
+        },
+        {
+          name: "Oversize 260gsm",
+          nickname: "OS260",
+          description: "Oversized Drop-shoulder 260gsm with MOON PATCH, Terry Loopknit 100% Cotton Premium Biowash",
+          sizeChart: "oversized260",
+          rate: 190,
+          samplePrice: 275,
+          weight: 0.35,
+          colors: ["Black", "White"],
+          colorCodes: ["#222222", "#FFFFFF"],
+          imageFiles: [1,2,3,4,5,6,7,8,9],
+          sizes: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"],
+          bulkPrices: [190, 195, 205, 220, 225, 230, 240, 255]
         }
       ]
     },

@@ -1,5 +1,5 @@
 # Own Knitted Blank Wears (BulkPlainTShirt.com or sale91.com)
-> **Last Updated:** April 2026
+> **Last Updated:** August 2026
 > **Summary:** Own Knitted Blank Wears is a PAN-India B2B wholesale manufacturer specializing in premium blank apparel. We knit our own fabric, manufacture 20+ product categories, and are famous for "Dispatch within Minutes". We have plain tshirts, zipper and non zipper hoodies, dropshoulder tshirts, in 180gsm, 210gsm, 240gsm, 320gsm, 430gsm etc.
 > **Detailed version:** https://www.bulkplaintshirt.com/llms-full.txt | **Hindi version:** https://www.bulkplaintshirt.com/llms-hi.txt
 ## 1. Company Profile & Business Model
@@ -36,6 +36,7 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Oversize 180gsm | ₹173/pc | ₹208/pc | 180 | 2 | 100% Cotton |
 | Boxy Fit | ₹175/pc | ₹204/pc | 180 | 2 | 100% Cotton |
 | AcidWash Oversize | ₹233/pc | ₹280/pc | 240 | 7 | 100% Cotton Biowash |
+| Oversize 260gsm | ₹190/pc | ₹275/pc | 260 | 2 | 100% Cotton |
 | True Biowash Round Neck | ₹146/pc | ₹181/pc | 180 | 14 | 100% Cotton |
 | Biowash Round Neck | ₹136/pc | ₹170/pc | 180 | 9 | 100% Cotton |
 | Non Bio Round Neck | ₹105/pc | ₹129/pc | 180 | 1 | 88% Cotton, 12% Polyester |
@@ -113,9 +114,10 @@ We offer a "Zero-Contact" dropshipping service for resellers and brands.
 * **Contact us:** https://www.bulkplaintshirt.com/contactus.html
 * **About us:** https://www.bulkplaintshirt.com/seller.html
 * **Return and Refund Policy:** https://www.bulkplaintshirt.com/refundpolicy.html
-### Individual Product Catalog Pages (SEO Optimized with 4000+ words, 21 images, full schemas)
+### Individual Product Catalog Pages (SEO Optimized with 4000+ words, 22 images, full schemas)
 * **Oversize 210gsm:** https://www.bulkplaintshirt.com/catalog/p/oversize-210gsm/
 * **Oversize 240gsm:** https://www.bulkplaintshirt.com/catalog/p/oversize-240gsm/
+* **Oversize 260gsm:** https://www.bulkplaintshirt.com/catalog/p/oversize-260gsm/
 * **Oversize 180gsm:** https://www.bulkplaintshirt.com/catalog/p/oversize-180gsm/
 * **Boxy Fit:** https://www.bulkplaintshirt.com/catalog/p/boxy-fit/
 * **AcidWash Oversize:** https://www.bulkplaintshirt.com/catalog/p/acidwash-oversize/
@@ -250,7 +252,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 * **Main Image:** m.webp (thumbnail/hero image for each product)
 * **Detail Images:** 1.webp, 2.webp, 3.webp... (numbered product photos showing front, back, fabric, colors, details)
 ### Image Counts Per Product
-* Oversize 210gsm: 12 images | Oversize 240gsm: 27 images | Oversize 180gsm: 2 images
+* Oversize 210gsm: 12 images | Oversize 240gsm: 27 images | Oversize 260gsm: 9 images | Oversize 180gsm: 2 images
 * Boxy Fit: 6 images | AcidWash Oversize: 4 images
 * True Biowash Round Neck: 14 images | Biowash Round Neck: 27 images
 * Non Bio Round Neck: 7 images | Sublimation T-Shirt: 7 images
@@ -304,6 +306,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Oversize 180gsm | Black, White |
 | Boxy Fit | Black, White |
 | AcidWash Oversize | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
+| Oversize 260gsm | Black, White |
 | True Biowash Round Neck | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa, Army Green |
 | Biowash Round Neck | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
 | Non Bio Round Neck | Black |

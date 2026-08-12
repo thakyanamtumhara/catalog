@@ -10,6 +10,16 @@ var SIZE_CHARTS = {
       { label: "Sleeve Length", values: [8.5, 9, 9.5, 10, 10.5] }
     ]
   },
+  oversized260: {
+    title: "Oversize 260gsm Drop-Shoulder T-Shirt",
+    sizes: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"],
+    rows: [
+      { label: "Chest", values: [40, 42, 44, 46, 48, 50, 52, 54] },
+      { label: "Length", values: [25.5, 26, 27, 28, 29, 30, 31, 31] },
+      { label: "Shoulder", values: [18.5, 19.5, 20.5, 21.5, 22.5, 23.5, 24.5, 25.5] },
+      { label: "Sleeve Length", values: [7.5, 8, 8.5, 9, 9.5, 10, 10, 10] }
+    ]
+  },
   boxy: {
     title: "Boxy Fit Drop-Shoulder T-Shirt",
     sizes: ["XS", "S", "M", "L", "XL", "2XL"],

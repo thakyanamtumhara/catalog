@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04",
+  "lastUpdated": "2026-08",
   "currency": "INR",
   "gstRate": 5,
   "moq": 10,
@@ -203,6 +203,36 @@
           "imageCount": 4,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/acidwash-oversize/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/acidwash-oversize/"
+        },
+        {
+          "name": "Oversize 260gsm",
+          "slug": "oversize-260gsm",
+          "description": "Oversized Drop-shoulder 260gsm with MOON PATCH, Terry Loopknit 100% Cotton Premium Biowash",
+          "gsm": 260,
+          "bulkPrice": 190,
+          "samplePrice": 275,
+          "weightKg": 0.35,
+          "colors": [
+            "Black",
+            "White"
+          ],
+          "colorCodes": [
+            "#222222",
+            "#FFFFFF"
+          ],
+          "sizes": [
+            "XXS",
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL",
+            "XXXL"
+          ],
+          "imageCount": 10,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-260gsm/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-260gsm/"
         }
       ]
     },

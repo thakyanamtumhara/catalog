@@ -631,6 +631,9 @@ llmsComment +
 '    </div>\n' +
 '  </div>\n' +
 '\n' +
+'  <!-- Size Chart Popup (openSizeChart() targets this; without it the Size Chart button throws) -->\n' +
+'  <div class="sc-popup-overlay" id="sizeChartPopup" onclick="if(event.target===this)closeSizeChart()"></div>\n' +
+'\n' +
 '  <!-- Footer -->\n' +
 '  <footer class="site-footer">\n' +
 '    &copy; 2026 <a href="https://www.bulkplaintshirt.com">www.bulkplaintshirt.com</a>. All rights reserved.\n' +
