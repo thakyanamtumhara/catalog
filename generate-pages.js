@@ -13,6 +13,12 @@ var CATALOG_DATA = eval('(' + dataMatch[1] + ')');
 
 var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
 
+// css/style.css and js/main.js are served max-age=86400 and sit behind CloudFront + Cloudflare,
+// so an edit to either stays invisible for up to a day even after the deploy invalidation.
+// The HTML is no-cache, so bumping this ships a fresh URL key immediately.
+// BUMP THIS whenever css/style.css or js/main.js changes.
+var ASSET_V = '2';
+
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
@@ -587,7 +593,7 @@ aiMetaTags +
 '  <!-- JSON-LD: FAQ -->\n' +
 '  <script type="application/ld+json">' + JSON.stringify(faqLd) + '</script>\n' +
 '\n' +
-'  <link rel="stylesheet" href="/catalog/css/style.css">\n' +
+'  <link rel="stylesheet" href="/catalog/css/style.css?v=' + ASSET_V + '">\n' +
 '</head>\n' +
 '<body>\n' +
 llmsComment +
@@ -643,7 +649,7 @@ llmsComment +
 '  <script>var PRODUCT_PAGE = { id: "' + p.id + '", baseUrl: "/catalog/" };</script>\n' +
 '\n' +
 '  <script src="/catalog/data/catalog.js"></script>\n' +
-'  <script src="/catalog/js/main.js"></script>\n' +
+'  <script src="/catalog/js/main.js?v=' + ASSET_V + '"></script>\n' +
 '</body>\n' +
 '</html>\n';
 
@@ -761,7 +767,7 @@ function generateMainPage() {
     '  <!-- Size Chart Popup -->\n' +
     '  <div class="sc-popup-overlay" id="sizeChartPopup" onclick="if(event.target===this)closeSizeChart()"></div>\n\n' +
     '  <script src="/catalog/data/catalog.js"></script>\n' +
-    '  <script src="/catalog/js/main.js"></script>\n' +
+    '  <script src="/catalog/js/main.js?v=' + ASSET_V + '"></script>\n' +
     '</body>\n</html>\n';
 
   var fullHtml = headSection + '\n' + body;
