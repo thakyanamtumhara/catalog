@@ -98,7 +98,7 @@ const CATALOG_DATA = {
           weight: 0.35,
           colors: ["Black", "White"],
           colorCodes: ["#222222", "#FFFFFF"],
-          imageFiles: [1,2,3,4,5,6,7,8,9],
+          imageFiles: ["1b","2b","3b","4b","5b","6b","7b","8b","9b"],
           sizes: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"],
           bulkPrices: [190, 195, 205, 220, 225, 230, 240, 255]
         }
