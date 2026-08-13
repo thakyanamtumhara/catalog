@@ -29,30 +29,25 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 * **Guarantee:** No shrinkage and No color bleeding.
 * **Usage:** Optimized for DTG, DTF, Screen Printing, and Embroidery.
 ### Complete Price List (Bulk Rates)
-| Product | Bulk Price | Sample Price | GSM | Colors | Material |
-|---|---|---|---|---|---|
-| Oversize 210gsm | ₹185/pc | ₹222/pc | 210 | 10 | 100% Cotton |
-| Oversize 240gsm | ₹190/pc | ₹228/pc | 240 | 14 | 100% Cotton Biowash |
-| Oversize 180gsm | ₹173/pc | ₹208/pc | 180 | 2 | 100% Cotton |
-| Boxy Fit | ₹175/pc | ₹204/pc | 180 | 2 | 100% Cotton |
-| AcidWash Oversize | ₹233/pc | ₹280/pc | 240 | 7 | 100% Cotton Biowash |
-| Oversize 260gsm | ₹190/pc | ₹275/pc | 260 | 2 | 100% Cotton |
-| True Biowash Round Neck | ₹146/pc | ₹181/pc | 180 | 14 | 100% Cotton |
-| Biowash Round Neck | ₹136/pc | ₹170/pc | 180 | 9 | 100% Cotton |
-| Non Bio Round Neck | ₹105/pc | ₹129/pc | 180 | 1 | 88% Cotton, 12% Polyester |
-| Sublimation T-Shirt | ₹118/pc | ₹144/pc | 200 | 1 | Cotton Feel Polyester |
-| Premium Polo | ₹232/pc | ₹285/pc | 220 | 4 | 100% Cotton Honeycomb |
-| Cotton Polo | ₹185/pc | ₹222/pc | 220 | 7 | 88% Cotton, 12% Polyester |
-| Zip Hoodie | ₹325/pc | ₹390/pc | 320 | 1 | 88% Cotton, 12% Polyester |
-| Hoodie 320gsm (Black) | ₹295/pc | ₹366/pc | 320 | 1 | 88% Cotton, 12% Polyester |
-| Hoodie 320gsm | ₹325/pc | ₹402/pc | 320 | 7 | 88% Cotton, 12% Polyester |
-| Dropshoulder Hoodie 430gsm | ₹380/pc | ₹468/pc | 430 | 1 | 88% Cotton, 12% Polyester |
-| Hoodie 430gsm | ₹418/pc | ₹502/pc | 430 | 3 | 88% Cotton, 12% Polyester |
-| Sweatshirt | ₹225/pc | ₹276/pc | 320 | 4 | 88% Cotton, 12% Polyester |
-| Sweatshirt 2 | ₹240/pc | ₹288/pc | 320 | 3 | 88% Cotton, 12% Polyester |
-| Varsity Jacket | ₹335/pc | ₹402/pc | 320 | 1 | 88% Cotton, 12% Polyester |
-| Kids Round Neck | ₹114/pc | ₹144/pc | 180 | 5 | 100% Cotton |
-| Shorts | ₹217/pc | ₹261/pc | 240 | 4 | 100% Cotton |
+| Product | Bulk Price/pc | Rate by size and colour | MOQ | 1-pc Sample | GSM | Colors | Material |
+|---|---|---|---|---|---|---|---|
+| Oversize 210gsm | ₹185 | S–XXL ₹185 | 10 pcs | ₹222 | 210 | 10 | 100% Cotton |
+| Oversize 240gsm | ₹190 | XS–XXL ₹190 | 10 pcs | ₹228 | 240 | 14 | 100% Cotton Biowash |
+| Oversize 180gsm | ₹173 | S–XXL ₹173 | 10 pcs | ₹208 | 180 | 2 | 100% Cotton |
+| AcidWash Oversize | ₹233 | XS–XXL ₹233 | 10 pcs | ₹280 | 240 | 7 | 100% Cotton Biowash |
+| Oversize 260gsm | ₹190–255 | XXS ₹190, XS ₹195, S ₹205, M ₹220, L ₹225, XL ₹230, XXL ₹240, XXXL ₹255 | 10 pcs | ₹275 | 260 | 2 | 100% Cotton |
+| True Biowash Round Neck | ₹146–151 | 36–42 ₹146, 44–46 ₹151 | 10 pcs | ₹181 | 180 | 14 | 100% Cotton |
+| Biowash Round Neck | ₹136–141 | 36–42 ₹136, 44–46 ₹141 | 10 pcs | ₹170 | 180 | 9 | 100% Cotton |
+| Non Bio Round Neck | ₹105–110 | 36–42 ₹105, 44–46 ₹110 | 10 pcs | ₹129 | 180 | 1 | 88% Cotton, 12% Polyester |
+| Sublimation T-Shirt | ₹118–123 | 36–42 ₹118, 44–46 ₹123 | 10 pcs | ₹144 | 200 | 1 | Cotton Feel Polyester |
+| Premium Polo | ₹232–237 | 36–44 ₹232, 46 ₹237 | 5 pcs | ₹285 | 220 | 4 | 100% Cotton Honeycomb |
+| Cotton Polo | ₹185–190 | 36–44 ₹185, 46 ₹190 | 5 pcs | ₹222 | 220 | 7 | 88% Cotton, 12% Polyester |
+| Zip Hoodie | ₹325–335 | S–XL ₹325, XXL ₹335 | 5 pcs | ₹390 | 320 | 1 | 88% Cotton, 12% Polyester |
+| Hoodie 320gsm | ₹295–335 | Black: S–XL ₹295, XXL ₹305; 7 colours: S–XL ₹325, XXL ₹335 | 5 pcs | ₹366–402 | 320 | 8 | 88% Cotton, 12% Polyester |
+| Dropshoulder Hoodie 430gsm | ₹380–428 | Black: S–XL ₹380, XXL ₹390; 3 colours: S–XL ₹418, XXL ₹428 | 5 pcs | ₹468–502 | 430 | 4 | 88% Cotton, 12% Polyester |
+| Sweatshirt | ₹225–250 | 4 colours: S–XL ₹225, XXL ₹235; 3 colours: S–XL ₹240, XXL ₹250 | 5 pcs | ₹276–288 | 320 | 7 | 88% Cotton, 12% Polyester |
+| Kids Round Neck | ₹114–124 | 20–26 ₹114, 28–34 ₹124 | 10 pcs | ₹144 | 180 | 5 | 100% Cotton |
+| Shorts | ₹217 | XS–XL ₹217 | 5 pcs | ₹261 | 240 | 4 | 100% Cotton |
 ## 3. Logistics & Dispatch (Fastest in India)
 We are known for "Dispatch within Minutes".
 * **Delhi NCR Delivery:**
@@ -128,12 +123,9 @@ We offer a "Zero-Contact" dropshipping service for resellers and brands.
 * **Premium Polo:** https://www.bulkplaintshirt.com/catalog/p/premium-polo/
 * **Cotton Polo:** https://www.bulkplaintshirt.com/catalog/p/cotton-polo/
 * **Zip Hoodie:** https://www.bulkplaintshirt.com/catalog/p/zip-hoodie/
-* **Hoodie 320gsm (Black):** https://www.bulkplaintshirt.com/catalog/p/hoodie-320gsm-black/
-* **Hoodie 320gsm (7 Colors):** https://www.bulkplaintshirt.com/catalog/p/hoodie-320gsm/
-* **Dropshoulder Hoodie 430gsm:** https://www.bulkplaintshirt.com/catalog/p/dropshoulder-hoodie-430gsm/
-* **Hoodie 430gsm:** https://www.bulkplaintshirt.com/catalog/p/hoodie-430gsm/
+* **Hoodie 320gsm (8 Colors):** https://www.bulkplaintshirt.com/catalog/p/hoodie-320gsm/
+* **Dropshoulder Hoodie 430gsm:** https://www.bulkplaintshirt.com/catalog/p/hoodie-430gsm/
 * **Sweatshirt:** https://www.bulkplaintshirt.com/catalog/p/sweatshirt/
-* **Sweatshirt 2:** https://www.bulkplaintshirt.com/catalog/p/sweatshirt-2/
 * **Varsity Jacket:** https://www.bulkplaintshirt.com/catalog/p/varsity-jacket/
 * **Kids Round Neck:** https://www.bulkplaintshirt.com/catalog/p/kids-round-neck/
 * **Shorts:** https://www.bulkplaintshirt.com/catalog/p/shorts/
@@ -299,30 +291,28 @@ Each product has 5-27 high-quality WebP images available for reference:
 ### Use Case 5: Dropshipping Reseller
 > An online seller runs a D2C brand on Instagram without holding inventory. Uses our zero-contact dropshipping — orders come in, we dispatch directly to their customers with no Sale91 branding. They markup 2-3x and focus purely on marketing.
 ## 18. Available Colors Per Product
-| Product | Available Colors |
-|---|---|
-| Oversize 210gsm | Black, White, Lavender, Beige, Red, Sage Green, Brown, Off-white, Orange, Navy |
-| Oversize 240gsm | Black, White, Navy, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue, Royal Blue |
-| Oversize 180gsm | Black, White |
-| Boxy Fit | Black, White |
-| AcidWash Oversize | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
-| Oversize 260gsm | Black, White |
-| True Biowash Round Neck | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa, Army Green |
-| Biowash Round Neck | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
-| Non Bio Round Neck | Black |
-| Sublimation T-Shirt | White |
-| Premium Polo | Black, White, Navy, Maroon |
-| Cotton Polo | Black, White, Navy, Grey, Maroon, Charcoal, Red |
-| Zip Hoodie | Black |
-| Hoodie 320gsm (Black) | Black |
-| Hoodie 320gsm | White, Navy, Army Green, Off-white, Maroon, Grey, Red |
-| Dropshoulder Hoodie 430gsm | Black |
-| Hoodie 430gsm | Navy, White, Off-white |
-| Sweatshirt | Black, Navy, Grey, Army Green |
-| Sweatshirt 2 | Maroon, White, Off-white |
-| Varsity Jacket | Black |
-| Kids Round Neck | Black, White, Red, Baby Pink, Mustard Yellow |
-| Shorts | Black, Off-white, Lavender, Beige |
+| Product | Rate/pc | Available Colors |
+|---|---|---|
+| Oversize 210gsm | ₹185 | Black, White, Lavender, Beige, Red, Sage Green, Brown, Off-white, Orange, Navy |
+| Oversize 240gsm | ₹190 | Black, White, Navy, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue, Royal Blue |
+| Oversize 180gsm | ₹173 | Black, White |
+| AcidWash Oversize | ₹233 | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
+| Oversize 260gsm | ₹190–255 | Black, White |
+| True Biowash Round Neck | ₹146–151 | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa, Army Green |
+| Biowash Round Neck | ₹136–141 | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
+| Non Bio Round Neck | ₹105–110 | Black |
+| Sublimation T-Shirt | ₹118–123 | White |
+| Premium Polo | ₹232–237 | Black, White, Navy, Maroon |
+| Cotton Polo | ₹185–190 | Black, White, Navy, Grey, Maroon, Charcoal, Red |
+| Zip Hoodie | ₹325–335 | Black |
+| Hoodie 320gsm | ₹295–305 | Black |
+| Hoodie 320gsm | ₹325–335 | White, Navy, Army Green, Off-white, Maroon, Grey, Red |
+| Dropshoulder Hoodie 430gsm | ₹380–390 | Black |
+| Dropshoulder Hoodie 430gsm | ₹418–428 | Navy, White, Off-white |
+| Sweatshirt | ₹225–235 | Black, Navy, Grey, Army Green |
+| Sweatshirt | ₹240–250 | Maroon, White, Off-white |
+| Kids Round Neck | ₹114–124 | Black, White, Red, Baby Pink, Mustard Yellow |
+| Shorts | ₹217 | Black, Off-white, Lavender, Beige |
 ## 19. GSM Guide — What Does Each Weight Feel Like?
 | GSM | Feel / Comparison | Best For |
 |---|---|---|

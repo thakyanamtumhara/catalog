@@ -1,6 +1,13 @@
 // Sale91 Product Catalog Data
-// Each product has: name, nickname, description, rate (min bulk price),
-// samplePrice, weight (kg), colors, colorCodes, sizes, bulkPrices, catalogUrl
+// Each product has: name, nickname, description, weight (kg), moq, sizes, sizeChart
+// and EITHER a flat price block (colors, colorCodes, imageFiles, bulkPrices, samplePrice)
+// OR a `tiers` array when the same garment sells at two rates depending on colour.
+//
+// tiers: [{ label, colors, colorCodes, imageFiles, imageDir, bulkPrices, samplePrice }]
+//   bulkPrices is per-size and lines up 1:1 with `sizes`.
+//   imageDir defaults to the product slug; a merged tier points at its old folder.
+// `id` is explicit so a product can be moved or merged without breaking #product= links.
+// `aliases` keeps retired ids resolving to the product that absorbed them.
 
 const CATALOG_DATA = {
   siteName: "Sale91",
@@ -14,12 +21,15 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Oversize 210gsm",
+          mainImage: "m2",
+          id: "oversized-tees-0",
           nickname: "OS210",
           description: "Oversized Drop Shoulder 210gsm, Terry Cotton Loopknit Heavy Gauge, 100% Cotton Supercombed Red Lable Premium Fabric",
           sizeChart: "oversized",
           rate: 185,
           samplePrice: 222,
           weight: 0.27,
+          moq: 10,
           colors: ["Black", "White", "Lavender", "Beige", "Red", "Sage Green", "Brown", "Off-white", "Orange", "Navy"],
           colorCodes: ["#222222", "#FFFFFF", "#C4B7D5", "#D4C5A9", "#DC143C", "#9CAF88", "#8B4513", "#FAF5E4", "#FF6B35", "#1E3A5F"],
           imageFiles: [1,2,3,4,6,7,8,9,10,11,12],
@@ -29,12 +39,15 @@ const CATALOG_DATA = {
         },
         {
           name: "Oversize 240gsm",
+          mainImage: "m2",
+          id: "oversized-tees-1",
           nickname: "OS240",
           description: "Oversized Drop-shoulder, 240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Premium Quality Biowash Fabric",
           sizeChart: "oversized",
           rate: 190,
           samplePrice: 228,
           weight: 0.32,
+          moq: 10,
           colors: ["Black", "White", "Navy", "Red", "Maroon", "Off-white", "Beige", "Lavender", "Brown", "Rose Pink", "Charcoal", "Army Green", "Powder Blue", "Royal Blue"],
           colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#DC143C", "#800020", "#FAF5E4", "#D4C5A9", "#C4B7D5", "#8B4513", "#FF8FAB", "#36454F", "#4B5320", "#B0D4F1", "#4169E1"],
           imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27],
@@ -44,12 +57,15 @@ const CATALOG_DATA = {
         },
         {
           name: "Oversize 180gsm",
+          mainImage: "m2",
+          id: "oversized-tees-2",
           nickname: "OS180",
           description: "Oversized Drop-shoulder 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           sizeChart: "oversized",
           rate: 173,
           samplePrice: 208,
           weight: 0.26,
+          moq: 10,
           colors: ["Black", "White"],
           colorCodes: ["#222222", "#FFFFFF"],
           imageFiles: [1],
@@ -59,6 +75,7 @@ const CATALOG_DATA = {
         },
         {
           name: "Boxy Fit",
+          id: "oversized-tees-3",
           hidden: true,
           nickname: "Boxy",
           description: "Boxy Fit Drop-shoulder Tshirt, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
@@ -66,6 +83,7 @@ const CATALOG_DATA = {
           rate: 175,
           samplePrice: 204,
           weight: 0.26,
+          moq: 10,
           colors: ["Black", "White"],
           colorCodes: ["#222222", "#FFFFFF"],
           imageFiles: [1,2,4,5,6],
@@ -75,12 +93,15 @@ const CATALOG_DATA = {
         },
         {
           name: "AcidWash Oversize",
+          mainImage: "m2",
+          id: "oversized-tees-4",
           nickname: "Acid-OS",
           description: "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
           sizeChart: "oversized",
           rate: 233,
           samplePrice: 280,
           weight: 0.27,
+          moq: 10,
           colors: ["Black", "Brown", "Navy", "Maroon", "Charcoal", "Red", "Army Green"],
           colorCodes: ["#222222", "#8B4513", "#1E3A5F", "#800020", "#36454F", "#DC143C", "#4B5320"],
           imageFiles: [1,2,3],
@@ -90,16 +111,18 @@ const CATALOG_DATA = {
         },
         {
           name: "Oversize 260gsm",
+          id: "oversized-tees-5",
           nickname: "OS260",
           description: "Oversized Drop-shoulder 260gsm with MOON PATCH, Terry Loopknit 100% Cotton Premium Biowash",
           sizeChart: "oversized260",
           rate: 190,
           samplePrice: 275,
           weight: 0.35,
+          moq: 10,
           colors: ["Black", "White"],
           colorCodes: ["#222222", "#FFFFFF"],
           imageFiles: ["1b","2b","3b","4b","5b","6b","7b","8b","9b"],
-          mainImage: "mb",
+          mainImage: "m2",
           sizes: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"],
           bulkPrices: [190, 195, 205, 220, 225, 230, 240, 255]
         }
@@ -113,12 +136,15 @@ const CATALOG_DATA = {
       products: [
         {
           name: "True Biowash Round Neck",
+          mainImage: "m2",
+          id: "roundneck-tees-0",
           nickname: "True Bio",
           description: "Regular Fit, True Biowash Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           sizeChart: "roundneck",
           rate: 146,
           samplePrice: 181,
           weight: 0.21,
+          moq: 10,
           colors: ["Black", "White", "Maroon", "Navy", "Mustard Yellow", "Red", "Bottle Green", "Beige", "Royal Blue", "Lavender", "Sky", "Grey", "Bhagwa", "Army Green"],
           colorCodes: ["#222222", "#FFFFFF", "#800020", "#1E3A5F", "#E6A817", "#DC143C", "#006A4E", "#D4C5A9", "#4169E1", "#C4B7D5", "#87CEEB", "#808080", "#FF6600", "#4B5320"],
           imageFiles: [1,2,3,4,5,6,8,9,10,11,12,13,14],
@@ -128,12 +154,15 @@ const CATALOG_DATA = {
         },
         {
           name: "Biowash Round Neck",
+          mainImage: "m2",
+          id: "roundneck-tees-1",
           nickname: "YL Bio",
           description: "Regular Fit, Biowash Round neck, 180gsm, 100% Cotton Premium Quality Fabric",
           sizeChart: "roundneck",
           rate: 136,
           samplePrice: 170,
           weight: 0.21,
+          moq: 10,
           colors: ["Black", "White", "Navy", "Red", "Brown", "Maroon", "Charcoal", "Off-white", "Rose Pink"],
           colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#DC143C", "#8B4513", "#800020", "#36454F", "#FAF5E4", "#FF8FAB"],
           imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,26,27],
@@ -143,12 +172,14 @@ const CATALOG_DATA = {
         },
         {
           name: "Non Bio Round Neck",
+          id: "roundneck-tees-2",
           nickname: "NBio",
           description: "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
           sizeChart: "roundneck",
           rate: 105,
           samplePrice: 129,
           weight: 0.21,
+          moq: 10,
           colors: ["Black"],
           colorCodes: ["#222222"],
           imageFiles: [1,2,3,4,5,6],
@@ -158,12 +189,15 @@ const CATALOG_DATA = {
         },
         {
           name: "Sublimation T-Shirt",
+          mainImage: "m2",
+          id: "roundneck-tees-3",
           nickname: "Sublimation",
           description: "Regular Fit Round neck, 200gsm, Cotton Feel Polyester Sublimation tshirt, Premium Quality Sarina Knitting Type",
           sizeChart: "roundneck",
           rate: 118,
           samplePrice: 144,
           weight: 0.21,
+          moq: 10,
           colors: ["White"],
           colorCodes: ["#FFFFFF"],
           imageFiles: [1,2,3,4,5,6],
@@ -181,12 +215,15 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Premium Polo",
+          mainImage: "m2",
+          id: "polo-tees-0",
           nickname: "Bio Polo",
           description: "Most Premium Honeycomb Polo, 220gsm, 100% Cotton Supercombed Red Lable Fabric",
           sizeChart: "roundneck",
           rate: 232,
           samplePrice: 285,
           weight: 0.26,
+          moq: 5,
           colors: ["Black", "White", "Navy", "Maroon"],
           colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#800020"],
           imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19],
@@ -196,12 +233,15 @@ const CATALOG_DATA = {
         },
         {
           name: "Cotton Polo",
+          mainImage: "m2",
+          id: "polo-tees-1",
           nickname: "Polo",
           description: "Cotton Matty Polo neck, 220gsm, 88% Cotton, 12% Polyester",
           sizeChart: "roundneck",
           rate: 185,
           samplePrice: 222,
           weight: 0.26,
+          moq: 5,
           colors: ["Black", "White", "Navy", "Grey", "Maroon", "Charcoal", "Red"],
           colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#808080", "#800020", "#36454F", "#DC143C"],
           imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
@@ -219,12 +259,15 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Zip Hoodie",
+          mainImage: "m2",
+          id: "hoodies-0",
           nickname: "Zipper",
           description: "Zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           sizeChart: "hoodie320",
           rate: 325,
           samplePrice: 390,
           weight: 0.56,
+          moq: 5,
           colors: ["Black"],
           colorCodes: ["#222222"],
           imageFiles: [1,2,3,4,5],
@@ -233,64 +276,75 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vT1IROWs8tfoWyefLuIjrmoG_tY37dG5o37w0M93qVtwT0-3izDpbG-hmJTdFXDvs0Aqa0rWedLeNUo/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Hoodie 320gsm (Black)",
-          nickname: "Hood320-1",
-          description: "Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
-          sizeChart: "hoodie320",
-          rate: 295,
-          samplePrice: 366,
-          weight: 0.56,
-          colors: ["Black"],
-          colorCodes: ["#222222"],
-          imageFiles: [1,7,8],
-          sizes: ["S", "M", "L", "XL", "XXL"],
-          bulkPrices: [295, 295, 295, 295, 305],
-          catalogUrl: "https://docs.google.com/presentation/d/1S7a3FESEvHue-f9xHGDPMws6fE_JF9e15PtVrMSmG9s/pub?start=false&loop=false&delayms=3000"
-        },
-        {
           name: "Hoodie 320gsm",
-          nickname: "Hood320-2",
+          id: "hoodies-1",
+          aliases: ["hoodies-2"],
+          nickname: "Hood320",
           description: "Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           sizeChart: "hoodie320",
-          rate: 325,
-          samplePrice: 402,
           weight: 0.56,
-          colors: ["White", "Navy", "Army Green", "Off-white", "Maroon", "Grey", "Red"],
-          colorCodes: ["#FFFFFF", "#1E3A5F", "#4B5320", "#FAF5E4", "#800020", "#808080", "#DC143C"],
-          imageFiles: [1,2,3,4,5,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24],
+          moq: 5,
           sizes: ["S", "M", "L", "XL", "XXL"],
-          bulkPrices: [325, 325, 325, 325, 335],
-          catalogUrl: "https://docs.google.com/presentation/d/1bZdvS00WpvB-10oAhea451upFGabmEB_n-dZnzENRXI/pub?start=false&loop=false&delayms=3000"
+          mainImage: "m2",
+          tiers: [
+            {
+              label: "Black",
+              imageDir: "hoodie-320gsm-black",
+              colors: ["Black"],
+              colorCodes: ["#222222"],
+              imageFiles: [1,7,8],
+              bulkPrices: [295, 295, 295, 295, 305],
+              samplePrice: 366,
+              catalogUrl: "https://docs.google.com/presentation/d/1S7a3FESEvHue-f9xHGDPMws6fE_JF9e15PtVrMSmG9s/pub?start=false&loop=false&delayms=3000"
+            },
+            {
+              label: "Other colours",
+              colors: ["White", "Navy", "Army Green", "Off-white", "Maroon", "Grey", "Red"],
+              colorCodes: ["#FFFFFF", "#1E3A5F", "#4B5320", "#FAF5E4", "#800020", "#808080", "#DC143C"],
+              imageFiles: [1,2,3,4,5,9,10,12,13,14,15,16,17,18,19,20,21,22,23,24],
+              bulkPrices: [325, 325, 325, 325, 335],
+              samplePrice: 402,
+              catalogUrl: "https://docs.google.com/presentation/d/1bZdvS00WpvB-10oAhea451upFGabmEB_n-dZnzENRXI/pub?start=false&loop=false&delayms=3000"
+            }
+          ]
         },
         {
+          // Slug pinned to hoodie-430gsm: Search Console shows that URL ranks
+          // position 2.0 for "430 gsm hoodie" while dropshoulder-hoodie-430gsm
+          // ranks 49.5 for nothing. The display name is free to change; the URL
+          // is not.
           name: "Dropshoulder Hoodie 430gsm",
+          slug: "hoodie-430gsm",
+          id: "hoodies-3",
+          aliases: ["hoodies-4"],
           nickname: "Hood430",
           description: "Most Heavy Non-zipper Dropshoulder Hoodie, 430gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           sizeChart: "hoodie430",
-          rate: 380,
-          samplePrice: 468,
           weight: 0.75,
-          colors: ["Black"],
-          colorCodes: ["#222222"],
-          imageFiles: [1,10,11],
+          moq: 5,
           sizes: ["S", "M", "L", "XL", "XXL"],
-          bulkPrices: [380, 380, 380, 380, 390],
-          catalogUrl: "https://docs.google.com/presentation/d/119FQyCCKCqc2Si878vU_poGgxukTEFFUAXz1xU1Jsyo/pub?start=false&loop=false&delayms=3000"
-        },
-        {
-          name: "Hoodie 430gsm",
-          nickname: "Hood430-2",
-          description: "Most Heavy Non-zipper Dropshoulder Hoodie, 430gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
-          sizeChart: "hoodie430",
-          rate: 418,
-          samplePrice: 502,
-          weight: 0.75,
-          colors: ["Navy", "White", "Off-white"],
-          colorCodes: ["#1E3A5F", "#FFFFFF", "#FAF5E4"],
-          imageFiles: [1,2,3,4,5,7,8,12,13,14],
-          sizes: ["S", "M", "L", "XL", "XXL"],
-          bulkPrices: [418, 418, 418, 418, 428],
-          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTydxbnJ0832GdVgDfVvgQhq8rOH9kVYJzBLrTRm2gsronXoAy2R_nIl3G0o4DgrR-oZrb3D1GjXVNv/pub?start=false&loop=false&delayms=3000"
+          mainImage: "m2",
+          tiers: [
+            {
+              label: "Black",
+              imageDir: "dropshoulder-hoodie-430gsm",
+              colors: ["Black"],
+              colorCodes: ["#222222"],
+              imageFiles: [1,10,11],
+              bulkPrices: [380, 380, 380, 380, 390],
+              samplePrice: 468,
+              catalogUrl: "https://docs.google.com/presentation/d/119FQyCCKCqc2Si878vU_poGgxukTEFFUAXz1xU1Jsyo/pub?start=false&loop=false&delayms=3000"
+            },
+            {
+              label: "Other colours",
+              colors: ["Navy", "White", "Off-white"],
+              colorCodes: ["#1E3A5F", "#FFFFFF", "#FAF5E4"],
+              imageFiles: [1,2,3,7,8,12,13,14],
+              bulkPrices: [418, 418, 418, 418, 428],
+              samplePrice: 502,
+              catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTydxbnJ0832GdVgDfVvgQhq8rOH9kVYJzBLrTRm2gsronXoAy2R_nIl3G0o4DgrR-oZrb3D1GjXVNv/pub?start=false&loop=false&delayms=3000"
+            }
+          ]
         }
       ]
     },
@@ -302,36 +356,42 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Sweatshirt",
+          id: "sweatshirts-0",
+          aliases: ["sweatshirts-1"],
           nickname: "Sweatshirt",
           description: "Sweatshirt, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           sizeChart: "hoodie320",
-          rate: 225,
-          samplePrice: 276,
           weight: 0.46,
-          colors: ["Black", "Navy", "Grey", "Army Green"],
-          colorCodes: ["#222222", "#1E3A5F", "#808080", "#4B5320"],
-          imageFiles: [1,2,3,4,5,6,7,8,9,19],
+          moq: 5,
           sizes: ["S", "M", "L", "XL", "XXL"],
-          bulkPrices: [225, 225, 225, 225, 235],
-          catalogUrl: "https://docs.google.com/presentation/d/1UbsXeU0ykL8SVWzfuMT2-84ZFrizxoUTElEkoZ-g4A4/pub?start=false&loop=false&delayms=3000"
-        },
-        {
-          name: "Sweatshirt 2",
-          nickname: "Sweatshirt-2",
-          description: "Sweatshirt, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
-          sizeChart: "hoodie320",
-          rate: 240,
-          samplePrice: 288,
-          weight: 0.46,
-          colors: ["Maroon", "White", "Off-white"],
-          colorCodes: ["#800020", "#FFFFFF", "#FAF5E4"],
-          imageFiles: [1,2,3,13,14,15,16,18],
-          sizes: ["S", "M", "L", "XL", "XXL"],
-          bulkPrices: [240, 240, 240, 240, 250],
-          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vQ-U20uFkZqVUmNUAWItRkBZUYKA_RQ2nVvohMze4SxmBWHW5itG0M_tKqVkkvuCh_BTZxOVi_QTw4B/pub?start=false&loop=false&delayms=3000"
+          mainImage: "m2",
+          tiers: [
+            {
+              label: "Black, Navy, Grey, Army Green",
+              colors: ["Black", "Navy", "Grey", "Army Green"],
+              colorCodes: ["#222222", "#1E3A5F", "#808080", "#4B5320"],
+              // 1.webp is the watermarked twin of m.webp and 19.webp is byte-identical
+              // to 7.webp — both were showing as duplicate slides.
+              imageFiles: [2,3,4,5,6,7,8,9],
+              bulkPrices: [225, 225, 225, 225, 235],
+              samplePrice: 276,
+              catalogUrl: "https://docs.google.com/presentation/d/1UbsXeU0ykL8SVWzfuMT2-84ZFrizxoUTElEkoZ-g4A4/pub?start=false&loop=false&delayms=3000"
+            },
+            {
+              label: "Maroon, White, Off-white",
+              imageDir: "sweatshirt-2",
+              colors: ["Maroon", "White", "Off-white"],
+              colorCodes: ["#800020", "#FFFFFF", "#FAF5E4"],
+              imageFiles: [1,2,3,13,14,15,16,18],
+              bulkPrices: [240, 240, 240, 240, 250],
+              samplePrice: 288,
+              catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vQ-U20uFkZqVUmNUAWItRkBZUYKA_RQ2nVvohMze4SxmBWHW5itG0M_tKqVkkvuCh_BTZxOVi_QTw4B/pub?start=false&loop=false&delayms=3000"
+            }
+          ]
         },
         {
           name: "Varsity Jacket",
+          id: "sweatshirts-2",
           hidden: true,
           nickname: "Varsity",
           description: "Varsity Jacket, 320gsm, Cotton Brushed Loopknit, White Sleeve/Black Body, 88% cotton, 12% polyester",
@@ -339,6 +399,7 @@ const CATALOG_DATA = {
           rate: 335,
           samplePrice: 402,
           weight: 0.56,
+          moq: 5,
           colors: ["Black"],
           colorCodes: ["#222222"],
           imageFiles: [1,2],
@@ -356,12 +417,14 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Kids Round Neck",
+          id: "kids-and-more-0",
           nickname: "Kids",
           description: "True Biowash Kids Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           sizeChart: "kids",
           rate: 114,
           samplePrice: 144,
           weight: 0.16,
+          moq: 10,
           colors: ["Black", "White", "Red", "Baby Pink", "Mustard Yellow"],
           colorCodes: ["#222222", "#FFFFFF", "#DC143C", "#FFB6C1", "#E6A817"],
           imageFiles: [1,2,4,5],
@@ -371,12 +434,15 @@ const CATALOG_DATA = {
         },
         {
           name: "Shorts",
+          mainImage: "m2",
+          id: "kids-and-more-1",
           nickname: "Shorts",
           description: "240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Supercombed Premium Quality Red Lable Fabric, (Zipper Left and Right pocket, 1 back pocket)",
           sizeChart: "shorts",
           rate: 217,
           samplePrice: 261,
           weight: 0.25,
+          moq: 5,
           colors: ["Black", "Off-white", "Lavender", "Beige"],
           colorCodes: ["#222222", "#FAF5E4", "#C4B7D5", "#D4C5A9"],
           imageFiles: [1,2,3,4,5,6,7,8],

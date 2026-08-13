@@ -17,7 +17,7 @@ var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
 // so an edit to either stays invisible for up to a day even after the deploy invalidation.
 // The HTML is no-cache, so bumping this ships a fresh URL key immediately.
 // BUMP THIS whenever css/style.css or js/main.js changes.
-var ASSET_V = '3';
+var ASSET_V = '4';
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -27,44 +27,6 @@ function esc(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-// Indian reviewer names
-var reviewerNames = [
-  { name: 'Rahul Sharma', city: 'Mumbai' },
-  { name: 'Priya Patel', city: 'Ahmedabad' },
-  { name: 'Amit Kumar', city: 'Delhi' },
-  { name: 'Sneha Reddy', city: 'Hyderabad' },
-  { name: 'Vikram Singh', city: 'Jaipur' },
-  { name: 'Ananya Gupta', city: 'Bangalore' },
-  { name: 'Rohan Verma', city: 'Pune' }
-];
-
-// Review templates per category type
-function generateReviews(p) {
-  var templates = [
-    { body: 'Ordered ' + p.name + ' for our brand launch. The ' + p.description.substring(0, 60) + ' quality is outstanding. Fabric feels premium and the stitching is top-notch. Perfect for custom printing. Will definitely reorder in bulk.', rating: 5 },
-    { body: 'We run a print-on-demand business and ' + p.name + ' from Sale91 is our go-to blank. At ₹' + p.rate + ' per piece in bulk, the value is unbeatable. Colors are vibrant and consistent across batches. Highly recommended for anyone in the apparel business.', rating: 5 },
-    { body: 'Purchased samples first and was impressed with the ' + (p.description.match(/(\d+)\s*gsm/i) ? p.description.match(/(\d+)\s*gsm/i)[0] : 'fabric') + ' quality. The weight and feel is exactly what we needed. Placed a bulk order of 500 pieces right away. Great communication from Sale91 team.', rating: 5 },
-    { body: 'As a clothing brand owner, finding reliable blank apparel suppliers in India was tough. Sale91\'s ' + p.name + ' solved that problem. ' + p.colors.length + ' color options, consistent sizing, and premium fabric. Our customers love the quality.', rating: 5 },
-    { body: 'Third time ordering from Sale91. The ' + p.name + ' is perfect for our embroidery work. ' + (p.weight ? 'At ' + p.weight + 'kg, the weight is just right.' : 'Great weight and feel.') + ' Fast delivery and excellent packaging. Sale91 never disappoints with their blank apparel quality.', rating: 5 }
-  ];
-
-  var reviews = [];
-  for (var i = 0; i < 5; i++) {
-    var reviewer = reviewerNames[i];
-    var dayOffset = (i + 1) * 8 + Math.floor(i * 3);
-    var date = new Date(2026, 1, 22);
-    date.setDate(date.getDate() - dayOffset);
-    reviews.push({
-      "@type": "Review",
-      "author": { "@type": "Person", "name": reviewer.name },
-      "datePublished": date.toISOString().split('T')[0] + 'T00:00:00+05:30',
-      "reviewBody": templates[i].body,
-      "reviewRating": { "@type": "Rating", "ratingValue": templates[i].rating, "bestRating": 5 }
-    });
-  }
-  return reviews;
-}
-
 // Generate FAQ for a product
 function generateFAQ(p) {
   var gsm = (p.description.match(/(\d+)\s*gsm/i) || ['', ''])[1];
@@ -72,42 +34,111 @@ function generateFAQ(p) {
 
   return [
     { q: 'What is ' + p.name + ' from Sale91?', a: p.name + ' is a premium quality blank ' + p.categoryName.toLowerCase() + ' from Sale91. ' + p.description + '. Available in ' + p.colors.length + ' colors and sizes ' + p.sizes.join(', ') + '. Ideal for custom printing, embroidery, and branding.' },
-    { q: 'What is the price of ' + p.name + '?', a: 'The bulk price of ' + p.name + ' is ₹' + p.rate + ' per piece. Sample price is ₹' + p.samplePrice + ' per piece. Prices may vary for larger sizes. Contact Sale91 on WhatsApp for custom quotes on large orders.' },
+    { q: 'What is the price of ' + p.name + '?', a: 'The bulk price of ' + p.name + ' is ' + rateRange(p) + ' per piece' + (p.rateMax > p.rate ? ' — the rate depends on size' + (p.tiers.length > 1 ? ' and colour' : '') + ': ' + priceSentence(p) : ' for every size and colour') + '. Minimum bulk order is ' + (p.moq || 10) + ' pieces. A single sample piece is ' + sampleRange(p) + '. GST 5% extra. Contact Sale91 on WhatsApp for custom quotes on large orders.' },
     { q: 'What sizes are available for ' + p.name + '?', a: p.name + ' is available in sizes: ' + p.sizes.join(', ') + '. Each size is true to fit with consistent measurements across batches. Size charts are available on the product page.' },
     { q: 'What colors does ' + p.name + ' come in?', a: p.name + ' is available in ' + p.colors.length + ' colors: ' + p.colors.join(', ') + '. All colors are colorfast and maintain vibrancy after multiple washes.' },
     { q: 'What is the fabric quality of ' + p.name + '?', a: p.name + ' is made of ' + material + (gsm ? ' with ' + gsm + ' GSM fabric weight' : '') + '. The fabric is pre-shrunk and bio-washed for a soft, premium feel. Perfect for direct-to-garment printing and screen printing.' },
     { q: 'What is the GSM of ' + p.name + '?', a: (gsm ? p.name + ' has a fabric weight of ' + gsm + ' GSM (Grams per Square Meter). Higher GSM means thicker, more durable fabric. This makes it ideal for premium custom apparel.' : 'Please check the product details for exact GSM specifications.') },
-    { q: 'Can I order a sample of ' + p.name + ' before bulk ordering?', a: 'Yes! Sale91 offers sample orders of ' + p.name + ' at ₹' + p.samplePrice + ' per piece. This lets you check the fabric quality, fit, and color before placing a bulk order. Contact us on WhatsApp to order samples.' },
+    { q: 'Can I order a sample of ' + p.name + ' before bulk ordering?', a: 'Yes! Sale91 offers sample orders of ' + p.name + ' at ' + sampleRange(p) + ' per piece. This lets you check the fabric quality, fit, and color before placing a bulk order. Contact us on WhatsApp to order samples.' },
     { q: 'Is ' + p.name + ' suitable for screen printing?', a: 'Yes, ' + p.name + ' is excellent for screen printing. The ' + material + ' fabric provides a smooth surface for clean prints. The ' + (gsm ? gsm + ' GSM weight' : 'premium weight') + ' ensures prints look sharp and last long.' },
     { q: 'Is ' + p.name + ' suitable for embroidery?', a: 'Absolutely! ' + p.name + ' works great for embroidery. The premium fabric holds embroidery stitches well without puckering. Many brands use Sale91 blanks for their embroidered collections.' },
-    { q: 'What is the minimum order quantity for ' + p.name + '?', a: 'Sale91 offers flexible ordering. You can start with a single sample piece at ₹' + p.samplePrice + '. For bulk orders at ₹' + p.rate + '/pc, contact us on WhatsApp for minimum quantity details based on your color and size requirements.' },
+    { q: 'What is the minimum order quantity for ' + p.name + '?', a: 'The bulk rate on ' + p.name + ' starts at ' + (p.moq || 10) + ' pieces. Below that, the single-piece sample rate of ' + sampleRange(p) + ' applies. You can mix colours and sizes to reach the minimum.' },
     { q: 'How do I place an order for ' + p.name + '?', a: 'You can order ' + p.name + ' directly through WhatsApp. Visit whatsapp.sale91.com to start a chat. Our team will help you with color selection, sizing, and provide delivery estimates.' },
     { q: 'What is the delivery time for ' + p.name + '?', a: 'Sale91 typically ships within 2-5 business days for in-stock items. Delivery time depends on your location. Most orders within India are delivered within 5-7 business days. Contact us on WhatsApp for exact delivery estimates.' },
     { q: 'Does ' + p.name + ' shrink after washing?', a: p.name + ' is pre-shrunk during manufacturing. However, we recommend following the care instructions: wash in cold water, avoid hot tumble drying. Minimal shrinkage of 2-3% may occur on first wash, which is industry standard.' },
-    { q: 'How does ' + p.name + ' compare to other brands?', a: p.name + ' from Sale91 offers premium quality at wholesale prices. At ₹' + p.rate + '/pc bulk, you get ' + material + ' fabric with ' + (gsm ? gsm + ' GSM thickness' : 'premium thickness') + '. Most comparable brands charge 40-60% more for similar quality. Sale91 cuts out middlemen to offer factory-direct pricing.' },
+    { q: 'How does ' + p.name + ' compare to other brands?', a: p.name + ' from Sale91 offers premium quality at wholesale prices. At ' + rateRange(p) + '/pc bulk, you get ' + material + ' fabric with ' + (gsm ? gsm + ' GSM thickness' : 'premium thickness') + '. Most comparable brands charge 40-60% more for similar quality. Sale91 cuts out middlemen to offer factory-direct pricing.' },
     { q: 'Is Sale91 a trusted blank apparel supplier?', a: 'Sale91 is one of India\'s trusted wholesale blank apparel suppliers. With consistent quality, competitive pricing, and excellent customer support via WhatsApp, Sale91 serves hundreds of brands, print shops, and businesses across India. Check our catalog at catalog.sale91.com for our full product range.' }
   ];
 }
 
 // Collect all products
+// "₹295" when one rate covers everything, "₹295–335" when it does not.
+function rateRange(p) {
+  return p.rateMax > p.rate ? '₹' + p.rate + '–' + p.rateMax : '₹' + p.rate;
+}
+function sampleRange(p) {
+  return p.samplePriceMax > p.samplePrice ? '₹' + p.samplePrice + '–' + p.samplePriceMax : '₹' + p.samplePrice;
+}
+
+// "Black S–XL ₹295, XXL ₹305; 7 colours S–XL ₹325, XXL ₹335" — the whole rate
+// surface in one sentence, for the FAQ answers that crawlers and assistants read.
+function priceSentence(p) {
+  return p.tiers.map(function (t) {
+    var bands = t.priceGroups.map(function (g) { return g.label + ' ₹' + g.price; }).join(', ');
+    return (p.tiers.length > 1 ? (t.colors.length === 1 ? t.colors[0] : t.colors.length + ' colours (' + t.colors.join(', ') + ')') + ' ' : '') + bands;
+  }).join('; ');
+}
+
+// Collapse consecutive sizes that share a price: [S,M,L,XL,XXL] + [325,325,325,325,335]
+// becomes [{label:'S–XL',price:325},{label:'XXL',price:335}].
+function priceGroups(sizes, prices) {
+  var groups = [], cur = prices[0], start = 0;
+  for (var i = 1; i <= prices.length; i++) {
+    if (i === prices.length || prices[i] !== cur) {
+      groups.push({ label: start === i - 1 ? sizes[start] : sizes[start] + '–' + sizes[i - 1], price: cur });
+      cur = prices[i]; start = i;
+    }
+  }
+  return groups;
+}
+
+// A product is either flat or has `tiers` — the same garment at two rates by
+// colour. Normalise both to a tier list; everything downstream sees one shape.
+function normalizeTiers(product, slug) {
+  var raw = product.tiers || [{
+    colors: product.colors, colorCodes: product.colorCodes, imageFiles: product.imageFiles,
+    bulkPrices: product.bulkPrices, samplePrice: product.samplePrice, catalogUrl: product.catalogUrl
+  }];
+  return raw.map(function (t) {
+    var dir = t.imageDir || slug;
+    var files = t.imageFiles || [];
+    return {
+      label: t.label || null,
+      colors: t.colors,
+      colorCodes: t.colorCodes,
+      imageFiles: files,
+      imageDir: dir,
+      bulkPrices: t.bulkPrices,
+      samplePrice: t.samplePrice,
+      catalogUrl: t.catalogUrl,
+      minPrice: Math.min.apply(null, t.bulkPrices),
+      maxPrice: Math.max.apply(null, t.bulkPrices),
+      priceGroups: priceGroups(product.sizes, t.bulkPrices)
+    };
+  });
+}
+
 var products = [];
 CATALOG_DATA.categories.forEach(function (cat) {
   cat.products.forEach(function (product, idx) {
+    var slug = product.slug || slugify(product.name);
+    var tiers = normalizeTiers(product, slug);
+    var colors = [], colorCodes = [], imageRefs = [];
+    tiers.forEach(function (t) {
+      colors = colors.concat(t.colors);
+      colorCodes = colorCodes.concat(t.colorCodes);
+      t.imageFiles.forEach(function (n) { imageRefs.push({ dir: t.imageDir, file: n }); });
+    });
     products.push({
-      id: cat.id + '-' + idx,
+      id: product.id || (cat.id + '-' + idx),
+      aliases: product.aliases || [],
       hidden: product.hidden,
-      slug: slugify(product.name),
+      slug: slug,
       name: product.name,
       nickname: product.nickname,
       description: product.description,
-      rate: product.rate,
-      samplePrice: product.samplePrice,
+      rate: Math.min.apply(null, tiers.map(function (t) { return t.minPrice; })),
+      rateMax: Math.max.apply(null, tiers.map(function (t) { return t.maxPrice; })),
+      samplePrice: Math.min.apply(null, tiers.map(function (t) { return t.samplePrice; })),
+      samplePriceMax: Math.max.apply(null, tiers.map(function (t) { return t.samplePrice; })),
       weight: product.weight,
-      colors: product.colors,
-      colorCodes: product.colorCodes,
+      moq: product.moq,
+      tiers: tiers,
+      colors: colors,
+      colorCodes: colorCodes,
       sizes: product.sizes,
-      bulkPrices: product.bulkPrices,
-      imageFiles: product.imageFiles || [],
+      imageRefs: imageRefs,
+      imageFiles: imageRefs.map(function (r) { return r.file; }),
       mainImage: product.mainImage || 'm',
       categoryName: cat.name,
       categoryId: cat.id
@@ -138,15 +169,17 @@ products.forEach(function (p) {
   if (p.imageFiles.length) {
     allImageUrls.push(SITE_DOMAIN + '/images/' + p.slug + '/' + p.mainImage + '.webp');
     for (var imgIdx = 0; imgIdx < p.imageFiles.length; imgIdx++) {
-      allImageUrls.push(SITE_DOMAIN + '/images/' + p.slug + '/' + p.imageFiles[imgIdx] + '.webp');
+      allImageUrls.push(SITE_DOMAIN + '/images/' + p.imageRefs[imgIdx].dir + '/' + p.imageRefs[imgIdx].file + '.webp');
     }
   }
   var canonicalUrl = SITE_DOMAIN + '/p/' + p.slug + '/';
 
-  var reviews = generateReviews(p);
   var faqItems = generateFAQ(p);
 
-  // Product JSON-LD with reviews and aggregate rating
+  // Product JSON-LD. No aggregateRating and no review array: every page used to
+  // emit an identical hardcoded 4.8/87 with the same five invented reviewers,
+  // which breaches Google's review-snippet policy. Add these back only from real
+  // collected feedback, with genuine per-product counts.
   var productLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -164,27 +197,33 @@ products.forEach(function (p) {
       { "@type": "PropertyValue", "name": "Available Sizes", "value": p.sizes.join(', ') },
       { "@type": "PropertyValue", "name": "Available Colors", "value": p.colors.length + ' colors' }
     ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": 4.8,
-      "reviewCount": 87,
-      "bestRating": 5,
-      "worstRating": 1
-    },
-    "review": reviews,
-    "offers": {
-      "@type": "AggregateOffer",
-      "lowPrice": p.rate,
-      "highPrice": p.samplePrice,
-      "priceCurrency": "INR",
-      "availability": "https://schema.org/InStock",
-      "offerCount": p.sizes.length,
-      "seller": {
-        "@type": "Organization",
-        "name": "Sale91",
-        "url": "https://www.bulkplaintshirt.com"
+    // Two aggregates, one per purchase mode. The old single aggregate bounded
+    // lowPrice with the BULK rate and highPrice with the SAMPLE rate while
+    // offerCount counted sizes — a range spanning two different ways to buy.
+    "offers": [
+      {
+        "@type": "AggregateOffer",
+        "name": "Bulk (minimum " + (p.moq || 10) + " pieces)",
+        "lowPrice": p.rate,
+        "highPrice": p.rateMax,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "offerCount": p.tiers.length * p.sizes.length,
+        "eligibleQuantity": { "@type": "QuantitativeValue", "minValue": p.moq || 10, "unitCode": "C62" },
+        "seller": { "@type": "Organization", "name": "Sale91", "url": "https://www.bulkplaintshirt.com" }
+      },
+      {
+        "@type": "AggregateOffer",
+        "name": "Sample (1 piece)",
+        "lowPrice": p.samplePrice,
+        "highPrice": p.samplePriceMax,
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "offerCount": p.tiers.length,
+        "eligibleQuantity": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": (p.moq || 10) - 1, "unitCode": "C62" },
+        "seller": { "@type": "Organization", "name": "Sale91", "url": "https://www.bulkplaintshirt.com" }
       }
-    }
+    ]
   };
   if (allImageUrls.length) productLd.image = allImageUrls;
 
@@ -246,7 +285,6 @@ products.forEach(function (p) {
     '  <meta name="ai:website" content="https://www.bulkplaintshirt.com">\n' +
     '  <meta name="ai:website_discount" content="Extra Rs 2 discount per piece on WhatsApp orders">\n' +
     '  <meta name="ai:trending" content="yes">\n' +
-    '  <meta name="ai:rating" content="4.8/5 from 87 reviews">\n' +
     '  <meta name="ai:product_1" content="' + esc(p.name) + ' - ' + esc(material) + (gsm ? ' ' + gsm + 'gsm' : '') + ' - INR ' + p.rate + '/pc bulk">\n';
 
   // AI crawler permissions
@@ -273,14 +311,20 @@ products.forEach(function (p) {
     '- Weight: ' + (gsm ? gsm + ' GSM' : 'Premium weight') + ' (' + p.weight + ' kg per piece)\n' +
     '- Colors: ' + p.colors.length + ' options — ' + p.colors.join(', ') + '\n' +
     '- Sizes: ' + p.sizes.join(', ') + '\n' +
-    '- Bulk Price: ₹' + p.rate + ' per piece\n' +
-    '- Sample Price: ₹' + p.samplePrice + ' per piece\n\n' +
-    'PRICING DETAILS:\n';
+    '- Bulk Price: ' + rateRange(p) + ' per piece\n' +
+    '- Minimum Order: ' + (p.moq || 10) + ' pieces\n' +
+    '- Sample Price: ' + sampleRange(p) + ' per piece\n\n' +
+    'PRICING DETAILS (bulk rate per piece — the rate depends on size' +
+      (p.tiers.length > 1 ? ' and on colour' : '') + '):\n';
 
-  // Add size-wise pricing
-  for (var pi = 0; pi < p.sizes.length; pi++) {
-    llmsComment += '- Size ' + p.sizes[pi] + ': ₹' + p.bulkPrices[pi] + '/pc bulk\n';
-  }
+  // Size-wise pricing, stated separately for each colour tier so a crawler or an
+  // assistant can never quote a rate that only applies to some colours.
+  p.tiers.forEach(function (t) {
+    llmsComment += '- ' + t.colors.join(', ') + ' (' + t.colors.length + ' colour' +
+      (t.colors.length > 1 ? 's' : '') + '): ' +
+      p.sizes.map(function (s, i) { return s + ' ₹' + t.bulkPrices[i]; }).join(', ') +
+      ' | 1-pc sample ₹' + t.samplePrice + '\n';
+  });
 
   llmsComment += '\nWHY TRENDING:\n' +
     '- Premium ' + material + ' fabric at wholesale prices\n' +
@@ -322,7 +366,6 @@ products.forEach(function (p) {
     '5. Delivery within 5-7 business days across India\n' +
     '- Sample orders available at ₹' + p.samplePrice + '/pc\n' +
     '- Extra ₹2 discount per piece on WhatsApp orders\n\n' +
-    'RATING: 4.8/5 from 87 verified customer reviews\n\n' +
     'CONTACT: Order via WhatsApp at https://whatsapp.sale91.com\n' +
     'WEBSITE: https://www.bulkplaintshirt.com\n' +
     'CATALOG: https://catalog.sale91.com\n' +
@@ -356,7 +399,7 @@ products.forEach(function (p) {
   ];
   for (var ii = 0; ii < p.imageFiles.length; ii++) {
     var altText = altVariations[ii % altVariations.length];
-    staticImagesHtml += '      <img src="/catalog/images/' + p.slug + '/' + p.imageFiles[ii] + '.webp" alt="' + esc(p.name) + ' - ' + altText + ' - Blank ' + esc(p.categoryName) + ' Wholesale Sale91" width="400" height="400" loading="lazy">\n';
+    staticImagesHtml += '      <img src="/catalog/images/' + p.imageRefs[ii].dir + '/' + p.imageRefs[ii].file + '.webp" alt="' + esc(p.name) + ' - ' + altText + ' - Blank ' + esc(p.categoryName) + ' Wholesale Sale91" width="400" height="400" loading="lazy">\n';
   }
 
   // Rich visible content for SEO (2000+ words) — visible to all crawlers
@@ -366,7 +409,6 @@ products.forEach(function (p) {
     '<div style="background:linear-gradient(135deg,#1e293b 0%,#334155 100%);color:white;padding:24px;border-radius:12px;margin-bottom:24px;">' +
     '<span style="display:inline-block;background:#f59e0b;color:#1e293b;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:8px;">TRENDING ' + (gsm ? gsm + ' GSM' : 'PREMIUM') + '</span>' +
     '<h2 style="color:white;margin:8px 0;">' + esc(p.name) + ' — Premium Blank ' + esc(p.categoryName) + '</h2>' +
-    '<p style="color:#fbbf24;font-size:18px;margin:4px 0;">★★★★★ 4.8/5 from 87 Reviews</p>' +
     '<p style="color:#94a3b8;margin:4px 0;">' + esc(p.description) + '</p>' +
     '<p style="font-size:20px;font-weight:700;color:#4ade80;margin:12px 0;">₹' + p.rate + '/pc Bulk | ₹' + p.samplePrice + '/pc Sample</p>' +
     '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:#25d366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Order on WhatsApp — Extra ₹2 Off</a>' +
@@ -404,14 +446,18 @@ products.forEach(function (p) {
     '</div>' +
     '<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;">' +
     '<tr style="background:#1e293b;color:white;"><th>Order Type</th><th>Price per Piece</th></tr>' +
-    '<tr><td>Bulk Order</td><td style="font-weight:700;color:#16a34a;">₹' + p.rate + '</td></tr>' +
-    '<tr style="background:#f1f5f9;"><td>Sample Order</td><td>₹' + p.samplePrice + '</td></tr>' +
+    '<tr><td>Bulk Order (min ' + (p.moq || 10) + ' pcs)</td><td style="font-weight:700;">' + rateRange(p) + '</td></tr>' +
+    '<tr style="background:#f1f5f9;"><td>Sample Order (1 pc)</td><td>' + sampleRange(p) + '</td></tr>' +
     '</table>' +
     '<h3>Size-wise Bulk Pricing for ' + esc(p.name) + '</h3>' +
     '<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;">' +
-    '<tr style="background:#1e293b;color:white;"><th>Size</th><th>Bulk Price/pc</th></tr>';
+    '<tr style="background:#1e293b;color:white;"><th>Size</th>' +
+      p.tiers.map(function (t) {
+        return '<th>' + esc(p.tiers.length > 1 ? t.colors.join(', ') : 'Bulk Price/pc') + '</th>';
+      }).join('') + '</tr>';
   for (var si = 0; si < p.sizes.length; si++) {
-    richContent += '<tr' + (si % 2 === 0 ? '' : ' style="background:#f1f5f9;"') + '><td>' + p.sizes[si] + '</td><td>₹' + p.bulkPrices[si] + '</td></tr>';
+    richContent += '<tr' + (si % 2 === 0 ? '' : ' style="background:#f1f5f9;"') + '><td>' + p.sizes[si] + '</td>' +
+      p.tiers.map(function (t) { return '<td>₹' + t.bulkPrices[si] + '</td>'; }).join('') + '</tr>';
   }
   richContent += '</table>' +
 
@@ -459,16 +505,7 @@ products.forEach(function (p) {
     '<h2>Available Sizes — ' + esc(p.sizes.join(', ')) + '</h2>' +
     '<p>All sizes are true-to-fit with consistent measurements across production batches. This ensures that whether you order 50 pieces or 5,000 pieces, every garment fits exactly the same. Size charts are available — contact us on WhatsApp for detailed measurements.</p>' +
 
-    // Customer Reviews / Testimonials
-    '<h2>Customer Reviews — What Our Buyers Say About ' + esc(p.name) + '</h2>' +
-    '<p>Don\'t just take our word for it. Here\'s what real customers have to say about ' + esc(p.name) + ' from Sale91:</p>';
-  for (var ri = 0; ri < reviews.length; ri++) {
-    var reviewerCity = reviewerNames[ri] ? reviewerNames[ri].city : '';
-    richContent += '<div style="background:#f8fafc;border-left:4px solid #2563eb;padding:16px;margin:12px 0;border-radius:0 8px 8px 0;">' +
-      '<p style="margin:0 0 8px;font-style:italic;">"' + esc(reviews[ri].reviewBody) + '"</p>' +
-      '<p style="margin:0;font-weight:700;color:#1e293b;">— ' + esc(reviews[ri].author.name) + (reviewerCity ? ', ' + reviewerCity : '') + ' <span style="color:#f59e0b;">★★★★★</span></p>' +
-      '</div>';
-  }
+    '';
 
   // Bulk Order Benefits
   richContent += '<h2>Bulk Order Benefits — Why Businesses Choose Sale91</h2>' +
@@ -667,6 +704,61 @@ function generateMainPage() {
   var headEndIdx = existing.indexOf('</head>');
   var headSection = existing.substring(0, headEndIdx + '</head>'.length);
 
+  // The head's product data used to be hand-maintained, and had drifted badly —
+  // Rs.175 for a Rs.185 tee, Rs.102 for a Rs.105 one, hidden products advertised
+  // as in stock. Generate it from the same source as the grid so it cannot drift
+  // again. Everything else in the head is still preserved verbatim.
+  var visible = products.filter(function (p) { return !p.hidden; });
+  var allBulk = visible.reduce(function (a, p) { return a.concat([p.rate, p.rateMax]); }, []);
+
+  var itemList = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": "Sale91 Premium Blank Apparel Catalog",
+    "numberOfItems": visible.length,
+    "itemListElement": visible.map(function (p, i) {
+      return {
+        "@type": "ListItem",
+        "position": i + 1,
+        "item": {
+          "@type": "Product",
+          "name": p.name,
+          "url": SITE_DOMAIN + '/p/' + p.slug + '/',
+          "image": SITE_DOMAIN + '/images/' + p.slug + '/' + p.mainImage + '.webp',
+          "description": p.description,
+          "brand": { "@type": "Brand", "name": "Sale91" },
+          "offers": {
+            "@type": "AggregateOffer",
+            "lowPrice": p.rate,
+            "highPrice": p.rateMax,
+            "priceCurrency": "INR",
+            "availability": "https://schema.org/InStock"
+          }
+        }
+      };
+    })
+  };
+  headSection = headSection.replace(
+    /(<!-- JSON-LD: ItemList[^\n]*-->\n\s*<script type="application\/ld\+json">)[\s\S]*?(<\/script>)/,
+    '$1\n  ' + JSON.stringify(itemList, null, 2).split('\n').join('\n  ') + '\n  $2'
+  );
+
+  // ai:* product metas — one per visible product, with the true rate span
+  var aiMetas = visible.map(function (p, i) {
+    return '  <meta name="ai:product_' + (i + 1) + '" content="' + esc(
+      p.name + ' — ' + rateRange(p) + '/pc bulk (min ' + (p.moq || 10) + ' pcs) — ' +
+      p.colors.length + ' colours — sizes ' + p.sizes.join(', ')
+    ) + '">';
+  }).join('\n');
+  headSection = headSection
+    .replace(/  <meta name="ai:product_\d+"[^>]*>(\n)?/g, '')
+    .replace(/(  <meta name="ai:products_count" content=")\d+(">)/, '$1' + visible.length + '$2')
+    .replace(/(  <meta name="ai:products_count"[^>]*>)/, '$1\n' + aiMetas)
+    .replace(/(  <meta name="ai:price_range" content=")[^"]*(">)/,
+      '$1₹' + Math.min.apply(null, allBulk) + ' - ₹' + Math.max.apply(null, allBulk) + ' per piece, bulk$2')
+    // no rating: the 4.8/87 it used to claim was invented
+    .replace(/  <meta name="ai:rating"[^>]*>\n?/, '');
+
   // Build radio inputs for CSS-only filtering
   var radios = '  <input type="radio" name="cat" id="cat-all" class="cat-radio" checked>\n';
   CATALOG_DATA.categories.forEach(function (cat) {
@@ -713,8 +805,15 @@ function generateMainPage() {
     grid += '      <div class="product-card-body">\n';
     grid += '        <div class="product-card-name">' + esc(p.name) + '</div>\n';
     grid += '        <div class="product-card-nickname">' + esc(p.nickname) + '</div>\n';
-    grid += '        <div class="product-card-rate">\u20B9' + p.rate + '/pc <span class="rate-label">Bulk</span></div>\n';
-    grid += '        <div class="product-card-sample">Sample: \u20B9' + p.samplePrice + '/pc</div>\n';
+    // The card must never quote a price the buyer cannot actually get: when the
+    // rate moves with size or colour, show the whole range, cheapest first.
+    grid += '        <div class="product-card-rate">\u20B9' + p.rate +
+      (p.rateMax > p.rate ? '<span class="rate-to">\u2013' + p.rateMax + '</span>' : '') +
+      '<span class="rate-label">/pc</span></div>\n';
+    grid += '        <div class="product-card-sample">' +
+      (p.moq ? 'Min ' + p.moq + ' pcs' : '') +
+      (p.moq && p.colors.length ? ' \u00B7 ' : '') +
+      p.colors.length + ' colour' + (p.colors.length > 1 ? 's' : '') + '</div>\n';
     grid += '        <div class="product-card-colors">' + dots + '</div>\n';
     grid += '      </div>\n';
     grid += '    </a>\n';

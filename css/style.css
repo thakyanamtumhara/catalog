@@ -184,13 +184,18 @@ img { max-width: 100%; display: block; }
 
 .product-card-body { padding: 8px 10px 10px; }
 
+/* Two lines, with the second reserved: "Dropshoulder Hoodie 430gsm" was being
+   clipped to "Dropshoulder Hoodie…", and reserving the line keeps the cards in
+   one rhythm whether the name wraps or not. */
 .product-card-name {
   font-size: 13px;
   font-weight: 600;
   color: #334155;
   margin-bottom: 2px;
+  line-height: 1.3;
+  min-height: 2.6em;
   display: -webkit-box;
-  -webkit-line-clamp: 1;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -205,19 +210,26 @@ img { max-width: 100%; display: block; }
 }
 
 .product-card-rate {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 800;
-  color: #16a34a;
+  color: #0f172a;
+  letter-spacing: -0.4px;
   margin-bottom: 2px;
+}
+.product-card-rate .rate-to {
+  font-weight: 700;
+  color: #475569;
 }
 .product-card-rate .rate-label {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: 700;
   color: #94a3b8;
+  margin-left: 2px;
 }
 
 .product-card-sample {
   font-size: 11px;
+  font-weight: 600;
   color: #64748b;
   margin-bottom: 6px;
 }
@@ -323,14 +335,27 @@ img { max-width: 100%; display: block; }
   position: absolute;
   bottom: 8px;
   left: 8px;
-  background: rgba(0,0,0,0.55);
+  max-width: calc(100% - 16px);
+  background: rgba(15,23,42,0.72);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1px;
+  padding: 4px 11px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.swipe-count {
+  background: rgba(15,23,42,0.62);
   color: #fff;
   font-size: 11px;
   font-weight: 600;
   padding: 3px 10px;
-  border-radius: 8px;
+  border-radius: 999px;
   backdrop-filter: blur(4px);
 }
+.swipe-count b { font-weight: 800; }
 
 .video-play-badge {
   position: absolute;
@@ -467,6 +492,186 @@ img { max-width: 100%; display: block; }
   border-radius: 8px;
   border: 1px solid #e2e8f0;
 }
+
+/* ===== Rate Block =====
+   One shape for every pricing case: flat, size-stepped, long ladder, two colour
+   tiers. Distinctions are carried by rule, label and position — never by hue
+   alone. */
+.rate-block {
+  border: 1px solid #dbe2ea;
+  border-radius: 12px;
+  background: #fff;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.rate-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 9px 12px;
+  background: #f1f5f9;
+  border-bottom: 1px solid #e2e8f0;
+}
+.rate-head-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.rate-head-moq {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: #334155;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+/* The grid: sizes across, colour rate-tiers down */
+.rate-grid-wrap { padding: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.rate-grid {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+.rate-grid th,
+.rate-grid td {
+  text-align: center;
+  padding: 7px 4px;
+  border-bottom: 1px solid #eef2f7;
+}
+.rate-grid tr:last-child td { border-bottom: 0; }
+.rate-grid .rg-sizes th {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  color: #64748b;
+  padding-top: 9px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.rate-grid .rg-price {
+  font-size: 19px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+  white-space: nowrap;
+}
+/* An eight-size ladder still has to fit the narrowest phone without a swipe */
+.rate-grid-wide .rg-price { font-size: 14.5px; letter-spacing: -0.3px; }
+.rate-grid-wide .rg-sizes th { font-size: 10px; }
+.rate-grid-wide th,
+.rate-grid-wide td { padding-left: 1px; padding-right: 1px; }
+
+/* Tier stub — the tier is named in words and numbered, never signalled by hue */
+.rate-grid .rg-stub {
+  width: 38%;
+  text-align: left;
+  padding-left: 12px;
+  line-height: 1.25;
+}
+.rg-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  margin-right: 5px;
+  vertical-align: 1px;
+}
+.rg-stub-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+}
+.rg-delta,
+.rg-lowest {
+  display: block;
+  margin-left: 21px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.rg-delta { color: #334155; }
+
+/* Colours live inside their own rate, so the mapping needs no legend */
+.rate-cols {
+  padding: 9px 12px 10px;
+  border-top: 1px dashed #cbd5e1;
+}
+.rc-head {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 7px;
+}
+.rc-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: #475569;
+}
+.rc-sample {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  white-space: nowrap;
+}
+.rc-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.rc-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 3px 10px 3px 6px;
+}
+
+.rate-foot {
+  padding: 8px 12px;
+  border-top: 1px solid #eef2f7;
+  background: #fbfcfe;
+  font-size: 11.5px;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* ===== Spec chips ===== */
+.spec-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.spec-chip {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 4px 9px;
+  white-space: nowrap;
+}
+
+.color-dot-small.cd-light { border-color: #cbd5e1; }
 
 /* ===== Price Table ===== */
 .price-table-wrap {
@@ -641,6 +846,42 @@ img { max-width: 100%; display: block; }
   text-align: left;
   background: #f8fafc;
   color: #334155;
+}
+
+/* An 8-size chart used to truncate at "L" on a phone with nothing to say it
+   scrolled, so XL/XXL/XXXL looked like they did not exist. Tighten the metrics
+   so every size fits, pin the label column, and fade the right edge when a chart
+   really is too wide. */
+@media (max-width: 480px) {
+  .sc-table { font-size: 11.5px; }
+  .sc-table th,
+  .sc-table td { padding: 7px 2px; }
+  .sc-table .sc-label {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: 10.5px;
+    letter-spacing: -0.2px;
+    box-shadow: 1px 0 0 #e2e8f0;
+  }
+  .sc-table thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+  }
+}
+.sc-table-wrap { position: relative; }
+.sc-table-wrap.is-scrollable::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 28px;
+  pointer-events: none;
+  background: linear-gradient(to right, rgba(255,255,255,0), #fff);
 }
 .sc-table tbody tr:nth-child(even) td:not(.sc-label) {
   background: #f8fafc;
@@ -886,4 +1127,12 @@ img { max-width: 100%; display: block; }
 @media (min-width: 1024px) {
   .product-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .product-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+}
+
+/* Counter mode sits top-left, clear of the slide's rate label and the close button */
+.swipe-dots.swipe-dots-count {
+  top: 10px;
+  bottom: auto;
+  left: 10px;
+  transform: none;
 }

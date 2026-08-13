@@ -21,9 +21,61 @@
           "slug": "oversize-210gsm",
           "description": "Oversized Drop Shoulder 210gsm, Terry Cotton Loopknit Heavy Gauge, 100% Cotton Supercombed Red Lable Premium Fabric",
           "gsm": 210,
-          "bulkPrice": 185,
-          "samplePrice": 222,
+          "bulkPriceFrom": 185,
+          "bulkPriceTo": 185,
+          "moq": 10,
+          "samplePriceFrom": 222,
+          "samplePriceTo": 222,
           "weightKg": 0.27,
+          "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Lavender",
+                "Beige",
+                "Red",
+                "Sage Green",
+                "Brown",
+                "Off-white",
+                "Orange",
+                "Navy"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#C4B7D5",
+                "#D4C5A9",
+                "#DC143C",
+                "#9CAF88",
+                "#8B4513",
+                "#FAF5E4",
+                "#FF6B35",
+                "#1E3A5F"
+              ],
+              "pricePerSize": {
+                "S": 185,
+                "M": 185,
+                "L": 185,
+                "XL": 185,
+                "XXL": 185
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XXL",
+                  "price": 185
+                }
+              ],
+              "samplePrice": 222
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -48,13 +100,6 @@
             "#FF6B35",
             "#1E3A5F"
           ],
-          "sizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
           "imageCount": 12,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-210gsm/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-210gsm/"
@@ -64,9 +109,71 @@
           "slug": "oversize-240gsm",
           "description": "Oversized Drop-shoulder, 240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Premium Quality Biowash Fabric",
           "gsm": 240,
-          "bulkPrice": 190,
-          "samplePrice": 228,
+          "bulkPriceFrom": 190,
+          "bulkPriceTo": 190,
+          "moq": 10,
+          "samplePriceFrom": 228,
+          "samplePriceTo": 228,
           "weightKg": 0.32,
+          "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Navy",
+                "Red",
+                "Maroon",
+                "Off-white",
+                "Beige",
+                "Lavender",
+                "Brown",
+                "Rose Pink",
+                "Charcoal",
+                "Army Green",
+                "Powder Blue",
+                "Royal Blue"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#1E3A5F",
+                "#DC143C",
+                "#800020",
+                "#FAF5E4",
+                "#D4C5A9",
+                "#C4B7D5",
+                "#8B4513",
+                "#FF8FAB",
+                "#36454F",
+                "#4B5320",
+                "#B0D4F1",
+                "#4169E1"
+              ],
+              "pricePerSize": {
+                "XS": 190,
+                "S": 190,
+                "M": 190,
+                "L": 190,
+                "XL": 190,
+                "XXL": 190
+              },
+              "priceBands": [
+                {
+                  "sizes": "XS–XXL",
+                  "price": 190
+                }
+              ],
+              "samplePrice": 228
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -99,14 +206,6 @@
             "#B0D4F1",
             "#4169E1"
           ],
-          "sizes": [
-            "XS",
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
           "imageCount": 27,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-240gsm/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-240gsm/"
@@ -116,17 +215,12 @@
           "slug": "oversize-180gsm",
           "description": "Oversized Drop-shoulder 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           "gsm": 180,
-          "bulkPrice": 173,
-          "samplePrice": 208,
+          "bulkPriceFrom": 173,
+          "bulkPriceTo": 173,
+          "moq": 10,
+          "samplePriceFrom": 208,
+          "samplePriceTo": 208,
           "weightKg": 0.26,
-          "colors": [
-            "Black",
-            "White"
-          ],
-          "colorCodes": [
-            "#222222",
-            "#FFFFFF"
-          ],
           "sizes": [
             "S",
             "M",
@@ -134,18 +228,32 @@
             "XL",
             "XXL"
           ],
-          "imageCount": 2,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-180gsm/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-180gsm/"
-        },
-        {
-          "name": "Boxy Fit",
-          "slug": "boxy-fit",
-          "description": "Boxy Fit Drop-shoulder Tshirt, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
-          "gsm": 180,
-          "bulkPrice": 175,
-          "samplePrice": 204,
-          "weightKg": 0.26,
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF"
+              ],
+              "pricePerSize": {
+                "S": 173,
+                "M": 173,
+                "L": 173,
+                "XL": 173,
+                "XXL": 173
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XXL",
+                  "price": 173
+                }
+              ],
+              "samplePrice": 208
+            }
+          ],
           "colors": [
             "Black",
             "White"
@@ -154,6 +262,21 @@
             "#222222",
             "#FFFFFF"
           ],
+          "imageCount": 2,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-180gsm/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-180gsm/"
+        },
+        {
+          "name": "AcidWash Oversize",
+          "slug": "acidwash-oversize",
+          "description": "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
+          "gsm": 240,
+          "bulkPriceFrom": 233,
+          "bulkPriceTo": 233,
+          "moq": 10,
+          "samplePriceFrom": 280,
+          "samplePriceTo": 280,
+          "weightKg": 0.27,
           "sizes": [
             "XS",
             "S",
@@ -162,18 +285,43 @@
             "XL",
             "XXL"
           ],
-          "imageCount": 6,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/boxy-fit/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/boxy-fit/"
-        },
-        {
-          "name": "AcidWash Oversize",
-          "slug": "acidwash-oversize",
-          "description": "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
-          "gsm": 240,
-          "bulkPrice": 233,
-          "samplePrice": 280,
-          "weightKg": 0.27,
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "Brown",
+                "Navy",
+                "Maroon",
+                "Charcoal",
+                "Red",
+                "Army Green"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#8B4513",
+                "#1E3A5F",
+                "#800020",
+                "#36454F",
+                "#DC143C",
+                "#4B5320"
+              ],
+              "pricePerSize": {
+                "XS": 233,
+                "S": 233,
+                "M": 233,
+                "L": 233,
+                "XL": 233,
+                "XXL": 233
+              },
+              "priceBands": [
+                {
+                  "sizes": "XS–XXL",
+                  "price": 233
+                }
+              ],
+              "samplePrice": 280
+            }
+          ],
           "colors": [
             "Black",
             "Brown",
@@ -192,14 +340,6 @@
             "#DC143C",
             "#4B5320"
           ],
-          "sizes": [
-            "XS",
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
           "imageCount": 4,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/acidwash-oversize/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/acidwash-oversize/"
@@ -209,17 +349,12 @@
           "slug": "oversize-260gsm",
           "description": "Oversized Drop-shoulder 260gsm with MOON PATCH, Terry Loopknit 100% Cotton Premium Biowash",
           "gsm": 260,
-          "bulkPrice": 190,
-          "samplePrice": 275,
+          "bulkPriceFrom": 190,
+          "bulkPriceTo": 255,
+          "moq": 10,
+          "samplePriceFrom": 275,
+          "samplePriceTo": 275,
           "weightKg": 0.35,
-          "colors": [
-            "Black",
-            "White"
-          ],
-          "colorCodes": [
-            "#222222",
-            "#FFFFFF"
-          ],
           "sizes": [
             "XXS",
             "XS",
@@ -229,6 +364,71 @@
             "XL",
             "XXL",
             "XXXL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF"
+              ],
+              "pricePerSize": {
+                "XXS": 190,
+                "XS": 195,
+                "S": 205,
+                "M": 220,
+                "L": 225,
+                "XL": 230,
+                "XXL": 240,
+                "XXXL": 255
+              },
+              "priceBands": [
+                {
+                  "sizes": "XXS",
+                  "price": 190
+                },
+                {
+                  "sizes": "XS",
+                  "price": 195
+                },
+                {
+                  "sizes": "S",
+                  "price": 205
+                },
+                {
+                  "sizes": "M",
+                  "price": 220
+                },
+                {
+                  "sizes": "L",
+                  "price": 225
+                },
+                {
+                  "sizes": "XL",
+                  "price": 230
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 240
+                },
+                {
+                  "sizes": "XXXL",
+                  "price": 255
+                }
+              ],
+              "samplePrice": 275
+            }
+          ],
+          "colors": [
+            "Black",
+            "White"
+          ],
+          "colorCodes": [
+            "#222222",
+            "#FFFFFF"
           ],
           "imageCount": 10,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-260gsm/",
@@ -245,9 +445,75 @@
           "slug": "true-biowash-round-neck",
           "description": "Regular Fit, True Biowash Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           "gsm": 180,
-          "bulkPrice": 146,
-          "samplePrice": 181,
+          "bulkPriceFrom": 146,
+          "bulkPriceTo": 151,
+          "moq": 10,
+          "samplePriceFrom": 181,
+          "samplePriceTo": 181,
           "weightKg": 0.21,
+          "sizes": [
+            "36",
+            "38",
+            "40",
+            "42",
+            "44",
+            "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Maroon",
+                "Navy",
+                "Mustard Yellow",
+                "Red",
+                "Bottle Green",
+                "Beige",
+                "Royal Blue",
+                "Lavender",
+                "Sky",
+                "Grey",
+                "Bhagwa",
+                "Army Green"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#800020",
+                "#1E3A5F",
+                "#E6A817",
+                "#DC143C",
+                "#006A4E",
+                "#D4C5A9",
+                "#4169E1",
+                "#C4B7D5",
+                "#87CEEB",
+                "#808080",
+                "#FF6600",
+                "#4B5320"
+              ],
+              "pricePerSize": {
+                "36": 146,
+                "38": 146,
+                "40": 146,
+                "42": 146,
+                "44": 151,
+                "46": 151
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–42",
+                  "price": 146
+                },
+                {
+                  "sizes": "44–46",
+                  "price": 151
+                }
+              ],
+              "samplePrice": 181
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -280,14 +546,6 @@
             "#FF6600",
             "#4B5320"
           ],
-          "sizes": [
-            "36",
-            "38",
-            "40",
-            "42",
-            "44",
-            "46"
-          ],
           "imageCount": 14,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/true-biowash-round-neck/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/true-biowash-round-neck/"
@@ -297,9 +555,65 @@
           "slug": "biowash-round-neck",
           "description": "Regular Fit, Biowash Round neck, 180gsm, 100% Cotton Premium Quality Fabric",
           "gsm": 180,
-          "bulkPrice": 136,
-          "samplePrice": 170,
+          "bulkPriceFrom": 136,
+          "bulkPriceTo": 141,
+          "moq": 10,
+          "samplePriceFrom": 170,
+          "samplePriceTo": 170,
           "weightKg": 0.21,
+          "sizes": [
+            "36",
+            "38",
+            "40",
+            "42",
+            "44",
+            "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Navy",
+                "Red",
+                "Brown",
+                "Maroon",
+                "Charcoal",
+                "Off-white",
+                "Rose Pink"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#1E3A5F",
+                "#DC143C",
+                "#8B4513",
+                "#800020",
+                "#36454F",
+                "#FAF5E4",
+                "#FF8FAB"
+              ],
+              "pricePerSize": {
+                "36": 136,
+                "38": 136,
+                "40": 136,
+                "42": 136,
+                "44": 141,
+                "46": 141
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–42",
+                  "price": 136
+                },
+                {
+                  "sizes": "44–46",
+                  "price": 141
+                }
+              ],
+              "samplePrice": 170
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -322,14 +636,6 @@
             "#FAF5E4",
             "#FF8FAB"
           ],
-          "sizes": [
-            "36",
-            "38",
-            "40",
-            "42",
-            "44",
-            "46"
-          ],
           "imageCount": 27,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/biowash-round-neck/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/biowash-round-neck/"
@@ -339,15 +645,12 @@
           "slug": "non-bio-round-neck",
           "description": "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
           "gsm": 180,
-          "bulkPrice": 105,
-          "samplePrice": 129,
+          "bulkPriceFrom": 105,
+          "bulkPriceTo": 110,
+          "moq": 10,
+          "samplePriceFrom": 129,
+          "samplePriceTo": 129,
           "weightKg": 0.21,
-          "colors": [
-            "Black"
-          ],
-          "colorCodes": [
-            "#222222"
-          ],
           "sizes": [
             "36",
             "38",
@@ -355,6 +658,41 @@
             "42",
             "44",
             "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black"
+              ],
+              "colorCodes": [
+                "#222222"
+              ],
+              "pricePerSize": {
+                "36": 105,
+                "38": 105,
+                "40": 105,
+                "42": 105,
+                "44": 110,
+                "46": 110
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–42",
+                  "price": 105
+                },
+                {
+                  "sizes": "44–46",
+                  "price": 110
+                }
+              ],
+              "samplePrice": 129
+            }
+          ],
+          "colors": [
+            "Black"
+          ],
+          "colorCodes": [
+            "#222222"
           ],
           "imageCount": 7,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/non-bio-round-neck/",
@@ -365,15 +703,12 @@
           "slug": "sublimation-t-shirt",
           "description": "Regular Fit Round neck, 200gsm, Cotton Feel Polyester Sublimation tshirt, Premium Quality Sarina Knitting Type",
           "gsm": 200,
-          "bulkPrice": 118,
-          "samplePrice": 144,
+          "bulkPriceFrom": 118,
+          "bulkPriceTo": 123,
+          "moq": 10,
+          "samplePriceFrom": 144,
+          "samplePriceTo": 144,
           "weightKg": 0.21,
-          "colors": [
-            "White"
-          ],
-          "colorCodes": [
-            "#FFFFFF"
-          ],
           "sizes": [
             "36",
             "38",
@@ -381,6 +716,41 @@
             "42",
             "44",
             "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "White"
+              ],
+              "colorCodes": [
+                "#FFFFFF"
+              ],
+              "pricePerSize": {
+                "36": 118,
+                "38": 118,
+                "40": 118,
+                "42": 118,
+                "44": 123,
+                "46": 123
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–42",
+                  "price": 118
+                },
+                {
+                  "sizes": "44–46",
+                  "price": 123
+                }
+              ],
+              "samplePrice": 144
+            }
+          ],
+          "colors": [
+            "White"
+          ],
+          "colorCodes": [
+            "#FFFFFF"
           ],
           "imageCount": 7,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/sublimation-t-shirt/",
@@ -397,9 +767,55 @@
           "slug": "premium-polo",
           "description": "Most Premium Honeycomb Polo, 220gsm, 100% Cotton Supercombed Red Lable Fabric",
           "gsm": 220,
-          "bulkPrice": 232,
-          "samplePrice": 285,
+          "bulkPriceFrom": 232,
+          "bulkPriceTo": 237,
+          "moq": 5,
+          "samplePriceFrom": 285,
+          "samplePriceTo": 285,
           "weightKg": 0.26,
+          "sizes": [
+            "36",
+            "38",
+            "40",
+            "42",
+            "44",
+            "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Navy",
+                "Maroon"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#1E3A5F",
+                "#800020"
+              ],
+              "pricePerSize": {
+                "36": 232,
+                "38": 232,
+                "40": 232,
+                "42": 232,
+                "44": 232,
+                "46": 237
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–44",
+                  "price": 232
+                },
+                {
+                  "sizes": "46",
+                  "price": 237
+                }
+              ],
+              "samplePrice": 285
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -412,14 +828,6 @@
             "#1E3A5F",
             "#800020"
           ],
-          "sizes": [
-            "36",
-            "38",
-            "40",
-            "42",
-            "44",
-            "46"
-          ],
           "imageCount": 19,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/premium-polo/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/premium-polo/"
@@ -429,9 +837,61 @@
           "slug": "cotton-polo",
           "description": "Cotton Matty Polo neck, 220gsm, 88% Cotton, 12% Polyester",
           "gsm": 220,
-          "bulkPrice": 185,
-          "samplePrice": 222,
+          "bulkPriceFrom": 185,
+          "bulkPriceTo": 190,
+          "moq": 5,
+          "samplePriceFrom": 222,
+          "samplePriceTo": 222,
           "weightKg": 0.26,
+          "sizes": [
+            "36",
+            "38",
+            "40",
+            "42",
+            "44",
+            "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Navy",
+                "Grey",
+                "Maroon",
+                "Charcoal",
+                "Red"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#1E3A5F",
+                "#808080",
+                "#800020",
+                "#36454F",
+                "#DC143C"
+              ],
+              "pricePerSize": {
+                "36": 185,
+                "38": 185,
+                "40": 185,
+                "42": 185,
+                "44": 185,
+                "46": 190
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–44",
+                  "price": 185
+                },
+                {
+                  "sizes": "46",
+                  "price": 190
+                }
+              ],
+              "samplePrice": 222
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -450,14 +910,6 @@
             "#36454F",
             "#DC143C"
           ],
-          "sizes": [
-            "36",
-            "38",
-            "40",
-            "42",
-            "44",
-            "46"
-          ],
           "imageCount": 18,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/cotton-polo/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/cotton-polo/"
@@ -473,40 +925,68 @@
           "slug": "zip-hoodie",
           "description": "Zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           "gsm": 320,
-          "bulkPrice": 325,
-          "samplePrice": 390,
+          "bulkPriceFrom": 325,
+          "bulkPriceTo": 335,
+          "moq": 5,
+          "samplePriceFrom": 390,
+          "samplePriceTo": 390,
           "weightKg": 0.56,
-          "colors": [
-            "Black"
-          ],
-          "colorCodes": [
-            "#222222"
-          ],
           "sizes": [
             "S",
             "M",
             "L",
             "XL",
             "XXL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black"
+              ],
+              "colorCodes": [
+                "#222222"
+              ],
+              "pricePerSize": {
+                "S": 325,
+                "M": 325,
+                "L": 325,
+                "XL": 325,
+                "XXL": 335
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 325
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 335
+                }
+              ],
+              "samplePrice": 390
+            }
+          ],
+          "colors": [
+            "Black"
+          ],
+          "colorCodes": [
+            "#222222"
           ],
           "imageCount": 6,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/zip-hoodie/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/zip-hoodie/"
         },
         {
-          "name": "Hoodie 320gsm (Black)",
-          "slug": "hoodie-320gsm-black",
+          "name": "Hoodie 320gsm",
+          "slug": "hoodie-320gsm",
           "description": "Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           "gsm": 320,
-          "bulkPrice": 295,
-          "samplePrice": 366,
+          "bulkPriceFrom": 295,
+          "bulkPriceTo": 335,
+          "moq": 5,
+          "samplePriceFrom": 366,
+          "samplePriceTo": 402,
           "weightKg": 0.56,
-          "colors": [
-            "Black"
-          ],
-          "colorCodes": [
-            "#222222"
-          ],
           "sizes": [
             "S",
             "M",
@@ -514,19 +994,74 @@
             "XL",
             "XXL"
           ],
-          "imageCount": 4,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/hoodie-320gsm-black/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/hoodie-320gsm-black/"
-        },
-        {
-          "name": "Hoodie 320gsm",
-          "slug": "hoodie-320gsm",
-          "description": "Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
-          "gsm": 320,
-          "bulkPrice": 325,
-          "samplePrice": 402,
-          "weightKg": 0.56,
+          "rates": [
+            {
+              "colors": [
+                "Black"
+              ],
+              "colorCodes": [
+                "#222222"
+              ],
+              "pricePerSize": {
+                "S": 295,
+                "M": 295,
+                "L": 295,
+                "XL": 295,
+                "XXL": 305
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 295
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 305
+                }
+              ],
+              "samplePrice": 366
+            },
+            {
+              "colors": [
+                "White",
+                "Navy",
+                "Army Green",
+                "Off-white",
+                "Maroon",
+                "Grey",
+                "Red"
+              ],
+              "colorCodes": [
+                "#FFFFFF",
+                "#1E3A5F",
+                "#4B5320",
+                "#FAF5E4",
+                "#800020",
+                "#808080",
+                "#DC143C"
+              ],
+              "pricePerSize": {
+                "S": 325,
+                "M": 325,
+                "L": 325,
+                "XL": 325,
+                "XXL": 335
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 325
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 335
+                }
+              ],
+              "samplePrice": 402
+            }
+          ],
           "colors": [
+            "Black",
             "White",
             "Navy",
             "Army Green",
@@ -536,6 +1071,7 @@
             "Red"
           ],
           "colorCodes": [
+            "#222222",
             "#FFFFFF",
             "#1E3A5F",
             "#4B5320",
@@ -544,31 +1080,21 @@
             "#808080",
             "#DC143C"
           ],
-          "sizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
-          "imageCount": 21,
+          "imageCount": 24,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/hoodie-320gsm/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/hoodie-320gsm/"
         },
         {
           "name": "Dropshoulder Hoodie 430gsm",
-          "slug": "dropshoulder-hoodie-430gsm",
+          "slug": "hoodie-430gsm",
           "description": "Most Heavy Non-zipper Dropshoulder Hoodie, 430gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           "gsm": 430,
-          "bulkPrice": 380,
-          "samplePrice": 468,
+          "bulkPriceFrom": 380,
+          "bulkPriceTo": 428,
+          "moq": 5,
+          "samplePriceFrom": 468,
+          "samplePriceTo": 502,
           "weightKg": 0.75,
-          "colors": [
-            "Black"
-          ],
-          "colorCodes": [
-            "#222222"
-          ],
           "sizes": [
             "S",
             "M",
@@ -576,36 +1102,77 @@
             "XL",
             "XXL"
           ],
-          "imageCount": 4,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/dropshoulder-hoodie-430gsm/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/dropshoulder-hoodie-430gsm/"
-        },
-        {
-          "name": "Hoodie 430gsm",
-          "slug": "hoodie-430gsm",
-          "description": "Most Heavy Non-zipper Dropshoulder Hoodie, 430gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
-          "gsm": 430,
-          "bulkPrice": 418,
-          "samplePrice": 502,
-          "weightKg": 0.75,
+          "rates": [
+            {
+              "colors": [
+                "Black"
+              ],
+              "colorCodes": [
+                "#222222"
+              ],
+              "pricePerSize": {
+                "S": 380,
+                "M": 380,
+                "L": 380,
+                "XL": 380,
+                "XXL": 390
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 380
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 390
+                }
+              ],
+              "samplePrice": 468
+            },
+            {
+              "colors": [
+                "Navy",
+                "White",
+                "Off-white"
+              ],
+              "colorCodes": [
+                "#1E3A5F",
+                "#FFFFFF",
+                "#FAF5E4"
+              ],
+              "pricePerSize": {
+                "S": 418,
+                "M": 418,
+                "L": 418,
+                "XL": 418,
+                "XXL": 428
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 418
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 428
+                }
+              ],
+              "samplePrice": 502
+            }
+          ],
           "colors": [
+            "Black",
             "Navy",
             "White",
             "Off-white"
           ],
           "colorCodes": [
+            "#222222",
             "#1E3A5F",
             "#FFFFFF",
             "#FAF5E4"
           ],
-          "sizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
-          "imageCount": 11,
+          "imageCount": 12,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/hoodie-430gsm/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/hoodie-430gsm/"
         }
@@ -620,21 +1187,12 @@
           "slug": "sweatshirt",
           "description": "Sweatshirt, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           "gsm": 320,
-          "bulkPrice": 225,
-          "samplePrice": 276,
+          "bulkPriceFrom": 225,
+          "bulkPriceTo": 250,
+          "moq": 5,
+          "samplePriceFrom": 276,
+          "samplePriceTo": 288,
           "weightKg": 0.46,
-          "colors": [
-            "Black",
-            "Navy",
-            "Grey",
-            "Army Green"
-          ],
-          "colorCodes": [
-            "#222222",
-            "#1E3A5F",
-            "#808080",
-            "#4B5320"
-          ],
           "sizes": [
             "S",
             "M",
@@ -642,64 +1200,91 @@
             "XL",
             "XXL"
           ],
-          "imageCount": 11,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/sweatshirt/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/sweatshirt/"
-        },
-        {
-          "name": "Sweatshirt 2",
-          "slug": "sweatshirt-2",
-          "description": "Sweatshirt, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
-          "gsm": 320,
-          "bulkPrice": 240,
-          "samplePrice": 288,
-          "weightKg": 0.46,
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "Navy",
+                "Grey",
+                "Army Green"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#1E3A5F",
+                "#808080",
+                "#4B5320"
+              ],
+              "pricePerSize": {
+                "S": 225,
+                "M": 225,
+                "L": 225,
+                "XL": 225,
+                "XXL": 235
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 225
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 235
+                }
+              ],
+              "samplePrice": 276
+            },
+            {
+              "colors": [
+                "Maroon",
+                "White",
+                "Off-white"
+              ],
+              "colorCodes": [
+                "#800020",
+                "#FFFFFF",
+                "#FAF5E4"
+              ],
+              "pricePerSize": {
+                "S": 240,
+                "M": 240,
+                "L": 240,
+                "XL": 240,
+                "XXL": 250
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XL",
+                  "price": 240
+                },
+                {
+                  "sizes": "XXL",
+                  "price": 250
+                }
+              ],
+              "samplePrice": 288
+            }
+          ],
           "colors": [
+            "Black",
+            "Navy",
+            "Grey",
+            "Army Green",
             "Maroon",
             "White",
             "Off-white"
           ],
           "colorCodes": [
+            "#222222",
+            "#1E3A5F",
+            "#808080",
+            "#4B5320",
             "#800020",
             "#FFFFFF",
             "#FAF5E4"
           ],
-          "sizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
-          "imageCount": 9,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/sweatshirt-2/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/sweatshirt-2/"
-        },
-        {
-          "name": "Varsity Jacket",
-          "slug": "varsity-jacket",
-          "description": "Varsity Jacket, 320gsm, Cotton Brushed Loopknit, White Sleeve/Black Body, 88% cotton, 12% polyester",
-          "gsm": 320,
-          "bulkPrice": 335,
-          "samplePrice": 402,
-          "weightKg": 0.56,
-          "colors": [
-            "Black"
-          ],
-          "colorCodes": [
-            "#222222"
-          ],
-          "sizes": [
-            "XS",
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
-          "imageCount": 3,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/varsity-jacket/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/varsity-jacket/"
+          "imageCount": 17,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/sweatshirt/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/sweatshirt/"
         }
       ]
     },
@@ -712,9 +1297,61 @@
           "slug": "kids-round-neck",
           "description": "True Biowash Kids Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
           "gsm": 180,
-          "bulkPrice": 114,
-          "samplePrice": 144,
+          "bulkPriceFrom": 114,
+          "bulkPriceTo": 124,
+          "moq": 10,
+          "samplePriceFrom": 144,
+          "samplePriceTo": 144,
           "weightKg": 0.16,
+          "sizes": [
+            "20",
+            "22",
+            "24",
+            "26",
+            "28",
+            "30",
+            "32",
+            "34"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White",
+                "Red",
+                "Baby Pink",
+                "Mustard Yellow"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF",
+                "#DC143C",
+                "#FFB6C1",
+                "#E6A817"
+              ],
+              "pricePerSize": {
+                "20": 114,
+                "22": 114,
+                "24": 114,
+                "26": 114,
+                "28": 124,
+                "30": 124,
+                "32": 124,
+                "34": 124
+              },
+              "priceBands": [
+                {
+                  "sizes": "20–26",
+                  "price": 114
+                },
+                {
+                  "sizes": "28–34",
+                  "price": 124
+                }
+              ],
+              "samplePrice": 144
+            }
+          ],
           "colors": [
             "Black",
             "White",
@@ -729,16 +1366,6 @@
             "#FFB6C1",
             "#E6A817"
           ],
-          "sizes": [
-            "20",
-            "22",
-            "24",
-            "26",
-            "28",
-            "30",
-            "32",
-            "34"
-          ],
           "imageCount": 5,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/kids-round-neck/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/kids-round-neck/"
@@ -748,9 +1375,49 @@
           "slug": "shorts",
           "description": "240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Supercombed Premium Quality Red Lable Fabric, (Zipper Left and Right pocket, 1 back pocket)",
           "gsm": 240,
-          "bulkPrice": 217,
-          "samplePrice": 261,
+          "bulkPriceFrom": 217,
+          "bulkPriceTo": 217,
+          "moq": 5,
+          "samplePriceFrom": 261,
+          "samplePriceTo": 261,
           "weightKg": 0.25,
+          "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "Off-white",
+                "Lavender",
+                "Beige"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FAF5E4",
+                "#C4B7D5",
+                "#D4C5A9"
+              ],
+              "pricePerSize": {
+                "XS": 217,
+                "S": 217,
+                "M": 217,
+                "L": 217,
+                "XL": 217
+              },
+              "priceBands": [
+                {
+                  "sizes": "XS–XL",
+                  "price": 217
+                }
+              ],
+              "samplePrice": 261
+            }
+          ],
           "colors": [
             "Black",
             "Off-white",
@@ -762,13 +1429,6 @@
             "#FAF5E4",
             "#C4B7D5",
             "#D4C5A9"
-          ],
-          "sizes": [
-            "XS",
-            "S",
-            "M",
-            "L",
-            "XL"
           ],
           "imageCount": 9,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/shorts/",

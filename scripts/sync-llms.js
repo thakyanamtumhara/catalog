@@ -34,22 +34,79 @@ function parseCatalog() {
   return fn();
 }
 
-// Get all products flattened
+const slugify = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Collapse adjacent sizes that share a price: S,M,L,XL,XXL + 325,325,325,325,335
+// -> "S–XL ₹325, XXL ₹335"
+function bands(sizes, prices) {
+  const out = [];
+  let cur = prices[0], start = 0;
+  for (let i = 1; i <= prices.length; i++) {
+    if (i === prices.length || prices[i] !== cur) {
+      out.push({ label: start === i - 1 ? sizes[start] : `${sizes[start]}–${sizes[i - 1]}`, price: cur });
+      cur = prices[i]; start = i;
+    }
+  }
+  return out;
+}
+
+// A product is either flat or has `tiers` — the same garment at two rates by
+// colour. Normalise both so every consumer sees one shape. Hidden products are
+// left out: their pages stay live for search, but they are not on sale.
 function getAllProducts(catalog) {
   const products = [];
   for (const category of catalog.categories) {
     for (const product of category.products) {
-      products.push({ ...product, categoryName: category.name });
+      if (product.hidden) continue;
+      const slug = product.slug || slugify(product.name);
+      const raw = product.tiers || [{
+        colors: product.colors, colorCodes: product.colorCodes, imageFiles: product.imageFiles,
+        bulkPrices: product.bulkPrices, samplePrice: product.samplePrice,
+      }];
+      const tiers = raw.map(t => ({
+        label: t.label || null,
+        colors: t.colors,
+        colorCodes: t.colorCodes,
+        imageFiles: t.imageFiles || [],
+        bulkPrices: t.bulkPrices,
+        samplePrice: t.samplePrice,
+        bands: bands(product.sizes, t.bulkPrices),
+      }));
+      products.push({
+        ...product,
+        slug,
+        categoryName: category.name,
+        tiers,
+        colors: tiers.flatMap(t => t.colors),
+        colorCodes: tiers.flatMap(t => t.colorCodes),
+        imageCount: tiers.reduce((a, t) => a + t.imageFiles.length, 0),
+        rate: Math.min(...tiers.map(t => Math.min(...t.bulkPrices))),
+        rateMax: Math.max(...tiers.map(t => Math.max(...t.bulkPrices))),
+        samplePrice: Math.min(...tiers.map(t => t.samplePrice)),
+        samplePriceMax: Math.max(...tiers.map(t => t.samplePrice)),
+      });
     }
   }
   return products;
 }
 
+const money = (lo, hi) => (hi > lo ? `₹${lo}–${hi}` : `₹${lo}`);
+
+// "Black S–XL ₹295, XXL ₹305; 7 colours S–XL ₹325, XXL ₹335"
+function rateDetail(p) {
+  return p.tiers.map(t => {
+    const b = t.bands.map(g => `${g.label} ₹${g.price}`).join(', ');
+    if (p.tiers.length === 1) return b;
+    const who = t.colors.length === 1 ? t.colors[0] : `${t.colors.length} colours`;
+    return `${who}: ${b}`;
+  }).join('; ');
+}
+
 // Generate the markdown price table
 function generatePriceTable(products) {
   const lines = [
-    '| Product | Bulk Price | Sample Price | GSM | Colors | Material |',
-    '|---|---|---|---|---|---|',
+    '| Product | Bulk Price/pc | Rate by size and colour | MOQ | 1-pc Sample | GSM | Colors | Material |',
+    '|---|---|---|---|---|---|---|---|',
   ];
 
   const materialMap = {
@@ -67,11 +124,11 @@ function generatePriceTable(products) {
   };
 
   for (const p of products) {
-    const slug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
-    const material = materialMap[slug] || (p.description.includes('88% cotton') ? '88% Cotton, 12% Polyester' : '100% Cotton');
+    const material = materialMap[p.slug] || (p.description.includes('88% cotton') ? '88% Cotton, 12% Polyester' : '100% Cotton');
     const gsm = p.description.match(/(\d+)gsm/i)?.[1] || '';
     lines.push(
-      `| ${p.name} | ₹${p.rate}/pc | ₹${p.samplePrice}/pc | ${gsm} | ${p.colors.length} | ${material} |`
+      `| ${p.name} | ${money(p.rate, p.rateMax)} | ${rateDetail(p)} | ${p.moq || 10} pcs | ` +
+      `${money(p.samplePrice, p.samplePriceMax)} | ${gsm} | ${p.colors.length} | ${material} |`
     );
   }
 
@@ -80,16 +137,21 @@ function generatePriceTable(products) {
 
 // Generate colors table
 function generateColorsTable(products, includeHex = false) {
+  // Colours are listed under the rate they carry, so no reader can pair a colour
+  // with the wrong price.
   const header = includeHex
-    ? '| Product | Available Colors | Hex Codes |\n|---|---|---|'
-    : '| Product | Available Colors |\n|---|---|';
+    ? '| Product | Rate/pc | Available Colors | Hex Codes |\n|---|---|---|---|'
+    : '| Product | Rate/pc | Available Colors |\n|---|---|---|';
 
-  const rows = products.map(p => {
-    if (includeHex) {
-      return `| ${p.name} | ${p.colors.join(', ')} | ${p.colorCodes.map(c => c.replace('#', '#')).join(', ')} |`;
+  const rows = [];
+  for (const p of products) {
+    for (const t of p.tiers) {
+      const rate = money(Math.min(...t.bulkPrices), Math.max(...t.bulkPrices));
+      rows.push(includeHex
+        ? `| ${p.name} | ${rate} | ${t.colors.join(', ')} | ${t.colorCodes.join(', ')} |`
+        : `| ${p.name} | ${rate} | ${t.colors.join(', ')} |`);
     }
-    return `| ${p.name} | ${p.colors.join(', ')} |`;
-  });
+  }
 
   return header + '\n' + rows.join('\n');
 }
@@ -170,24 +232,34 @@ function generateProductsJson(catalog, products) {
     categories: catalog.categories.map(cat => ({
       id: cat.id,
       name: cat.name,
-      products: cat.products.map(p => {
-        const slug = p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
-        return {
-          name: p.name,
-          slug,
-          description: p.description,
-          gsm: parseInt(p.description.match(/(\d+)gsm/i)?.[1] || '0'),
-          bulkPrice: p.rate,
-          samplePrice: p.samplePrice,
-          weightKg: p.weight,
-          colors: p.colors,
-          colorCodes: p.colorCodes,
-          sizes: p.sizes,
-          imageCount: (p.imageFiles?.length || 0) + 1,
-          catalogUrl: `https://www.bulkplaintshirt.com/catalog/p/${slug}/`,
-          imageBaseUrl: `https://www.bulkplaintshirt.com/catalog/images/${slug}/`,
-        };
-      }),
+      products: products.filter(p => p.categoryName === cat.name).map(p => ({
+        name: p.name,
+        slug: p.slug,
+        description: p.description,
+        gsm: parseInt(p.description.match(/(\d+)gsm/i)?.[1] || '0'),
+        bulkPriceFrom: p.rate,
+        bulkPriceTo: p.rateMax,
+        moq: p.moq || 10,
+        samplePriceFrom: p.samplePrice,
+        samplePriceTo: p.samplePriceMax,
+        weightKg: p.weight,
+        sizes: p.sizes,
+        // One entry per rate. On a two-rate product the colours that carry each
+        // rate are listed inside it, so bulkPriceFrom is never mistaken for the
+        // price of every colour.
+        rates: p.tiers.map(t => ({
+          colors: t.colors,
+          colorCodes: t.colorCodes,
+          pricePerSize: Object.fromEntries(p.sizes.map((s, i) => [s, t.bulkPrices[i]])),
+          priceBands: t.bands.map(b => ({ sizes: b.label, price: b.price })),
+          samplePrice: t.samplePrice,
+        })),
+        colors: p.colors,
+        colorCodes: p.colorCodes,
+        imageCount: p.imageCount + 1,
+        catalogUrl: `https://www.bulkplaintshirt.com/catalog/p/${p.slug}/`,
+        imageBaseUrl: `https://www.bulkplaintshirt.com/catalog/images/${p.slug}/`,
+      })),
     })),
   };
 

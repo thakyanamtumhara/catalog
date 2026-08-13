@@ -46,7 +46,19 @@ function handler(event) {
         '/p/t-shirt-colour-bleeding-test-before-bulk-order-5-trick-that.html': '/p/t-shirt-color-bleeding-in-monsoon-reactive-vs-pigment-dye.html',
         '/p/t-shirt-seam-ripped-after-1-wash-check-this-before-you-buy.html': '/p/t-shirt-stitching-quality-check-for-bulk-orders-how-12.html',
         '/p/whatsapp-bulk-messaging-for-t-shirt-business-without-ban.html': '/p/free-whatsapp-api-for-bulk-t-shirt-business-stop-getting.html',
-        '/p/why-50-t-shirts-got-returned-washing-tag-galti.html': '/p/t-shirt-wash-care-label-size-tag-why-1000-printed-tees-got.html'
+        '/p/why-50-t-shirts-got-returned-washing-tag-galti.html': '/p/t-shirt-wash-care-label-size-tag-why-1000-printed-tees-got.html',
+
+        // Catalog: three winter SKUs merged into one product each, because the
+        // same garment at two colour rates was reading as two products. Both the
+        // slash and no-slash forms are needed — this is an exact string match.
+        // /p/hoodie-430gsm/ is the survivor of its pair: Search Console has it at
+        // position 2.0 for "430 gsm hoodie" while dropshoulder ranks 49.5.
+        '/catalog/p/hoodie-320gsm-black': '/catalog/p/hoodie-320gsm/',
+        '/catalog/p/hoodie-320gsm-black/': '/catalog/p/hoodie-320gsm/',
+        '/catalog/p/sweatshirt-2': '/catalog/p/sweatshirt/',
+        '/catalog/p/sweatshirt-2/': '/catalog/p/sweatshirt/',
+        '/catalog/p/dropshoulder-hoodie-430gsm': '/catalog/p/hoodie-430gsm/',
+        '/catalog/p/dropshoulder-hoodie-430gsm/': '/catalog/p/hoodie-430gsm/'
     };
     var target = redirects[uri];
     if (target) {

@@ -78,30 +78,76 @@ var SIZE_CHARTS = {
 };
 
 // ===== Flatten all products with category info =====
+// A product is either flat (one rate for every colour) or has `tiers` — the same
+// garment at two rates depending on colour. Both are normalised to a tier list so
+// everything downstream only ever deals with one shape.
+function normalizeTiers(product, slug) {
+  var raw = product.tiers || [{
+    colors: product.colors,
+    colorCodes: product.colorCodes,
+    imageFiles: product.imageFiles,
+    bulkPrices: product.bulkPrices,
+    samplePrice: product.samplePrice,
+    catalogUrl: product.catalogUrl
+  }];
+  return raw.map(function (t) {
+    var dir = t.imageDir || slug;
+    var files = t.imageFiles || t.colorCodes.map(function (_, i) { return i + 1; });
+    return {
+      label: t.label || null,
+      colors: t.colors,
+      colorCodes: t.colorCodes,
+      imageFiles: files,
+      imageDir: dir,
+      images: files.map(function (n) { return '/catalog/images/' + dir + '/' + n + '.webp'; }),
+      bulkPrices: t.bulkPrices,
+      samplePrice: t.samplePrice,
+      catalogUrl: t.catalogUrl,
+      minPrice: Math.min.apply(null, t.bulkPrices),
+      maxPrice: Math.max.apply(null, t.bulkPrices),
+      priceGroups: buildPriceSummary(product.sizes, t.bulkPrices)
+    };
+  });
+}
+
 function getAllProducts() {
   var products = [];
   CATALOG_DATA.categories.forEach(function (cat) {
     cat.products.forEach(function (product, idx) {
+      var slug = product.slug || slugify(product.name);
+      var tiers = normalizeTiers(product, slug);
+      var colors = [], colorCodes = [], images = [];
+      tiers.forEach(function (t) {
+        colors = colors.concat(t.colors);
+        colorCodes = colorCodes.concat(t.colorCodes);
+        images = images.concat(t.images);
+      });
+      var mins = tiers.map(function (t) { return t.minPrice; });
+      var maxs = tiers.map(function (t) { return t.maxPrice; });
+      var samples = tiers.map(function (t) { return t.samplePrice; });
       products.push({
-        id: cat.id + '-' + idx,
+        id: product.id || (cat.id + '-' + idx),
+        aliases: product.aliases || [],
         hidden: product.hidden,
         categoryId: cat.id,
         name: product.name,
+        slug: slug,
         nickname: product.nickname,
         description: product.description,
-        rate: product.rate,
-        samplePrice: product.samplePrice,
+        rate: Math.min.apply(null, mins),
+        rateMax: Math.max.apply(null, maxs),
+        samplePrice: Math.min.apply(null, samples),
+        samplePriceMax: Math.max.apply(null, samples),
         weight: product.weight,
-        colors: product.colors,
-        colorCodes: product.colorCodes,
+        moq: product.moq,
+        tiers: tiers,
+        colors: colors,
+        colorCodes: colorCodes,
         mainImage: product.mainImage || 'm',
+        mainImageTier: product.mainImageTier || 0,
         sizes: product.sizes,
-        bulkPrices: product.bulkPrices,
-        catalogUrl: product.catalogUrl,
-        imageFiles: product.imageFiles || product.colorCodes.map(function (_, i) { return i + 1; }),
-        images: (product.imageFiles || product.colorCodes.map(function (_, i) { return i + 1; })).map(function (n) {
-          return '/catalog/images/' + slugify(product.name) + '/' + n + '.webp';
-        }),
+        catalogUrl: product.catalogUrl || tiers[0].catalogUrl,
+        images: images,
         sizeChart: product.sizeChart,
         video: product.video,
         categoryName: cat.name,
@@ -113,14 +159,19 @@ function getAllProducts() {
   return products;
 }
 
+// ===== GSM pulled out of the description, used as a spec chip =====
+function gsmOf(product) {
+  var m = product.description.match(/(\d{3})\s*gsm/i);
+  return m ? m[1] : null;
+}
+
 // ===== Slugify =====
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
 // ===== Get product page URL =====
-function getProductPageUrl(productName) {
-  var slug = slugify(productName);
+function getProductPageUrl(slug) {
   return window.location.origin + '/catalog/p/' + slug + '/';
 }
 
@@ -155,13 +206,133 @@ function buildPriceSummary(sizes, bulkPrices) {
   return groups;
 }
 
+// ===== Swatch row =====
+function swatchDots(codes, limit) {
+  var html = '';
+  var n = limit ? Math.min(codes.length, limit) : codes.length;
+  for (var i = 0; i < n; i++) {
+    var light = ['#FFFFFF', '#FAF5E4', '#D4C5A9', '#B0D4F1', '#87CEEB'].indexOf(codes[i].toUpperCase()) > -1;
+    html += '<span class="color-dot-small' + (light ? ' cd-light' : '') + '" style="background:' + codes[i] + '"></span>';
+  }
+  return html;
+}
+
+// ===== Rate bands =====
+// Collapse adjacent sizes whose price is identical in EVERY tier. Hoodie 320gsm
+// becomes two bands (S–XL, XXL) rather than five columns; Oversize 240gsm becomes
+// a single band; Oversize 260gsm keeps all eight because all eight really differ.
+// One rule, so the block is only ever as big as the pricing genuinely is.
+function rateBands(product) {
+  var bands = [], sizes = product.sizes, tiers = product.tiers;
+  var key = function (i) { return tiers.map(function (t) { return t.bulkPrices[i]; }).join('|'); };
+  var start = 0;
+  for (var i = 1; i <= sizes.length; i++) {
+    if (i === sizes.length || key(i) !== key(start)) {
+      bands.push({
+        label: start === i - 1 ? sizes[start] : sizes[start] + '–' + sizes[i - 1],
+        prices: tiers.map(function (t) { return t.bulkPrices[start]; })
+      });
+      start = i;
+    }
+  }
+  return bands;
+}
+
+// ===== Rate block =====
+// One component for every pricing shape the catalogue has: a flat rate, a rate
+// that steps up at the big sizes, a long per-size ladder, and two colour tiers of
+// the same garment. Sizes run across, colour rate-tiers run down, and each tier's
+// colours are printed inside that tier — so colour-to-price needs no legend and
+// never depends on being able to tell two hues apart.
+function rateBlockHtml(product) {
+  var multi = product.tiers.length > 1;
+  var bands = rateBands(product);
+  var wide = bands.length > 4;
+  var cheapest = Math.min.apply(null, product.tiers.map(function (t) { return t.minPrice; }));
+
+  var html = '<div class="rate-block">';
+  html += '<div class="rate-head">' +
+    '<span class="rate-head-title">Bulk rate per piece</span>' +
+    (product.moq ? '<span class="rate-head-moq">Min ' + product.moq + ' pcs</span>' : '') +
+    '</div>';
+
+  // The grid
+  html += '<div class="rate-grid-wrap"><table class="rate-grid' + (wide ? ' rate-grid-wide' : '') + '">';
+  html += '<tr class="rg-sizes">' + (multi ? '<th class="rg-stub"></th>' : '');
+  bands.forEach(function (b) { html += '<th>' + b.label + '</th>'; });
+  html += '</tr>';
+  product.tiers.forEach(function (t, ti) {
+    var delta = t.minPrice - cheapest;
+    html += '<tr>';
+    if (multi) {
+      html += '<td class="rg-stub">' +
+        '<span class="rg-num">' + (ti + 1) + '</span>' +
+        '<span class="rg-stub-name">' + (t.colors.length === 1 ? t.colors[0] : t.colors.length + ' colours') + '</span>' +
+        (delta > 0 ? '<span class="rg-delta">+₹' + delta + '</span>' : '<span class="rg-lowest">lowest</span>') +
+      '</td>';
+    }
+    bands.forEach(function (b) { html += '<td class="rg-price">₹' + b.prices[ti] + '</td>'; });
+    html += '</tr>';
+  });
+  html += '</table></div>';
+
+  // Colours, printed inside their own rate
+  product.tiers.forEach(function (t, ti) {
+    var single = t.colors.length === 1;
+    var title = !multi ? 'All colours — same rate'
+      : single ? t.colors[0]
+      : t.colors.length + ' colours';
+    html += '<div class="rate-cols">';
+    html += '<div class="rc-head">' +
+      (multi ? '<span class="rg-num">' + (ti + 1) + '</span>' : '') +
+      '<span class="rc-title">' + title + '</span>' +
+      '<span class="rc-sample">1 pc sample ₹' + t.samplePrice + '</span>' +
+    '</div>';
+    if (!single) {
+      html += '<div class="rc-chips">';
+      t.colors.forEach(function (c, ci) {
+        var code = t.colorCodes[ci];
+        var light = ['#FFFFFF', '#FAF5E4', '#D4C5A9', '#B0D4F1', '#87CEEB'].indexOf(code.toUpperCase()) > -1;
+        html += '<span class="rc-chip"><span class="color-dot-small' + (light ? ' cd-light' : '') + '" style="background:' + code + '"></span>' + c + '</span>';
+      });
+      html += '</div>';
+    }
+    html += '</div>';
+  });
+
+  html += '<div class="rate-foot">GST 5% extra · under ' + (product.moq || 10) + ' pcs the 1-pc sample rate applies</div>';
+  html += '</div>';
+  return html;
+}
+
+// ===== Spec chips =====
+function specStripHtml(product) {
+  var chips = [];
+  var gsm = gsmOf(product);
+  if (gsm) chips.push(gsm + ' GSM');
+  chips.push(product.description.indexOf('100% Cotton') > -1 || product.description.indexOf('100% cotton') > -1
+    ? '100% Cotton' : '88% Cotton');
+  chips.push(Math.round(product.weight * 1000) + ' g/pc');
+  return '<div class="spec-strip">' + chips.map(function (c) {
+    return '<span class="spec-chip">' + c + '</span>';
+  }).join('') + '</div>';
+}
+
 // ===== Open Product Detail =====
+function findProduct(productId) {
+  var all = getAllProducts();
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].id === productId) return all[i];
+  }
+  for (var j = 0; j < all.length; j++) {
+    if (all[j].aliases && all[j].aliases.indexOf(productId) > -1) return all[j];
+  }
+  return null;
+}
+
 function openProduct(productId, skipPush) {
   var all = getAllProducts();
-  var product = null;
-  for (var i = 0; i < all.length; i++) {
-    if (all[i].id === productId) { product = all[i]; break; }
-  }
+  var product = findProduct(productId);
   if (!product) return;
 
   // Update URL hash for shareable link (skip on product pages)
@@ -176,14 +347,27 @@ function openProduct(productId, skipPush) {
   // Build swipeable images — main image first, then all product photos
   var slides = '';
   var slideCount = 0;
-  var imgBasePath = '/catalog/images/' + slugify(product.name) + '/';
+  var imgBasePath = '/catalog/images/' + product.slug + '/';
   var fallbackPlaceholder = placeholder(product.categoryIcon, product.categoryColor, 600, 600).replace(/'/g, "\\'");
+
+  // On a two-rate product every photo carries the rate for the colours it belongs
+  // to, so a buyer swiping the gallery can never mistake a costlier colour for the
+  // headline price.
+  var multiTier = product.tiers.length > 1;
+  function tierLabelHtml(t) {
+    if (!multiTier) return '';
+    var names = t.colors.length > 2 ? t.colors.slice(0, 2).join(' · ') + ' +' + (t.colors.length - 2) : t.colors.join(' · ');
+    return '<div class="swipe-slide-label">' + names + ' &nbsp;₹' + t.minPrice +
+      (t.maxPrice > t.minPrice ? '–' + t.maxPrice : '') + '/pc</div>';
+  }
 
   // Main product image (m.webp) as first slide
   var mainImg = imgBasePath + (product.mainImage || 'm') + '.webp';
   var mainFallback = product.images && product.images[0] ? product.images[0] : placeholder(product.categoryIcon, product.categoryColor, 600, 600);
-  slides += '<div class="swipe-slide">' +
+  var heroTier = product.tiers[product.mainImageTier || 0];
+  slides += '<div class="swipe-slide" data-hero="1">' +
     '<img src="' + mainImg + '" alt="' + product.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'};this.src=\'' + mainFallback.replace(/'/g, "\\'") + '\'">' +
+    tierLabelHtml(heroTier) +
   '</div>';
   slideCount++;
 
@@ -196,17 +380,29 @@ function openProduct(productId, skipPush) {
     slideCount++;
   }
 
-  // All product photos from imageFiles
-  for (var s = 0; s < product.images.length; s++) {
-    slides += '<div class="swipe-slide">' +
-      '<img src="' + product.images[s] + '" alt="' + product.name + ' - Photo ' + (s + 1) + '" onerror="this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'">' +
-    '</div>';
-    slideCount++;
-  }
+  // All product photos, tier by tier. On a two-rate product every photo carries the
+  // rate for the colours it belongs to, so a buyer swiping the gallery can never
+  // mistake a costlier colour for the headline price.
+  product.tiers.forEach(function (t) {
+    var tierLabel = tierLabelHtml(t);
+    t.images.forEach(function (src, s) {
+      slides += '<div class="swipe-slide">' +
+        '<img src="' + src + '" alt="' + product.name + ' - ' + t.colors[0] + ' - Photo ' + (s + 1) + '" onerror="this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'">' +
+        tierLabel +
+      '</div>';
+      slideCount++;
+    });
+  });
 
+  // Past ~10 photos a dot row is an unreadable smear — switch to a counter.
+  var useDots = slideCount <= 10;
   var dots = '';
-  for (var d = 0; d < slideCount; d++) {
-    dots += '<span class="swipe-dot' + (d === 0 ? ' active' : '') + '" data-index="' + d + '"></span>';
+  if (useDots) {
+    for (var d = 0; d < slideCount; d++) {
+      dots += '<span class="swipe-dot' + (d === 0 ? ' active' : '') + '" data-index="' + d + '"></span>';
+    }
+  } else {
+    dots = '<span class="swipe-count"><b>1</b> / ' + slideCount + '</span>';
   }
 
   // Color list with names
@@ -226,15 +422,6 @@ function openProduct(productId, skipPush) {
     sizeBadges += '<span class="size-badge">' + product.sizes[z] + '</span>';
   }
 
-  // Price table
-  var priceGroups = buildPriceSummary(product.sizes, product.bulkPrices);
-  var priceTableHtml = '<div class="price-table-wrap"><table class="price-table">';
-  priceTableHtml += '<tr><th>Size</th><th>Bulk Price/pc</th></tr>';
-  for (var pt = 0; pt < priceGroups.length; pt++) {
-    priceTableHtml += '<tr><td>' + priceGroups[pt].label + '</td><td class="price-cell">\u20B9' + priceGroups[pt].price + '</td></tr>';
-  }
-  priceTableHtml += '</table></div>';
-
   // Escape product name for onclick
   var safeName = product.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
@@ -243,18 +430,17 @@ function openProduct(productId, skipPush) {
       '<div class="swipe-track" id="swipeTrack">' + slides + '</div>' +
       '<button class="swipe-arrow swipe-arrow-left" id="swipeLeft" aria-label="Previous">&#8249;</button>' +
       '<button class="swipe-arrow swipe-arrow-right" id="swipeRight" aria-label="Next">&#8250;</button>' +
-      '<div class="swipe-dots" id="swipeDots">' + dots + '</div>' +
+      '<div class="swipe-dots' + (useDots ? '' : ' swipe-dots-count') + '" id="swipeDots">' + dots + '</div>' +
     '</div>' +
     '<div class="detail-info">' +
       '<div class="detail-name">' + product.name + '</div>' +
       '<div class="detail-nickname">' + product.nickname + ' \u00B7 ' + product.categoryName + '</div>' +
-      '<div class="detail-rate">\u20B9' + product.rate + '/pc <span style="font-size:14px;color:#64748b;font-weight:600;">Bulk</span></div>' +
-      '<div class="detail-sample-price">Sample: <strong>\u20B9' + product.samplePrice + '/pc</strong></div>' +
+      rateBlockHtml(product) +
+      specStripHtml(product) +
       '<div class="detail-desc">' + product.description + '</div>' +
-      '<div class="detail-label">Pricing by Size</div>' +
-      priceTableHtml +
-      '<div class="detail-label">Colors (' + product.colors.length + ')</div>' +
-      '<div class="color-swatches">' + colorList + '</div>' +
+      (product.tiers.length > 1 ? '' :
+        '<div class="detail-label">Colours (' + product.colors.length + ')</div>' +
+        '<div class="color-swatches">' + colorList + '</div>') +
       '<div class="detail-label">Sizes (' + product.sizes.length + ')</div>' +
       '<div class="size-badges">' + sizeBadges + '</div>' +
       '<div class="detail-actions">' +
@@ -263,17 +449,17 @@ function openProduct(productId, skipPush) {
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 3H3v7h2V6h3v3h2V6h3v3h2V6h3v4h2V3z"/><path d="M21 14H3v7h18v-7zM7 17H5m4 0H8m4 0h-1m4 0h-1m4 0h-1"/></svg>' +
             ' Size Chart' +
           '</button>' : '') +
-          '<button class="share-product-btn" onclick="shareProduct(\'' + safeName + '\', \'' + product.id + '\')">' +
+          '<button class="share-product-btn" onclick="shareProduct(\'' + safeName + '\', \'' + product.slug + '\')">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>' +
             ' Share' +
           '</button>' +
         '</div>' +
         '<div class="detail-actions-row">' +
-          '<a href="https://www.bulkplaintshirt.com" target="_blank" rel="noopener" class="order-now-btn">' +
+          '<a href="https://www.bulkplaintshirt.com/?tab=' + encodeURIComponent(product.name) + '" target="_blank" rel="noopener" class="order-now-btn">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
             ' Order Now' +
           '</a>' +
-          '<button class="whatsapp-enquiry-btn" onclick="enquireWhatsApp(\'' + safeName + '\', ' + product.rate + ', ' + product.samplePrice + ', \'' + product.nickname + '\')">' +
+          '<button class="whatsapp-enquiry-btn" onclick="enquireWhatsApp(\'' + product.id + '\')">' +
             '<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
             ' WhatsApp' +
           '</button>' +
@@ -314,7 +500,7 @@ function openProduct(productId, skipPush) {
     for (var sc = 0; sc < sMaxDots; sc++) {
       sDots += '<span class="color-dot-small" style="background:' + sp.colorCodes[sc] + '"></span>';
     }
-    var sugMainImg = '/catalog/images/' + slugify(sp.name) + '/' + (sp.mainImage || 'm') + '.webp';
+    var sugMainImg = '/catalog/images/' + sp.slug + '/' + (sp.mainImage || 'm') + '.webp';
     var sugFallback = sp.images && sp.images[0] ? sp.images[0] : placeholder(sp.categoryIcon, sp.categoryColor, 200, 200);
     var sugPlaceholder = placeholder(sp.categoryIcon, sp.categoryColor, 200, 200).replace(/'/g, "\\'");
 
@@ -390,6 +576,8 @@ function initSwipe() {
     for (var i = 0; i < allDots.length; i++) {
       allDots[i].classList.toggle('active', i === currentIndex);
     }
+    var counter = dotsContainer.querySelector('.swipe-count b');
+    if (counter) counter.textContent = currentIndex + 1;
     updateArrows();
   }
 
@@ -457,6 +645,10 @@ function openSizeChart(chartKey) {
   var popup = document.getElementById('sizeChartPopup');
   popup.innerHTML = html;
   popup.classList.add('active');
+  // Only fade the edge when the chart genuinely overflows, so a chart that fits
+  // does not look like it is hiding a column.
+  var wrap = popup.querySelector('.sc-table-wrap');
+  if (wrap && wrap.scrollWidth > wrap.clientWidth + 1) wrap.classList.add('is-scrollable');
 }
 function closeSizeChart() {
   document.getElementById('sizeChartPopup').classList.remove('active');
@@ -480,8 +672,8 @@ function closeModal(skipHistory) {
 }
 
 // ===== Share Product =====
-function shareProduct(name, productId) {
-  var url = getProductPageUrl(name);
+function shareProduct(name, slug) {
+  var url = getProductPageUrl(slug);
   var text = name + ' — sale91.com Catalog';
 
   if (navigator.share) {
@@ -510,8 +702,26 @@ function showToast(msg) {
 }
 
 // ===== WhatsApp Enquiry =====
-function enquireWhatsApp(name, bulkRate, sampleRate, nickname) {
-  window.open('https://whatsapp.sale91.com', '_blank');
+// whatsapp.sale91.com is a stub that hard-redirects to api.whatsapp.com with a
+// fixed "Share Details" message, so it cannot carry a prefill. Going direct is
+// the only way an enquiry can arrive already saying what it is about. Keep this
+// number in sync with that stub.
+var WA_NUMBER = '919336695049';
+function waLink(text) {
+  return 'https://api.whatsapp.com/send/?phone=' + WA_NUMBER + '&text=' + encodeURIComponent(text);
+}
+function enquireWhatsApp(productId) {
+  var p = findProduct(productId);
+  if (!p) { window.open(waLink('Hi, I saw the sale91 catalog.'), '_blank'); return; }
+  var rate = p.rateMax > p.rate ? '₹' + p.rate + '–' + p.rateMax : '₹' + p.rate;
+  var lines = ['Hi, I saw *' + p.name + '* (' + p.nickname + ') in the sale91 catalog.'];
+  p.tiers.forEach(function (t) {
+    var groups = t.priceGroups.map(function (g) { return g.label + ' ₹' + g.price; }).join(', ');
+    lines.push((p.tiers.length > 1 ? t.colors.join(', ') + ' — ' : '') + groups);
+  });
+  lines.push('Bulk ' + rate + '/pc, min ' + (p.moq || 10) + ' pcs.');
+  lines.push(getProductPageUrl(p.slug));
+  window.open(waLink(lines.join('\n')), '_blank');
 }
 
 // ===== Init =====
@@ -532,7 +742,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var fab = document.getElementById('whatsappBtn');
   if (fab) {
     fab.addEventListener('click', function () {
-      window.open('https://whatsapp.sale91.com', '_blank');
+      window.open(waLink('Hi, I saw the sale91 catalog (sale91.com/catalog). Please share rates.'), '_blank');
     });
   }
 
@@ -543,8 +753,13 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('modalClose').addEventListener('click', function () {
     closeModal();
   });
+  // Escape dismisses the topmost layer only — the size chart sits above the
+  // product modal, and closing the one underneath left it floating over the grid.
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeModal();
+    if (e.key !== 'Escape') return;
+    var sc = document.getElementById('sizeChartPopup');
+    if (sc && sc.classList.contains('active')) { closeSizeChart(); return; }
+    closeModal();
   });
 
   // ===== Product Page Mode =====
@@ -554,21 +769,15 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ===== Catalog: History / Back Button =====
-  // Capture hash before history setup overwrites it
+  // Back closes an open product and otherwise means what the browser means by
+  // Back. It used to push a synthetic entry that sent the visitor to the
+  // storefront instead, which stranded anyone arriving from search or WhatsApp.
   var startHash = window.location.hash;
-
-  history.replaceState({ page: 'exit' }, '');
-  history.pushState({ page: 'catalog' }, '', window.location.pathname + window.location.search);
 
   window.addEventListener('popstate', function (e) {
     var state = e.state;
-    if (state && state.product) {
-      openProduct(state.product, true);
-    } else if (state && state.page === 'catalog') {
-      closeModal(true);
-    } else if (state && state.page === 'exit') {
-      window.location.href = 'https://www.bulkplaintshirt.com';
-    }
+    if (state && state.product) openProduct(state.product, true);
+    else closeModal(true);
   });
 
   // Open product from hash URL (on refresh / direct link)
