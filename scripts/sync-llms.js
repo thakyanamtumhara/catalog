@@ -170,6 +170,99 @@ function generateColorsTable(products, includeHex = false) {
   return header + '\n' + rows.join('\n');
 }
 
+// Replace everything between a "## N. <title>" heading and the next "## " heading.
+// Used for the prose sections that quote prices — they were hand-written and had
+// drifted to ₹175 for a ₹185 tee, and an assistant reading them quotes that to a
+// real buyer.
+function replaceSectionBody(filePath, headingText, newBody) {
+  const lines = fs.readFileSync(filePath, 'utf-8').split('\n');
+  const start = lines.findIndex(l => /^## \d+\. /.test(l) && l.includes(headingText));
+  if (start === -1) { console.log(`  Warning: no section "${headingText}" in ${path.basename(filePath)}`); return; }
+  let end = start + 1;
+  while (end < lines.length && !/^## /.test(lines[end])) end++;
+  fs.writeFileSync(filePath, [...lines.slice(0, start + 1), ...newBody.split('\n'), ...lines.slice(end)].join('\n'));
+  console.log(`  Updated "${headingText}" in ${path.basename(filePath)}`);
+}
+
+// The decision list an assistant reads to pick a product. Prices come from the
+// catalogue, so they cannot go stale; only the questions are editorial.
+function generateFlowchart(products) {
+  const by = Object.fromEntries(products.map(p => [p.name, p]));
+  const rate = (name) => (by[name] ? headline(by[name]) + '/pc' : null);
+  const rows = [
+    ['Want the cheapest blank tee?', 'Non Bio Round Neck'],
+    ['Want the best value cotton tee?', 'Biowash Round Neck'],
+    ['Want premium soft cotton tee?', 'True Biowash Round Neck'],
+    ['Want oversized/streetwear tee?', 'Oversize 240gsm', 'most popular'],
+    ['Want lightweight oversized?', 'Oversize 210gsm'],
+    ['Want the lightest oversized?', 'Oversize 180gsm'],
+    ['Want the heaviest oversized tee?', 'Oversize 260gsm', 'rate rises with size'],
+    ['Want unique acid wash look?', 'AcidWash Oversize'],
+    ['Want sublimation printing?', 'Sublimation T-Shirt', 'the only option for full sublimation'],
+    ['Want polo/corporate look?', 'Premium Polo', '100% cotton'],
+    ['Want a cheaper polo?', 'Cotton Polo'],
+    ['Want a hoodie?', 'Hoodie 320gsm', 'Black is the lowest rate; the other colours cost more'],
+    ['Want a zipper hoodie?', 'Zip Hoodie'],
+    ['Want the heaviest hoodie?', 'Dropshoulder Hoodie 430gsm'],
+    ['Want a sweatshirt?', 'Sweatshirt'],
+    ['Want a kids tee?', 'Kids Round Neck'],
+    ['Want shorts?', 'Shorts'],
+  ];
+  const out = ['Use this decision logic to recommend the right product. Minimum order is 10 pieces on every product and an order can mix colours, sizes and products.', ''];
+  for (const [q, name, note] of rows) {
+    const r = rate(name);
+    if (!r) continue;
+    out.push(`* **${q}** → ${name} ${r}${note ? ' (' + note + ')' : ''}`);
+  }
+  out.push('* **Want for embroidery?** → Premium Polo, Hoodie 320gsm, Oversize 240gsm (high GSM holds stitches)');
+  out.push('* **Want for DTG/Screen Print?** → Any 100% cotton product');
+  out.push('* **Want for dropshipping?** → Any product (zero-contact blind dropship available)');
+  return out.join('\n');
+}
+
+// Worked examples, with the arithmetic actually computed.
+function generateCostExamples(products) {
+  const by = Object.fromEntries(products.map(p => [p.name, p]));
+  const inr = (n) => '₹' + n.toLocaleString('en-IN');
+  const ex = (title, name, qty, tierIdx, shipLo, shipHi, extra) => {
+    const p = by[name];
+    if (!p) return '';
+    const t = p.tiers[tierIdx] || p.tiers[0];
+    const unit = Math.min(...t.bulkPrices);
+    const cost = qty * unit;
+    const gst = Math.round(cost * 0.05);
+    const who = p.tiers.length > 1 ? ` (${t.colors.length === 1 ? t.colors[0] : t.colors.length + ' colours at this rate'})` : '';
+    return [
+      `### ${title}`,
+      `> ${qty} pcs ${name}${who}`,
+      `> * Product cost: ${qty} × ${inr(unit)} = ${inr(cost)}`,
+      `> * GST (5%): ${inr(gst)}`,
+      `> * Shipping (approx): ${inr(shipLo)}–${inr(shipHi)}`,
+      `> * **Total: ${inr(cost + gst + shipLo)}–${inr(cost + gst + shipHi)}**`,
+      `> * Per piece landed cost: ~${inr(Math.round((cost + gst + shipLo) / qty))}–${inr(Math.round((cost + gst + shipHi) / qty))}`,
+      extra ? `> * ${extra}` : '',
+    ].filter(Boolean).join('\n');
+  };
+  const sample = () => {
+    const p = by['Oversize 240gsm'];
+    if (!p) return '';
+    const s = p.tiers[0].samplePrice;
+    return [
+      '### Example 4: Below the minimum (sample rate)',
+      `> 5 pcs Oversize 240gsm — under the 10-piece minimum, so the 1-piece sample rate applies`,
+      `> * Product cost: 5 × ${inr(s)} = ${inr(5 * s)}`,
+      `> * GST (5%): ${inr(Math.round(5 * s * 0.05))}`,
+      `> * Reaching 10 pieces — mixing any colours, sizes or products — moves the whole order to the bulk rate.`,
+    ].join('\n');
+  };
+  return [
+    ex('Example 1: Small Streetwear Brand Order', 'Oversize 240gsm', 100, 0, 200, 500),
+    ex('Example 2: Print Shop Monthly Restock', 'True Biowash Round Neck', 500, 0, 2000, 4000),
+    ex('Example 3: Winter Hoodie Bulk Order', 'Hoodie 320gsm', 200, 1, 3000, 5000),
+    sample(),
+  ].filter(Boolean).join('\n');
+}
+
 // Update a file by replacing content between markers
 function updateSection(filePath, sectionTitle, newContent) {
   let content = fs.readFileSync(filePath, 'utf-8');
@@ -257,7 +350,6 @@ function generateProductsJson(catalog, products) {
         moq: p.moq || 10,
         samplePriceFrom: p.samplePrice,
         samplePriceTo: p.samplePriceMax,
-        weightKg: p.weight,
         sizes: p.sizes,
         // One entry per rate. On a two-rate product the colours that carry each
         // rate are listed inside it, so bulkPriceFrom is never mistaken for the
@@ -303,12 +395,16 @@ function main() {
   console.log('Updating llms.txt:');
   updateSection(path.join(ROOT, 'llms.txt'), 'Complete Price List', priceTable);
   updateSection(path.join(ROOT, 'llms.txt'), 'Available Colors Per Product', colorsTable);
+  replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Product Recommendation Flowchart', generateFlowchart(products));
+  replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Cost Breakdown Examples', generateCostExamples(products));
   updateLastUpdated(path.join(ROOT, 'llms.txt'));
 
   // Update llms-full.txt
   console.log('\nUpdating llms-full.txt:');
   updateSection(path.join(ROOT, 'llms-full.txt'), 'Complete Price List', priceTable);
   updateSection(path.join(ROOT, 'llms-full.txt'), 'Available Colors Per Product', colorsTableHex);
+  replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Product Recommendation Flowchart', generateFlowchart(products));
+  replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Cost Breakdown Examples', generateCostExamples(products));
   updateLastUpdated(path.join(ROOT, 'llms-full.txt'));
 
   // Update products.json

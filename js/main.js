@@ -138,7 +138,6 @@ function getAllProducts() {
         rateMax: Math.max.apply(null, maxs),
         samplePrice: Math.min.apply(null, samples),
         samplePriceMax: Math.max.apply(null, samples),
-        weight: product.weight,
         moq: product.moq,
         tiers: tiers,
         colors: colors,
@@ -332,7 +331,6 @@ function specStripHtml(product) {
   if (gsm) chips.push(gsm + ' GSM');
   chips.push(product.description.indexOf('100% Cotton') > -1 || product.description.indexOf('100% cotton') > -1
     ? '100% Cotton' : '88% Cotton');
-  chips.push(Math.round(product.weight * 1000) + ' g/pc');
   return '<div class="spec-strip">' + chips.map(function (c) {
     return '<span class="spec-chip">' + c + '</span>';
   }).join('') + '</div>';

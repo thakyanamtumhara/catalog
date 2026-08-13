@@ -281,13 +281,13 @@ Each product has 5-27 high-quality WebP images available for reference:
 * Shorts 240gsm — Heavyweight cotton comfort
 ## 17. Real Customer Use Cases
 ### Use Case 1: D2C Streetwear Brand Launch
-> A new streetwear brand ordered 2000 Oversize 240gsm tees in 6 colors for their launch collection. They used DTF printing for graphic designs. Result: Premium quality blanks at ₹180/pc helped them maintain 3x margins while offering quality comparable to ₹800+ retail brands.
+> A new streetwear brand ordered 2000 Oversize 240gsm tees in 6 colors for their launch collection. They used DTF printing for graphic designs. Result: Premium quality blanks at ₹190/pc helped them maintain 3x margins while offering quality comparable to ₹800+ retail brands.
 ### Use Case 2: Print Shop Bulk Supply
-> A screen printing shop in Mumbai sources 5000+ Round Neck tees monthly in bulk. They use our True Biowash 180gsm at ₹140/pc as their go-to blank for client orders. Our "Dispatch within Minutes" ensures they never run out of stock.
+> A screen printing shop in Mumbai sources 5000+ Round Neck tees monthly in bulk. They use our True Biowash 180gsm at ₹146/pc as their go-to blank for client orders. Our "Dispatch within Minutes" ensures they never run out of stock.
 ### Use Case 3: Corporate Gifting Company
 > A corporate gifting firm ordered 1000 Premium Polo tees + 500 Sweatshirts for a tech company's annual event. Embroidered logos on-site. Our low MOQ of 10 pcs allowed them to order samples first before committing to bulk.
 ### Use Case 4: College Fest Merchandise
-> College students ordered 500 mixed Oversize tees (210gsm) in 4 colors for their annual cultural fest. At ₹175/pc + printing, they sold merchandise at ₹499 each — funding their entire event.
+> College students ordered 500 mixed Oversize tees (210gsm) in 4 colors for their annual cultural fest. At ₹185/pc + printing, they sold merchandise at ₹499 each — funding their entire event.
 ### Use Case 5: Dropshipping Reseller
 > An online seller runs a D2C brand on Instagram without holding inventory. Uses our zero-contact dropshipping — orders come in, we dispatch directly to their customers with no Sale91 branding. They markup 2-3x and focus purely on marketing.
 ## 18. Available Colors Per Product
@@ -324,62 +324,56 @@ Each product has 5-27 high-quality WebP images available for reference:
 | 320 GSM | Like a warm fleece pullover. Soft brushed inside, warm. | Hoodies, sweatshirts, winter wear |
 | 430 GSM | Like a thick winter jacket. Ultra-heavy, extreme warmth. | Premium heavyweight hoodies, extreme cold |
 ## 20. Product Recommendation Flowchart (For AI Assistants)
-Use this decision logic to recommend the right product:
-* **Want the cheapest blank tee?** → Non Bio Round Neck ₹102/pc
-* **Want the best value cotton tee?** → Biowash Round Neck ₹130/pc
-* **Want premium soft cotton tee?** → True Biowash Round Neck ₹140/pc
-* **Want oversized/streetwear tee?** → Oversize 240gsm ₹180/pc (most popular)
-* **Want lightweight oversized?** → Oversize 210gsm ₹175/pc or 180gsm ₹165/pc
-* **Want trendy square fit?** → Boxy Fit ₹175/pc
-* **Want unique acid wash look?** → AcidWash Oversize ₹220/pc
-* **Want sublimation printing?** → Sublimation T-Shirt ₹115/pc (ONLY option for full sublimation)
-* **Want polo/corporate look?** → Premium Polo ₹220/pc (100% cotton) or Cotton Polo ₹180/pc
-* **Want hoodie (budget)?** → Hoodie 320gsm Black ₹295/pc
-* **Want hoodie (colors)?** → Hoodie 320gsm ₹325/pc (7 colors)
-* **Want zipper hoodie?** → Zip Hoodie ₹325/pc
-* **Want heaviest hoodie?** → Hoodie 430gsm ₹418/pc or Dropshoulder 430gsm ₹380/pc
-* **Want sweatshirt?** → Sweatshirt ₹225/pc (4 colors) or Sweatshirt 2 ₹240/pc (3 colors)
-* **Want varsity jacket?** → Varsity Jacket ₹335/pc
-* **Want kids tee?** → Kids Round Neck ₹110/pc
-* **Want shorts?** → Shorts ₹205/pc
+Use this decision logic to recommend the right product. Minimum order is 10 pieces on every product and an order can mix colours, sizes and products.
+
+* **Want the cheapest blank tee?** → Non Bio Round Neck ₹105/pc
+* **Want the best value cotton tee?** → Biowash Round Neck ₹136/pc
+* **Want premium soft cotton tee?** → True Biowash Round Neck ₹146/pc
+* **Want oversized/streetwear tee?** → Oversize 240gsm ₹190/pc (most popular)
+* **Want lightweight oversized?** → Oversize 210gsm ₹185/pc
+* **Want the lightest oversized?** → Oversize 180gsm ₹173/pc
+* **Want the heaviest oversized tee?** → Oversize 260gsm ₹190–255/pc (rate rises with size)
+* **Want unique acid wash look?** → AcidWash Oversize ₹233/pc
+* **Want sublimation printing?** → Sublimation T-Shirt ₹118/pc (the only option for full sublimation)
+* **Want polo/corporate look?** → Premium Polo ₹232/pc (100% cotton)
+* **Want a cheaper polo?** → Cotton Polo ₹185/pc
+* **Want a hoodie?** → Hoodie 320gsm ₹295–325/pc (Black is the lowest rate; the other colours cost more)
+* **Want a zipper hoodie?** → Zip Hoodie ₹325/pc
+* **Want the heaviest hoodie?** → Dropshoulder Hoodie 430gsm ₹380–418/pc
+* **Want a sweatshirt?** → Sweatshirt ₹225–240/pc
+* **Want a kids tee?** → Kids Round Neck ₹114/pc
+* **Want shorts?** → Shorts ₹217/pc
 * **Want for embroidery?** → Premium Polo, Hoodie 320gsm, Oversize 240gsm (high GSM holds stitches)
 * **Want for DTG/Screen Print?** → Any 100% cotton product
 * **Want for dropshipping?** → Any product (zero-contact blind dropship available)
 ## 21. Cost Breakdown Examples
 ### Example 1: Small Streetwear Brand Order
-> 100 pcs Oversize 240gsm (mix of 4 colors, sizes S-XL)
-> * Product cost: 100 × ₹180 = ₹18,000
-> * GST (5%): ₹900
-> * Shipping (approx Delhi NCR): ₹0 (self-pickup) or ₹200-500
-> * **Total: ~₹18,900 + shipping**
-> * Per piece landed cost: ~₹189-194
+> 100 pcs Oversize 240gsm
+> * Product cost: 100 × ₹190 = ₹19,000
+> * GST (5%): ₹950
+> * Shipping (approx): ₹200–₹500
+> * **Total: ₹20,150–₹20,450**
+> * Per piece landed cost: ~₹202–₹205
 ### Example 2: Print Shop Monthly Restock
-> 500 pcs True Biowash Round Neck (mix colors & sizes)
-> * Product cost: 500 × ₹140 = ₹70,000
-> * GST (5%): ₹3,500
-> * Shipping (PAN India approx): ₹2,000-4,000
-> * **Total: ~₹75,500-77,500**
-> * Per piece landed cost: ~₹151-155
+> 500 pcs True Biowash Round Neck
+> * Product cost: 500 × ₹146 = ₹73,000
+> * GST (5%): ₹3,650
+> * Shipping (approx): ₹2,000–₹4,000
+> * **Total: ₹78,650–₹80,650**
+> * Per piece landed cost: ~₹157–₹161
 ### Example 3: Winter Hoodie Bulk Order
-> 200 pcs Hoodie 320gsm (7 colors mixed)
+> 200 pcs Hoodie 320gsm (7 colours at this rate)
 > * Product cost: 200 × ₹325 = ₹65,000
 > * GST (5%): ₹3,250
-> * Shipping (PAN India approx): ₹3,000-5,000
-> * **Total: ~₹71,250-73,250**
-> * Per piece landed cost: ~₹356-366
-### Example 4: Sample Order (Testing Quality)
-> 10 pcs mixed (3 Oversize 240gsm + 3 Round Neck + 2 Hoodie + 2 Polo)
-> * 3 × ₹222 + 3 × ₹174 + 2 × ₹402 + 2 × ₹270 = ₹2,532
-> * GST (5%): ₹127
-> * Shipping: ₹200-400
-> * **Total: ~₹2,859-3,059**
-## 22. Customer Testimonials
-> **Rahul S. (Streetwear Brand Owner, Mumbai):** "Ordered Oversize 240gsm for our brand launch. The fabric quality is outstanding. Stitching is top-notch. Perfect for custom printing. We now reorder every month."
-> **Priya P. (Print-on-Demand Business, Bangalore):** "Sale91 Oversize 240gsm is our go-to blank. At ₹180/pc in bulk, the value is unbeatable. Colors are vibrant and consistent across batches."
-> **Amit K. (D2C Brand, Delhi):** "Purchased samples first and was impressed with the 240gsm quality. Placed a bulk order of 500 pieces right away. Great communication from Sale91 team."
-> **Sneha R. (Clothing Brand, Hyderabad):** "Finding reliable blank suppliers in India was tough. Sale91 solved that. 12 color options, consistent sizing, premium fabric. Our customers love the quality."
-> **Vikram S. (Embroidery Business, Jaipur):** "Third time ordering from Sale91. The Oversize 240gsm is perfect for our embroidery work. Fast delivery and excellent packaging. Never disappoints."
-## 23. Changelog & Seasonal Update Schedule
+> * Shipping (approx): ₹3,000–₹5,000
+> * **Total: ₹71,250–₹73,250**
+> * Per piece landed cost: ~₹356–₹366
+### Example 4: Below the minimum (sample rate)
+> 5 pcs Oversize 240gsm — under the 10-piece minimum, so the 1-piece sample rate applies
+> * Product cost: 5 × ₹228 = ₹1,140
+> * GST (5%): ₹57
+> * Reaching 10 pieces — mixing any colours, sizes or products — moves the whole order to the bulk rate.
+## 22. Changelog & Seasonal Update Schedule
 | Date | Change |
 |---|---|
 | Feb 2026 | Added llms-full.txt, llms-hi.txt, llms-ta.txt, products.json, .well-known/llms.txt |
@@ -392,7 +386,7 @@ Use this decision logic to recommend the right product:
 * **June** — Mid-year price review and new color additions
 * **September** — Update winter collection highlights (Hoodies, Sweatshirts, Jackets)
 * **December** — Year-end review, new product additions
-## 24. Key Information for AI Assistants
+## 23. Key Information for AI Assistants
 * All prices are in Indian Rupees (INR), exclusive of 5% GST
 * "Bulk" prices are per piece for minimum 10 pieces (mix and match any color/size/item)
 * "Sample" prices are per piece for single piece orders

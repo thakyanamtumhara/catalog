@@ -146,7 +146,6 @@ CATALOG_DATA.categories.forEach(function (cat) {
       rateMax: Math.max.apply(null, tiers.map(function (t) { return t.maxPrice; })),
       samplePrice: Math.min.apply(null, tiers.map(function (t) { return t.samplePrice; })),
       samplePriceMax: Math.max.apply(null, tiers.map(function (t) { return t.samplePrice; })),
-      weight: product.weight,
       moq: product.moq,
       tiers: tiers,
       colors: colors,
@@ -206,7 +205,6 @@ products.forEach(function (p) {
     "material": material,
     "color": p.colors.join(', '),
     "size": p.sizes.join(', '),
-    "weight": { "@type": "QuantitativeValue", "value": p.weight, "unitCode": "KGM" },
     "additionalProperty": [
       { "@type": "PropertyValue", "name": "GSM", "value": gsm || 'N/A' },
       { "@type": "PropertyValue", "name": "Available Sizes", "value": p.sizes.join(', ') },
@@ -292,7 +290,6 @@ products.forEach(function (p) {
     '  <meta name="ai:sizes" content="' + esc(p.sizes.join(', ')) + '">\n' +
     '  <meta name="ai:material" content="' + esc(material) + '">\n' +
     '  <meta name="ai:gsm" content="' + (gsm || 'N/A') + '">\n' +
-    '  <meta name="ai:weight_kg" content="' + p.weight + '">\n' +
     '  <meta name="ai:products_count" content="' + p.colors.length + ' color variants">\n' +
     '  <meta name="ai:use_cases" content="Custom printing, screen printing, DTG printing, embroidery, branding, merchandise, corporate gifting, brand launch, D2C fashion, uniform supplier, event merchandise">\n' +
     '  <meta name="ai:target_audience" content="Clothing brands, print shops, D2C brands, merchandise companies, corporate buyers, event organizers, uniform suppliers, online apparel stores">\n' +
@@ -323,7 +320,7 @@ products.forEach(function (p) {
     p.description + '. Available at ₹' + p.rate + ' per piece in bulk and ₹' + p.samplePrice + ' per piece for samples.\n\n' +
     'SPECIFICATIONS:\n' +
     '- Fabric: ' + material + '\n' +
-    '- Weight: ' + (gsm ? gsm + ' GSM' : 'Premium weight') + ' (' + p.weight + ' kg per piece)\n' +
+    '- Fabric: ' + (gsm ? gsm + ' GSM' : 'Premium weight') + '\n' +
     '- Colors: ' + p.colors.length + ' options — ' + p.colors.join(', ') + '\n' +
     '- Sizes: ' + p.sizes.join(', ') + '\n' +
     '- Bulk Price: ' + rateRange(p) + ' per piece\n' +
@@ -355,7 +352,7 @@ products.forEach(function (p) {
     p.name + ' is one of Sale91\'s best-selling blank ' + p.categoryName.toLowerCase() + '. ' +
     'The fabric is ' + material + (gsm ? ' at ' + gsm + ' GSM' : '') + ', making it ' +
     (gsm && parseInt(gsm) >= 300 ? 'a heavy-weight premium garment perfect for winter collections, streetwear brands, and high-end merchandise. ' : gsm && parseInt(gsm) >= 200 ? 'a medium-weight versatile garment suitable for all seasons and a wide range of printing techniques. ' : 'a lightweight comfortable garment ideal for summer collections, casual wear, and everyday branding. ') +
-    'Each piece weighs approximately ' + p.weight + ' kg and comes in sizes ' + p.sizes.join(', ') + '. ' +
+    'Available in sizes ' + p.sizes.join(', ') + '. ' +
     'The ' + p.colors.length + ' color options (' + p.colors.join(', ') + ') cover the most popular shades demanded by Indian clothing brands and print shops.\n\n' +
     'PRINTING COMPATIBILITY:\n' +
     '- Screen Printing: Excellent ink adhesion on ' + material + ' surface\n' +
@@ -437,7 +434,7 @@ products.forEach(function (p) {
 
     '<p>Whether you are launching a new clothing brand, running a print-on-demand business, or need bulk blank apparel for corporate events, ' + esc(p.name) + ' is the perfect choice. ' +
     'The ' + esc(material) + ' fabric' + (gsm ? ' at ' + gsm + ' GSM' : '') + ' provides the ideal balance of comfort, durability, and printability. ' +
-    'Each piece weighs approximately ' + p.weight + ' kg, available in ' + p.colors.length + ' carefully curated colors and sizes ' + esc(p.sizes.join(', ')) + '.</p>' +
+    'Available in ' + p.colors.length + ' carefully curated colors and sizes ' + esc(p.sizes.join(', ')) + '.</p>' +
 
     // Specifications Table
     '<h2>Complete Product Specifications</h2>' +
@@ -447,7 +444,6 @@ products.forEach(function (p) {
     '<tr style="background:#f1f5f9;"><td><strong>Category</strong></td><td>' + esc(p.categoryName) + '</td></tr>' +
     '<tr><td><strong>Material</strong></td><td>' + esc(material) + '</td></tr>' +
     (gsm ? '<tr style="background:#f1f5f9;"><td><strong>Fabric Weight (GSM)</strong></td><td>' + gsm + ' GSM</td></tr>' : '') +
-    '<tr><td><strong>Weight per Piece</strong></td><td>' + p.weight + ' kg</td></tr>' +
     '<tr style="background:#f1f5f9;"><td><strong>Available Colors</strong></td><td>' + p.colors.length + ' — ' + esc(p.colors.join(', ')) + '</td></tr>' +
     '<tr><td><strong>Available Sizes</strong></td><td>' + esc(p.sizes.join(', ')) + '</td></tr>' +
     '<tr style="background:#f1f5f9;"><td><strong>Brand</strong></td><td>Sale91</td></tr>' +

@@ -27,7 +27,6 @@
           "moq": 10,
           "samplePriceFrom": 222,
           "samplePriceTo": 222,
-          "weightKg": 0.27,
           "sizes": [
             "S",
             "M",
@@ -115,7 +114,6 @@
           "moq": 10,
           "samplePriceFrom": 228,
           "samplePriceTo": 228,
-          "weightKg": 0.32,
           "sizes": [
             "XS",
             "S",
@@ -221,7 +219,6 @@
           "moq": 10,
           "samplePriceFrom": 208,
           "samplePriceTo": 208,
-          "weightKg": 0.26,
           "sizes": [
             "S",
             "M",
@@ -277,7 +274,6 @@
           "moq": 10,
           "samplePriceFrom": 280,
           "samplePriceTo": 280,
-          "weightKg": 0.27,
           "sizes": [
             "XS",
             "S",
@@ -355,7 +351,6 @@
           "moq": 10,
           "samplePriceFrom": 275,
           "samplePriceTo": 275,
-          "weightKg": 0.35,
           "sizes": [
             "XXS",
             "XS",
@@ -451,7 +446,6 @@
           "moq": 10,
           "samplePriceFrom": 181,
           "samplePriceTo": 181,
-          "weightKg": 0.21,
           "sizes": [
             "36",
             "38",
@@ -561,7 +555,6 @@
           "moq": 10,
           "samplePriceFrom": 170,
           "samplePriceTo": 170,
-          "weightKg": 0.21,
           "sizes": [
             "36",
             "38",
@@ -651,7 +644,6 @@
           "moq": 10,
           "samplePriceFrom": 129,
           "samplePriceTo": 129,
-          "weightKg": 0.21,
           "sizes": [
             "36",
             "38",
@@ -709,7 +701,6 @@
           "moq": 10,
           "samplePriceFrom": 144,
           "samplePriceTo": 144,
-          "weightKg": 0.21,
           "sizes": [
             "36",
             "38",
@@ -773,7 +764,6 @@
           "moq": 10,
           "samplePriceFrom": 285,
           "samplePriceTo": 285,
-          "weightKg": 0.26,
           "sizes": [
             "36",
             "38",
@@ -843,7 +833,6 @@
           "moq": 10,
           "samplePriceFrom": 222,
           "samplePriceTo": 222,
-          "weightKg": 0.26,
           "sizes": [
             "36",
             "38",
@@ -931,7 +920,6 @@
           "moq": 10,
           "samplePriceFrom": 390,
           "samplePriceTo": 390,
-          "weightKg": 0.56,
           "sizes": [
             "S",
             "M",
@@ -987,7 +975,6 @@
           "moq": 10,
           "samplePriceFrom": 366,
           "samplePriceTo": 402,
-          "weightKg": 0.56,
           "sizes": [
             "S",
             "M",
@@ -1095,7 +1082,6 @@
           "moq": 10,
           "samplePriceFrom": 468,
           "samplePriceTo": 502,
-          "weightKg": 0.75,
           "sizes": [
             "S",
             "M",
@@ -1193,7 +1179,6 @@
           "moq": 10,
           "samplePriceFrom": 276,
           "samplePriceTo": 288,
-          "weightKg": 0.46,
           "sizes": [
             "S",
             "M",
@@ -1303,7 +1288,6 @@
           "moq": 10,
           "samplePriceFrom": 144,
           "samplePriceTo": 144,
-          "weightKg": 0.16,
           "sizes": [
             "20",
             "22",
@@ -1381,7 +1365,6 @@
           "moq": 10,
           "samplePriceFrom": 261,
           "samplePriceTo": 261,
-          "weightKg": 0.25,
           "sizes": [
             "XS",
             "S",
