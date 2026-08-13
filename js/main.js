@@ -159,6 +159,26 @@ function getAllProducts() {
   return products;
 }
 
+// ===== The advertised rate =====
+// A ₹5 or ₹10 step at the biggest sizes is normal in the trade, so it does not
+// widen the price we quote — Hoodie 320gsm reads ₹295–325, not ₹295–335, because
+// the ₹335 is only the XXL step on the ₹325 colours. What DOES widen it is a
+// genuinely different rate: a colour tier, or a real ladder like the 260gsm.
+var NORMAL_SIZE_STEP = 10;
+function headlineRange(product) {
+  var low = Infinity, high = -Infinity;
+  product.tiers.forEach(function (t) {
+    var hi = t.maxPrice - t.minPrice <= NORMAL_SIZE_STEP ? t.minPrice : t.maxPrice;
+    low = Math.min(low, t.minPrice);
+    high = Math.max(high, hi);
+  });
+  return { low: low, high: high };
+}
+function rateText(product) {
+  var r = headlineRange(product);
+  return r.high > r.low ? '₹' + r.low + '–' + r.high : '₹' + r.low;
+}
+
 // ===== GSM pulled out of the description, used as a spec chip =====
 function gsmOf(product) {
   var m = product.description.match(/(\d{3})\s*gsm/i);
@@ -253,7 +273,7 @@ function rateBlockHtml(product) {
   var html = '<div class="rate-block">';
   html += '<div class="rate-head">' +
     '<span class="rate-head-title">Bulk rate per piece</span>' +
-    (product.moq ? '<span class="rate-head-moq">Min ' + product.moq + ' pcs</span>' : '') +
+    '<span class="rate-head-moq">Min ' + (product.moq || 10) + ' pcs</span>' +
     '</div>';
 
   // The grid
@@ -300,7 +320,7 @@ function rateBlockHtml(product) {
     html += '</div>';
   });
 
-  html += '<div class="rate-foot">GST 5% extra · under ' + (product.moq || 10) + ' pcs the 1-pc sample rate applies</div>';
+  html += '<div class="rate-foot">Minimum ' + (product.moq || 10) + ' pcs — mix any colours, sizes and products. GST 5% extra. Under ' + (product.moq || 10) + ' pcs the 1-pc sample rate applies.</div>';
   html += '</div>';
   return html;
 }
@@ -713,13 +733,13 @@ function waLink(text) {
 function enquireWhatsApp(productId) {
   var p = findProduct(productId);
   if (!p) { window.open(waLink('Hi, I saw the sale91 catalog.'), '_blank'); return; }
-  var rate = p.rateMax > p.rate ? '₹' + p.rate + '–' + p.rateMax : '₹' + p.rate;
+  var rate = rateText(p);
   var lines = ['Hi, I saw *' + p.name + '* (' + p.nickname + ') in the sale91 catalog.'];
   p.tiers.forEach(function (t) {
     var groups = t.priceGroups.map(function (g) { return g.label + ' ₹' + g.price; }).join(', ');
     lines.push((p.tiers.length > 1 ? t.colors.join(', ') + ' — ' : '') + groups);
   });
-  lines.push('Bulk ' + rate + '/pc, min ' + (p.moq || 10) + ' pcs.');
+  lines.push('Bulk ' + rate + '/pc, min ' + (p.moq || 10) + ' pcs (mixed).');
   lines.push(getProductPageUrl(p.slug));
   window.open(waLink(lines.join('\n')), '_blank');
 }

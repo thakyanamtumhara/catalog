@@ -42,7 +42,7 @@ function generateFAQ(p) {
     { q: 'Can I order a sample of ' + p.name + ' before bulk ordering?', a: 'Yes! Sale91 offers sample orders of ' + p.name + ' at ' + sampleRange(p) + ' per piece. This lets you check the fabric quality, fit, and color before placing a bulk order. Contact us on WhatsApp to order samples.' },
     { q: 'Is ' + p.name + ' suitable for screen printing?', a: 'Yes, ' + p.name + ' is excellent for screen printing. The ' + material + ' fabric provides a smooth surface for clean prints. The ' + (gsm ? gsm + ' GSM weight' : 'premium weight') + ' ensures prints look sharp and last long.' },
     { q: 'Is ' + p.name + ' suitable for embroidery?', a: 'Absolutely! ' + p.name + ' works great for embroidery. The premium fabric holds embroidery stitches well without puckering. Many brands use Sale91 blanks for their embroidered collections.' },
-    { q: 'What is the minimum order quantity for ' + p.name + '?', a: 'The bulk rate on ' + p.name + ' starts at ' + (p.moq || 10) + ' pieces. Below that, the single-piece sample rate of ' + sampleRange(p) + ' applies. You can mix colours and sizes to reach the minimum.' },
+    { q: 'What is the minimum order quantity for ' + p.name + '?', a: 'The minimum order is ' + (p.moq || 10) + ' pieces and you can mix colours, sizes and even different products to reach it. Below ' + (p.moq || 10) + ' pieces the single-piece sample rate of ' + sampleRange(p) + ' applies.' },
     { q: 'How do I place an order for ' + p.name + '?', a: 'You can order ' + p.name + ' directly through WhatsApp. Visit whatsapp.sale91.com to start a chat. Our team will help you with color selection, sizing, and provide delivery estimates.' },
     { q: 'What is the delivery time for ' + p.name + '?', a: 'Sale91 typically ships within 2-5 business days for in-stock items. Delivery time depends on your location. Most orders within India are delivered within 5-7 business days. Contact us on WhatsApp for exact delivery estimates.' },
     { q: 'Does ' + p.name + ' shrink after washing?', a: p.name + ' is pre-shrunk during manufacturing. However, we recommend following the care instructions: wash in cold water, avoid hot tumble drying. Minimal shrinkage of 2-3% may occur on first wash, which is industry standard.' },
@@ -52,9 +52,24 @@ function generateFAQ(p) {
 }
 
 // Collect all products
-// "₹295" when one rate covers everything, "₹295–335" when it does not.
+// The advertised rate. A ₹5 or ₹10 step at the biggest sizes is normal in the
+// trade, so it does not widen the price we quote — Hoodie 320gsm reads ₹295–325,
+// not ₹295–335, because the ₹335 is only the XXL step on the ₹325 colours. What
+// DOES widen it is a genuinely different rate: a colour tier, or a real ladder
+// like the 260gsm. The full per-size grid on the page stays exact either way.
+var NORMAL_SIZE_STEP = 10;
+function headlineRange(p) {
+  var low = Infinity, high = -Infinity;
+  p.tiers.forEach(function (t) {
+    var hi = t.maxPrice - t.minPrice <= NORMAL_SIZE_STEP ? t.minPrice : t.maxPrice;
+    low = Math.min(low, t.minPrice);
+    high = Math.max(high, hi);
+  });
+  return { low: low, high: high };
+}
 function rateRange(p) {
-  return p.rateMax > p.rate ? '₹' + p.rate + '–' + p.rateMax : '₹' + p.rate;
+  var r = headlineRange(p);
+  return r.high > r.low ? '₹' + r.low + '–' + r.high : '₹' + r.low;
 }
 function sampleRange(p) {
   return p.samplePriceMax > p.samplePrice ? '₹' + p.samplePrice + '–' + p.samplePriceMax : '₹' + p.samplePrice;
@@ -205,7 +220,7 @@ products.forEach(function (p) {
         "@type": "AggregateOffer",
         "name": "Bulk (minimum " + (p.moq || 10) + " pieces)",
         "lowPrice": p.rate,
-        "highPrice": p.rateMax,
+        "highPrice": p.rateMax, // exact, since this aggregate declares offerCount over every size
         "priceCurrency": "INR",
         "availability": "https://schema.org/InStock",
         "offerCount": p.tiers.length * p.sizes.length,
@@ -312,7 +327,7 @@ products.forEach(function (p) {
     '- Colors: ' + p.colors.length + ' options — ' + p.colors.join(', ') + '\n' +
     '- Sizes: ' + p.sizes.join(', ') + '\n' +
     '- Bulk Price: ' + rateRange(p) + ' per piece\n' +
-    '- Minimum Order: ' + (p.moq || 10) + ' pieces\n' +
+    '- Minimum Order: ' + (p.moq || 10) + ' pieces, mixed across colours, sizes and products\n' +
     '- Sample Price: ' + sampleRange(p) + ' per piece\n\n' +
     'PRICING DETAILS (bulk rate per piece — the rate depends on size' +
       (p.tiers.length > 1 ? ' and on colour' : '') + '):\n';
@@ -446,7 +461,7 @@ products.forEach(function (p) {
     '</div>' +
     '<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;">' +
     '<tr style="background:#1e293b;color:white;"><th>Order Type</th><th>Price per Piece</th></tr>' +
-    '<tr><td>Bulk Order (min ' + (p.moq || 10) + ' pcs)</td><td style="font-weight:700;">' + rateRange(p) + '</td></tr>' +
+    '<tr><td>Bulk Order (min ' + (p.moq || 10) + ' pcs, mixed)</td><td style="font-weight:700;">' + rateRange(p) + '</td></tr>' +
     '<tr style="background:#f1f5f9;"><td>Sample Order (1 pc)</td><td>' + sampleRange(p) + '</td></tr>' +
     '</table>' +
     '<h3>Size-wise Bulk Pricing for ' + esc(p.name) + '</h3>' +
@@ -729,6 +744,8 @@ function generateMainPage() {
           "brand": { "@type": "Brand", "name": "Sale91" },
           "offers": {
             "@type": "AggregateOffer",
+            // Exact bounds, not the advertised range — structured data is read
+            // by machines that will compare it against a real invoice.
             "lowPrice": p.rate,
             "highPrice": p.rateMax,
             "priceCurrency": "INR",
@@ -805,10 +822,11 @@ function generateMainPage() {
     grid += '      <div class="product-card-body">\n';
     grid += '        <div class="product-card-name">' + esc(p.name) + '</div>\n';
     grid += '        <div class="product-card-nickname">' + esc(p.nickname) + '</div>\n';
-    // The card must never quote a price the buyer cannot actually get: when the
-    // rate moves with size or colour, show the whole range, cheapest first.
-    grid += '        <div class="product-card-rate">\u20B9' + p.rate +
-      (p.rateMax > p.rate ? '<span class="rate-to">\u2013' + p.rateMax + '</span>' : '') +
+    // Show the whole advertised rate, cheapest first \u2014 never a single number the
+    // buyer cannot actually get for the colour he wants.
+    var hr = headlineRange(p);
+    grid += '        <div class="product-card-rate">\u20B9' + hr.low +
+      (hr.high > hr.low ? '<span class="rate-to">\u2013' + hr.high + '</span>' : '') +
       '<span class="rate-label">/pc</span></div>\n';
     grid += '        <div class="product-card-sample">' +
       (p.moq ? 'Min ' + p.moq + ' pcs' : '') +

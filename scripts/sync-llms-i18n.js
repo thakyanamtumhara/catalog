@@ -31,11 +31,20 @@ for (const cat of catalog().categories) {
     if (p.hidden) continue;
     const tiers = p.tiers || [{ colors: p.colors, bulkPrices: p.bulkPrices, samplePrice: p.samplePrice }];
     const all = tiers.flatMap(t => t.bulkPrices);
+    // A ₹5 or ₹10 step at the biggest sizes is normal and is not quoted; a colour
+    // tier or a real ladder is. Computed per tier, so Sweatshirt reads ₹225–240
+    // (its two colour rates) rather than ₹225–250 (which is just the XXL step).
+    const NORMAL_SIZE_STEP = 10;
+    const headHigh = Math.max(...tiers.map(t => {
+      const lo = Math.min(...t.bulkPrices), hi = Math.max(...t.bulkPrices);
+      return hi - lo <= NORMAL_SIZE_STEP ? lo : hi;
+    }));
     products[p.name] = {
       slug: p.slug || slugify(p.name),
       colors: tiers.reduce((a, t) => a + t.colors.length, 0),
       rate: Math.min(...all),
       rateMax: Math.max(...all),
+      headHigh,
       sample: Math.min(...tiers.map(t => t.samplePrice)),
       sampleMax: Math.max(...tiers.map(t => t.samplePrice)),
       moq: p.moq || 10,
@@ -122,7 +131,7 @@ for (const [file, cfg] of Object.entries(MAP)) {
     const cells = line.split('|');
     // | name | bulk | sample | gsm | colours | material |
     const money = (lo, hi) => (hi > lo ? `₹${lo}–${hi}${cfg.unit}` : `₹${lo}${cfg.unit}`);
-    cells[2] = ` ${money(d.rate, d.rateMax)} `;
+    cells[2] = ` ${money(d.rate, d.headHigh)} `;
     cells[3] = ` ${money(d.sample, d.sampleMax)} `;
     cells[5] = ` ${d.colors}${cfg.colourWord} `;
     out.push(cells.join('|'));

@@ -36,18 +36,18 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Oversize 180gsm | ₹173 | S–XXL ₹173 | 10 pcs | ₹208 | 180 | 2 | 100% Cotton |
 | AcidWash Oversize | ₹233 | XS–XXL ₹233 | 10 pcs | ₹280 | 240 | 7 | 100% Cotton Biowash |
 | Oversize 260gsm | ₹190–255 | XXS ₹190, XS ₹195, S ₹205, M ₹220, L ₹225, XL ₹230, XXL ₹240, XXXL ₹255 | 10 pcs | ₹275 | 260 | 2 | 100% Cotton |
-| True Biowash Round Neck | ₹146–151 | 36–42 ₹146, 44–46 ₹151 | 10 pcs | ₹181 | 180 | 14 | 100% Cotton |
-| Biowash Round Neck | ₹136–141 | 36–42 ₹136, 44–46 ₹141 | 10 pcs | ₹170 | 180 | 9 | 100% Cotton |
-| Non Bio Round Neck | ₹105–110 | 36–42 ₹105, 44–46 ₹110 | 10 pcs | ₹129 | 180 | 1 | 88% Cotton, 12% Polyester |
-| Sublimation T-Shirt | ₹118–123 | 36–42 ₹118, 44–46 ₹123 | 10 pcs | ₹144 | 200 | 1 | Cotton Feel Polyester |
-| Premium Polo | ₹232–237 | 36–44 ₹232, 46 ₹237 | 5 pcs | ₹285 | 220 | 4 | 100% Cotton Honeycomb |
-| Cotton Polo | ₹185–190 | 36–44 ₹185, 46 ₹190 | 5 pcs | ₹222 | 220 | 7 | 88% Cotton, 12% Polyester |
-| Zip Hoodie | ₹325–335 | S–XL ₹325, XXL ₹335 | 5 pcs | ₹390 | 320 | 1 | 88% Cotton, 12% Polyester |
-| Hoodie 320gsm | ₹295–335 | Black: S–XL ₹295, XXL ₹305; 7 colours: S–XL ₹325, XXL ₹335 | 5 pcs | ₹366–402 | 320 | 8 | 88% Cotton, 12% Polyester |
-| Dropshoulder Hoodie 430gsm | ₹380–428 | Black: S–XL ₹380, XXL ₹390; 3 colours: S–XL ₹418, XXL ₹428 | 5 pcs | ₹468–502 | 430 | 4 | 88% Cotton, 12% Polyester |
-| Sweatshirt | ₹225–250 | 4 colours: S–XL ₹225, XXL ₹235; 3 colours: S–XL ₹240, XXL ₹250 | 5 pcs | ₹276–288 | 320 | 7 | 88% Cotton, 12% Polyester |
-| Kids Round Neck | ₹114–124 | 20–26 ₹114, 28–34 ₹124 | 10 pcs | ₹144 | 180 | 5 | 100% Cotton |
-| Shorts | ₹217 | XS–XL ₹217 | 5 pcs | ₹261 | 240 | 4 | 100% Cotton |
+| True Biowash Round Neck | ₹146 | 36–42 ₹146, 44–46 ₹151 | 10 pcs | ₹181 | 180 | 14 | 100% Cotton |
+| Biowash Round Neck | ₹136 | 36–42 ₹136, 44–46 ₹141 | 10 pcs | ₹170 | 180 | 9 | 100% Cotton |
+| Non Bio Round Neck | ₹105 | 36–42 ₹105, 44–46 ₹110 | 10 pcs | ₹129 | 180 | 1 | 88% Cotton, 12% Polyester |
+| Sublimation T-Shirt | ₹118 | 36–42 ₹118, 44–46 ₹123 | 10 pcs | ₹144 | 200 | 1 | Cotton Feel Polyester |
+| Premium Polo | ₹232 | 36–44 ₹232, 46 ₹237 | 10 pcs | ₹285 | 220 | 4 | 100% Cotton Honeycomb |
+| Cotton Polo | ₹185 | 36–44 ₹185, 46 ₹190 | 10 pcs | ₹222 | 220 | 7 | 88% Cotton, 12% Polyester |
+| Zip Hoodie | ₹325 | S–XL ₹325, XXL ₹335 | 10 pcs | ₹390 | 320 | 1 | 88% Cotton, 12% Polyester |
+| Hoodie 320gsm | ₹295–325 | Black: S–XL ₹295, XXL ₹305; 7 colours: S–XL ₹325, XXL ₹335 | 10 pcs | ₹366–402 | 320 | 8 | 88% Cotton, 12% Polyester |
+| Dropshoulder Hoodie 430gsm | ₹380–418 | Black: S–XL ₹380, XXL ₹390; 3 colours: S–XL ₹418, XXL ₹428 | 10 pcs | ₹468–502 | 430 | 4 | 88% Cotton, 12% Polyester |
+| Sweatshirt | ₹225–240 | 4 colours: S–XL ₹225, XXL ₹235; 3 colours: S–XL ₹240, XXL ₹250 | 10 pcs | ₹276–288 | 320 | 7 | 88% Cotton, 12% Polyester |
+| Kids Round Neck | ₹114 | 20–26 ₹114, 28–34 ₹124 | 10 pcs | ₹144 | 180 | 5 | 100% Cotton |
+| Shorts | ₹217 | XS–XL ₹217 | 10 pcs | ₹261 | 240 | 4 | 100% Cotton |
 ## 3. Logistics & Dispatch (Fastest in India)
 We are known for "Dispatch within Minutes".
 * **Delhi NCR Delivery:**

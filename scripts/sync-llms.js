@@ -92,6 +92,20 @@ function getAllProducts(catalog) {
 
 const money = (lo, hi) => (hi > lo ? `₹${lo}–${hi}` : `₹${lo}`);
 
+// A ₹5 or ₹10 step at the biggest sizes is normal and does not widen the quoted
+// rate; a colour tier or a real ladder does. The per-size detail column beside it
+// stays exact.
+const NORMAL_SIZE_STEP = 10;
+function headline(p) {
+  let low = Infinity, high = -Infinity;
+  for (const t of p.tiers) {
+    const lo = Math.min(...t.bulkPrices), hiRaw = Math.max(...t.bulkPrices);
+    const hi = hiRaw - lo <= NORMAL_SIZE_STEP ? lo : hiRaw;
+    low = Math.min(low, lo); high = Math.max(high, hi);
+  }
+  return money(low, high);
+}
+
 // "Black S–XL ₹295, XXL ₹305; 7 colours S–XL ₹325, XXL ₹335"
 function rateDetail(p) {
   return p.tiers.map(t => {
@@ -127,7 +141,7 @@ function generatePriceTable(products) {
     const material = materialMap[p.slug] || (p.description.includes('88% cotton') ? '88% Cotton, 12% Polyester' : '100% Cotton');
     const gsm = p.description.match(/(\d+)gsm/i)?.[1] || '';
     lines.push(
-      `| ${p.name} | ${money(p.rate, p.rateMax)} | ${rateDetail(p)} | ${p.moq || 10} pcs | ` +
+      `| ${p.name} | ${headline(p)} | ${rateDetail(p)} | ${p.moq || 10} pcs | ` +
       `${money(p.samplePrice, p.samplePriceMax)} | ${gsm} | ${p.colors.length} | ${material} |`
     );
   }
@@ -221,6 +235,7 @@ function generateProductsJson(catalog, products) {
     currency: 'INR',
     gstRate: 5,
     moq: 10,
+    moqNote: 'Minimum 10 pieces, mixed across colours, sizes and products',
     websiteDiscount: 2,
     paymentTerms: '100% Prepaid',
     contact: {
