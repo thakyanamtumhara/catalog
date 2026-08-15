@@ -453,6 +453,7 @@ function openProduct(productId, skipPush) {
         (vt.maxPrice > vt.minPrice ? '–' + vt.maxPrice : '') + '/pc</div>'
       : '';
     slides += '<div class="swipe-slide" data-video="1">' +
+      (v.poster ? '<div class="video-blur" data-bg="' + v.poster + '"></div>' : '') +
       '<video data-vsrc="' + v.src + '"' + (v.poster ? ' data-poster="' + v.poster + '"' : '') + ' playsinline muted loop preload="none"></video>' +
       '<div class="video-play-badge">&#9654; Video</div>' +
       vLabel +
@@ -715,6 +716,11 @@ function initSwipe() {
       vid.poster = vid.getAttribute('data-poster');
       vid.removeAttribute('data-poster');
     }
+    var bg = slides[i].querySelector('.video-blur[data-bg]');
+    if (bg) {
+      bg.style.backgroundImage = 'url(' + bg.getAttribute('data-bg') + ')';
+      bg.removeAttribute('data-bg');
+    }
   }
 
   // The clip plays while its slide is on screen and pauses the moment it leaves.
@@ -738,6 +744,19 @@ function initSwipe() {
     if (rightArrow) rightArrow.style.display = currentIndex < slides.length - 1 ? '' : 'none';
   }
 
+  // The clips are 9:16 portrait; the photos are square. On a video slide the
+  // container grows to the clip's true shape so the COMPLETE frame shows —
+  // nothing cropped. Short screens cap the height and the blurred backdrop
+  // fills the letterbox instead of the video losing its head and hem.
+  function fitSlide() {
+    var w = container.offsetWidth;
+    // Zero width = the overlay is not visible yet; let aspect-ratio size it.
+    if (!w) { container.style.height = ''; return; }
+    var isVideo = slides[currentIndex] && slides[currentIndex].hasAttribute('data-video');
+    var h = isVideo ? Math.min(w * 16 / 9, window.innerHeight * 0.72) : w;
+    container.style.height = Math.round(h) + 'px';
+  }
+
   function goToSlide(index) {
     if (index < 0) index = 0;
     if (index >= slides.length) index = slides.length - 1;
@@ -745,6 +764,7 @@ function initSwipe() {
     hydrate(currentIndex);
     hydrate(currentIndex + 1);
     hydrate(currentIndex - 1);
+    fitSlide();
     track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
     var allDots = dotsContainer.querySelectorAll('.swipe-dot');
     for (var i = 0; i < allDots.length; i++) {
@@ -760,6 +780,12 @@ function initSwipe() {
   if (rightArrow) rightArrow.addEventListener('click', function () { goToSlide(currentIndex + 1); });
   updateArrows();
   hydrate(1);
+  // Explicit height from the start: height animates px-to-px when a video
+  // slide arrives (an aspect-ratio-derived height would snap, not animate).
+  // Deferred one frame — initSwipe runs while the overlay is still hidden and
+  // a hidden container measures 0 wide.
+  if (window.requestAnimationFrame) requestAnimationFrame(fitSlide);
+  else setTimeout(fitSlide, 0);
 
   var heroHint = document.getElementById('heroVideoHint');
   if (heroHint) heroHint.addEventListener('click', function () { goToSlide(1); });

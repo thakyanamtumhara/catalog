@@ -579,6 +579,8 @@ body.modal-open .static-product-images { display: none; }
   background: #f1f5f9;
   /* story-style tap zones must not trigger iOS double-tap zoom */
   touch-action: manipulation;
+  /* grows to 9:16 on video slides (JS sets explicit px heights) */
+  transition: height 0.25s ease;
 }
 
 .swipe-track {
@@ -602,6 +604,25 @@ body.modal-open .static-product-images { display: none; }
   height: 100%;
   object-fit: cover;
 }
+/* The complete clip, never a crop: contain inside the (usually 9:16) box, and
+   when a short screen caps the box, the blurred poster fills the letterbox. */
+.swipe-slide[data-video] { overflow: hidden; }
+.swipe-slide[data-video] video {
+  object-fit: contain;
+  position: relative;
+  z-index: 1;
+}
+.video-blur {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(20px) brightness(0.9);
+  transform: scale(1.12);
+}
+/* badge and rate label ride above the raised video layer */
+.swipe-slide[data-video] .video-play-badge,
+.swipe-slide[data-video] .swipe-slide-label { z-index: 2; }
 
 .swipe-slide-label {
   position: absolute;
