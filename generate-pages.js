@@ -46,12 +46,12 @@ function generateFAQ(p) {
     { q: 'What colors does ' + p.name + ' come in?', a: p.name + ' is available in ' + p.colors.length + ' colors: ' + p.colors.join(', ') + '. All colors are colorfast and maintain vibrancy after multiple washes.' },
     { q: 'What is the fabric quality of ' + p.name + '?', a: p.name + ' is made of ' + material + (gsm ? ' with ' + gsm + ' GSM fabric weight' : '') + '. The fabric is pre-shrunk and bio-washed for a soft, premium feel. Perfect for direct-to-garment printing and screen printing.' },
     { q: 'What is the GSM of ' + p.name + '?', a: (gsm ? p.name + ' has a fabric weight of ' + gsm + ' GSM (Grams per Square Meter). Higher GSM means thicker, more durable fabric. This makes it ideal for premium custom apparel.' : 'Please check the product details for exact GSM specifications.') },
-    { q: 'Can I order a sample of ' + p.name + ' before bulk ordering?', a: 'Yes! Sale91 offers sample orders of ' + p.name + ' at ' + sampleRange(p) + ' per piece. This lets you check the fabric quality, fit, and color before placing a bulk order. Contact us on WhatsApp to order samples.' },
+    { q: 'Can I order a sample of ' + p.name + ' before bulk ordering?', a: 'Yes! Sale91 offers sample orders of ' + p.name + ' at ' + sampleRange(p) + ' per piece. This lets you check the fabric quality, fit, and color before placing a bulk order. Order a single piece directly on www.bulkplaintshirt.com — the sample rate applies automatically for orders under 10 pieces.' },
     { q: 'Is ' + p.name + ' suitable for screen printing?', a: 'Yes, ' + p.name + ' is excellent for screen printing. The ' + material + ' fabric provides a smooth surface for clean prints. The ' + (gsm ? gsm + ' GSM weight' : 'premium weight') + ' ensures prints look sharp and last long.' },
     { q: 'Is ' + p.name + ' suitable for embroidery?', a: 'Absolutely! ' + p.name + ' works great for embroidery. The premium fabric holds embroidery stitches well without puckering. Many brands use Sale91 blanks for their embroidered collections.' },
     { q: 'What is the minimum order quantity for ' + p.name + '?', a: 'The minimum order is ' + (p.moq || 10) + ' pieces and you can mix colours, sizes and even different products to reach it. Below ' + (p.moq || 10) + ' pieces the single-piece sample rate of ' + sampleRange(p) + ' applies.' },
-    { q: 'How do I place an order for ' + p.name + '?', a: 'You can order ' + p.name + ' directly through WhatsApp. Visit whatsapp.sale91.com to start a chat. Our team will help you with color selection, sizing, and provide delivery estimates.' },
-    { q: 'What is the delivery time for ' + p.name + '?', a: 'Sale91 typically ships within 2-5 business days for in-stock items. Delivery time depends on your location. Most orders within India are delivered within 5-7 business days. Contact us on WhatsApp for exact delivery estimates.' },
+    { q: 'How do I place an order for ' + p.name + '?', a: 'Order directly on the website: visit www.bulkplaintshirt.com, pick your colours and sizes, and check out. Minimum 10 pieces, mixed across any products; a single piece bills at the sample rate automatically. Orders are dispatched within minutes. For any question before ordering, chat with us at whatsapp.sale91.com.' },
+    { q: 'What is the delivery time for ' + p.name + '?', a: 'Sale91 is known for "Dispatch within Minutes" — we keep ready stock and dispatch orders within minutes of confirmation, not days. Delivery time then depends on your location; most orders within India are delivered within 5-7 business days. Contact us on WhatsApp for exact delivery estimates.' },
     { q: 'Does ' + p.name + ' shrink after washing?', a: p.name + ' is pre-shrunk during manufacturing. However, we recommend following the care instructions: wash in cold water, avoid hot tumble drying. Minimal shrinkage of 2-3% may occur on first wash, which is industry standard.' },
     { q: 'How does ' + p.name + ' compare to other brands?', a: p.name + ' from Sale91 offers premium quality at wholesale prices. At ' + rateRange(p) + '/pc bulk, you get ' + material + ' fabric with ' + (gsm ? gsm + ' GSM thickness' : 'premium thickness') + '. Most comparable brands charge 40-60% more for similar quality. Sale91 cuts out middlemen to offer factory-direct pricing.' },
     { q: 'Is Sale91 a trusted blank apparel supplier?', a: 'Sale91 is one of India\'s trusted wholesale blank apparel suppliers. With consistent quality, competitive pricing, and excellent customer support via WhatsApp, Sale91 serves hundreds of brands, print shops, and businesses across India. Check our catalog at catalog.sale91.com for our full product range.' }
@@ -380,10 +380,11 @@ products.forEach(function (p) {
     'ORDERING PROCESS:\n' +
     '1. Browse the catalog at https://catalog.sale91.com\n' +
     '2. Select product, colors, and sizes\n' +
-    '3. Contact Sale91 on WhatsApp at https://whatsapp.sale91.com\n' +
-    '4. Get a quote and confirm order\n' +
+    '3. Order directly on the website at https://www.bulkplaintshirt.com (min 10 pcs, mix any products)\n' +
+    '4. Dispatch within minutes of order confirmation — Sale91 keeps ready stock\n' +
     '5. Delivery within 5-7 business days across India\n' +
-    '- Sample orders available at ₹' + p.samplePrice + '/pc\n\n' +
+    '- 1-pc samples: order online, the sample rate (₹' + p.samplePrice + '/pc) applies automatically\n' +
+    '- Questions before ordering: WhatsApp https://whatsapp.sale91.com\n\n' +
     'CONTACT: Order via WhatsApp at https://whatsapp.sale91.com\n' +
     'WEBSITE: https://www.bulkplaintshirt.com\n' +
     'CATALOG: https://catalog.sale91.com\n\n' +
@@ -429,7 +430,8 @@ products.forEach(function (p) {
     '<h2 style="color:white;margin:8px 0;">' + esc(p.name) + ' — Premium Blank ' + esc(p.categoryName) + '</h2>' +
     '<p style="color:#94a3b8;margin:4px 0;">' + esc(p.description) + '</p>' +
     '<p style="font-size:20px;font-weight:700;color:#4ade80;margin:12px 0;">₹' + p.rate + '/pc Bulk | ₹' + p.samplePrice + '/pc Sample</p>' +
-    '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:#25d366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Order on WhatsApp</a>' +
+    '<a href="https://www.bulkplaintshirt.com" style="display:inline-block;background:#2563eb;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Order on the Website</a> ' +
+    '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:#25d366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Questions? WhatsApp</a>' +
     '</div>' +
 
     // Product Overview
@@ -494,9 +496,9 @@ products.forEach(function (p) {
     // CTA Mid-section
     '<div style="background:linear-gradient(135deg,#059669 0%,#10b981 100%);color:white;padding:20px;border-radius:12px;text-align:center;margin:24px 0;">' +
     '<p style="font-size:18px;font-weight:700;margin:0 0 8px;">Ready to Order ' + esc(p.name) + '?</p>' +
-    '<p style="margin:0 0 12px;">Bulk: ₹' + p.rate + '/pc | Sample: ₹' + p.samplePrice + '/pc | Min 10 pcs, mix anything</p>' +
-    '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:white;color:#059669;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;">WhatsApp Us Now</a> ' +
-    '<a href="https://www.bulkplaintshirt.com" style="display:inline-block;background:#fbbf24;color:#1e293b;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-left:8px;">Order Now</a>' +
+    '<p style="margin:0 0 12px;">Bulk: ₹' + p.rate + '/pc | Sample: ₹' + p.samplePrice + '/pc | Min 10 pcs, mix anything | Dispatch within minutes</p>' +
+    '<a href="https://www.bulkplaintshirt.com" style="display:inline-block;background:white;color:#059669;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;">Order on the Website</a> ' +
+    '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:#fbbf24;color:#1e293b;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:700;margin-left:8px;">Questions? WhatsApp</a>' +
     '</div>' +
 
     // Use Cases
@@ -531,7 +533,7 @@ products.forEach(function (p) {
     '<li><strong>Lowest Wholesale Prices:</strong> Factory-direct pricing starting at just ₹' + p.rate + '/pc — no middlemen, no markups.</li>' +
     '<li><strong>Volume Discounts:</strong> Higher quantities get better rates. Contact us for custom quotes on orders of 500+ pieces.</li>' +
     '<li><strong>Consistent Batches:</strong> Same color, same weight, same sizing — every single time. Your brand deserves consistency.</li>' +
-    '<li><strong>Fast Turnaround:</strong> In-stock items ship within 2-5 business days. Most deliveries complete within a week.</li>' +
+    '<li><strong>Dispatch within Minutes:</strong> Ready stock means your order is dispatched within minutes of confirmation. Most deliveries complete within a week.</li>' +
     '<li><strong>Sample First:</strong> Order a single sample at ₹' + p.samplePrice + ' before committing. We want you to be 100% satisfied.</li>' +
     '<li><strong>WhatsApp Support:</strong> Quick response, easy communication. Get quotes, track orders, and resolve issues — all on WhatsApp.</li>' +
     '</ul>' +
@@ -549,17 +551,17 @@ products.forEach(function (p) {
     '<ol>' +
     '<li><strong>Browse:</strong> Explore our full catalog at <a href="' + SITE_DOMAIN + '">catalog.sale91.com</a></li>' +
     '<li><strong>Select:</strong> Choose your product, preferred colors, and sizes</li>' +
-    '<li><strong>Contact:</strong> Reach out to us on <a href="https://whatsapp.sale91.com">WhatsApp</a> with your requirements</li>' +
-    '<li><strong>Quote:</strong> Get a personalized quote based on your quantity and specifications</li>' +
-    '<li><strong>Order:</strong> Confirm your order and make payment</li>' +
+    '<li><strong>Order:</strong> Check out directly on <a href="https://www.bulkplaintshirt.com">www.bulkplaintshirt.com</a> — minimum 10 pieces, mix any products; a single piece bills at the sample rate</li>' +
+    '<li><strong>Dispatch:</strong> Within minutes of confirmation — we keep ready stock</li>' +
     '<li><strong>Delivery:</strong> Receive your order within 5-7 business days anywhere in India</li>' +
     '</ol>' +
+    '<p>Questions before ordering — colour advice, fabric details, custom quotes on 500+ pieces? <a href="https://whatsapp.sale91.com">Chat with us on WhatsApp</a>.</p>' +
 
     // Bottom CTA
     '<div style="background:linear-gradient(135deg,#7c3aed 0%,#a855f7 100%);color:white;padding:24px;border-radius:12px;text-align:center;margin:24px 0;">' +
     '<p style="font-size:20px;font-weight:700;margin:0 0 4px;">Get ' + esc(p.name) + ' at ₹' + p.rate + '/pc</p>' +
     '<p style="margin:0 0 12px;opacity:0.9;">Premium blank ' + esc(p.categoryName).toLowerCase() + ' | ' + p.colors.length + ' colors | Sizes ' + esc(p.sizes.join(', ')) + '</p>' +
-    '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:white;color:#7c3aed;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">WhatsApp Us Now</a>' +
+    '<a href="https://www.bulkplaintshirt.com" style="display:inline-block;background:white;color:#7c3aed;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:16px;">Order on the Website</a>' +
     '</div>' +
 
     // About Sale91
@@ -681,7 +683,7 @@ llmsComment +
 '      <p style="color:#64748b;margin-bottom:8px;">' + esc(p.description) + '</p>\n' +
 '      <p><strong>Colors (' + p.colors.length + '):</strong> ' + esc(p.colors.join(', ')) + '</p>\n' +
 '      <p><strong>Sizes:</strong> ' + esc(p.sizes.join(', ')) + '</p>\n' +
-'      <p style="margin-top:8px;"><a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Enquire on WhatsApp</a> | <a href="https://www.bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order Now</a></p>\n' +
+'      <p style="margin-top:8px;"><a href="https://www.bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order on the Website</a> | <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Questions? WhatsApp</a></p>\n' +
 '    </div>\n' +
      richContent + '\n' +
 '  </main>\n' +
@@ -878,9 +880,10 @@ function generateMainPage() {
     llmsComment = existing.substring(llmsStart, llmsEnd + '-->'.length) + '\n\n';
   }
 
-  // Static WhatsApp prefill for the end-cap (no JS dependency)
+  // Static WhatsApp prefill for the end-cap (no JS dependency). Questions only —
+  // the order button goes straight to the website.
   var endCapWa = 'https://api.whatsapp.com/send/?phone=919336695049&text=' +
-    encodeURIComponent('Hi, I saw the sale91 catalog (sale91.com/catalog). I want to order.');
+    encodeURIComponent('Hi, I saw the sale91 catalog (sale91.com/catalog). I have a question.');
 
   // Assemble body
   var body = '<body>\n\n' +
@@ -909,10 +912,11 @@ function generateMainPage() {
     '  <!-- End cap: a designed ending for the buyer who saw everything -->\n' +
     '  <section class="end-cap">\n' +
     '    <div class="end-cap-title">That\u2019s the full range \u2014 ' + visibleCount + ' products</div>\n' +
-    '    <div class="end-cap-sub">Min 10 pcs total \u00b7 mix any products, colours &amp; sizes \u00b7 GST invoice \u00b7 Dispatch in 2\u20135 working days</div>\n' +
+    '    <div class="end-cap-sub">Min 10 pcs total \u00b7 mix any products, colours &amp; sizes \u00b7 GST invoice \u00b7 Dispatch within minutes</div>\n' +
+    '    <a class="end-cap-order" href="https://www.bulkplaintshirt.com" target="_blank" rel="noopener">Order on the website &rarr;</a>\n' +
     '    <a class="end-cap-wa" href="' + endCapWa + '" target="_blank" rel="noopener">\n' +
     '      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>\n' +
-    '      WhatsApp us to order\n' +
+    '      Questions? WhatsApp us\n' +
     '    </a>\n' +
     '    <a class="end-cap-phone" href="https://api.whatsapp.com/send/?phone=919336695049">+91 93366 95049</a>\n' +
     '    <a class="end-cap-live" href="https://www.youtube.com/@BulkPlainTshirt_com/live" target="_blank" rel="noopener">&#9654; Godown Live \u2014 watch our warehouse</a>\n' +
