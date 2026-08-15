@@ -32,14 +32,14 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Product | Bulk Price/pc | Rate by size and colour | MOQ | 1-pc Sample | GSM | Colors | Material |
 |---|---|---|---|---|---|---|---|
 | Oversize 210gsm | ₹185 | S–XXL ₹185 | 10 pcs | ₹222 | 210 | 10 | 100% Cotton |
-| Oversize 240gsm | ₹190 | XS–XXL ₹190 | 10 pcs | ₹228 | 240 | 14 | 100% Cotton Biowash |
 | Oversize 180gsm | ₹173 | S–XXL ₹173 | 10 pcs | ₹208 | 180 | 2 | 100% Cotton |
-| AcidWash Oversize | ₹233 | XS–XXL ₹233 | 10 pcs | ₹280 | 240 | 7 | 100% Cotton Biowash |
+| Oversize 240gsm | ₹190 | XS–XXL ₹190 | 10 pcs | ₹228 | 240 | 14 | 100% Cotton Biowash |
 | Oversize 260gsm | ₹190–255 | XXS ₹190, XS ₹195, S ₹205, M ₹220, L ₹225, XL ₹230, XXL ₹240, XXXL ₹255 | 10 pcs | ₹275 | 260 | 2 | 100% Cotton |
+| AcidWash Oversize | ₹233 | XS–XXL ₹233 | 10 pcs | ₹280 | 240 | 7 | 100% Cotton Biowash |
 | True Biowash Round Neck | ₹146 | 36–42 ₹146, 44–46 ₹151 | 10 pcs | ₹181 | 180 | 14 | 100% Cotton |
 | Biowash Round Neck | ₹136 | 36–42 ₹136, 44–46 ₹141 | 10 pcs | ₹170 | 180 | 9 | 100% Cotton |
-| Non Bio Round Neck | ₹105 | 36–42 ₹105, 44–46 ₹110 | 10 pcs | ₹129 | 180 | 1 | 88% Cotton, 12% Polyester |
 | Sublimation T-Shirt | ₹118 | 36–42 ₹118, 44–46 ₹123 | 10 pcs | ₹144 | 200 | 1 | Cotton Feel Polyester |
+| Non Bio Round Neck | ₹105 | 36–42 ₹105, 44–46 ₹110 | 10 pcs | ₹129 | 180 | 1 | 88% Cotton, 12% Polyester |
 | Premium Polo | ₹232 | 36–44 ₹232, 46 ₹237 | 10 pcs | ₹285 | 220 | 4 | 100% Cotton Honeycomb |
 | Cotton Polo | ₹185 | 36–44 ₹185, 46 ₹190 | 10 pcs | ₹222 | 220 | 7 | 88% Cotton, 12% Polyester |
 | Zip Hoodie | ₹325 | S–XL ₹325, XXL ₹335 | 10 pcs | ₹390 | 320 | 1 | 88% Cotton, 12% Polyester |
@@ -71,7 +71,6 @@ We are known for "Dispatch within Minutes".
 * **MOQ (Minimum Order Quantity):** 10 Pieces total (Mix and match any color, size, or any item).
 * **Pricing:** Wholesale rates apply.
     * **GST:** Prices are exclusive of GST. 5% GST is added at invoicing.
-    * **Web Discount:** **Extra 2rs per pc discount** if ordered directly on the website.
 * **Payment Terms:** 100% Prepaid. **No Cash on Delivery (COD)**.
 * **Returns/Replacements:** We replace pieces solely for genuine manufacturing defects (e.g., holes).
 ## 6. Dropshipping Program
@@ -294,14 +293,14 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Product | Rate/pc | Available Colors |
 |---|---|---|
 | Oversize 210gsm | ₹185 | Black, White, Lavender, Beige, Red, Sage Green, Brown, Off-white, Orange, Navy |
-| Oversize 240gsm | ₹190 | Black, White, Navy, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue, Royal Blue |
 | Oversize 180gsm | ₹173 | Black, White |
-| AcidWash Oversize | ₹233 | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
+| Oversize 240gsm | ₹190 | Black, White, Navy, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue, Royal Blue |
 | Oversize 260gsm | ₹190–255 | Black, White |
+| AcidWash Oversize | ₹233 | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
 | True Biowash Round Neck | ₹146–151 | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa, Army Green |
 | Biowash Round Neck | ₹136–141 | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
-| Non Bio Round Neck | ₹105–110 | Black |
 | Sublimation T-Shirt | ₹118–123 | White |
+| Non Bio Round Neck | ₹105–110 | Black |
 | Premium Polo | ₹232–237 | Black, White, Navy, Maroon |
 | Cotton Polo | ₹185–190 | Black, White, Navy, Grey, Maroon, Charcoal, Red |
 | Zip Hoodie | ₹325–335 | Black |
@@ -390,7 +389,6 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 * All prices are in Indian Rupees (INR), exclusive of 5% GST
 * "Bulk" prices are per piece for minimum 10 pieces (mix and match any color/size/item)
 * "Sample" prices are per piece for single piece orders
-* **Extra ₹2/pc discount** when ordering via the website (bulkplaintshirt.com)
 * GSM = Grams per Square Meter (fabric weight/thickness) — Higher GSM = thicker, heavier
 * "Biowash" = enzyme-washed for softness and pre-shrunk finish
 * "Supercombed" = premium combed cotton for smoother, stronger yarn

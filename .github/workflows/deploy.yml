@@ -11,6 +11,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # The HTML references css/js/data by content-hash (?v=). If someone edits
+      # those files without re-running the generator, the hashes in the committed
+      # HTML go stale and cached clients keep old assets for a day. Fail fast.
+      # (git add -A first so brand-new generator output also fails the diff.)
+      - name: Verify committed HTML matches generator output
+        run: |
+          node generate-pages.js
+          git add -A
+          git diff --cached --exit-code
+
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -28,31 +38,51 @@ jobs:
             --size-only \
             --cache-control "public, max-age=31536000, immutable"
 
-      # 2. Sync CSS & JS
-      - name: Sync CSS and JS
+      # 2. Sync CSS, JS & Data
+      # No --size-only here: a same-length edit must still upload. The HTML
+      # references these files by content-hash (?v=), so day-long caching is safe
+      # — a changed file ships under a new URL key on the same deploy.
+      - name: Sync CSS, JS and Data
         run: |
           aws s3 sync ./css s3://bulkplaintshirt.com/catalog/css/ \
             --delete \
-            --size-only \
             --cache-control "public, max-age=86400"
           aws s3 sync ./js s3://bulkplaintshirt.com/catalog/js/ \
             --delete \
-            --size-only \
             --cache-control "public, max-age=86400"
+          aws s3 sync ./data s3://bulkplaintshirt.com/catalog/data/ \
+            --delete \
+            --cache-control "public, max-age=86400"
+
+      # 2b. Fresh asset bytes MUST be at the edge before any HTML referencing
+      # their new ?v= keys goes live — otherwise a buyer can request style.css
+      # with the new key, hit a stale CloudFront body, and Cloudflare pins that
+      # stale body under the new key for hours with no way to purge it from here.
+      - name: Invalidate assets and WAIT (before HTML goes live)
+        run: |
+          INV_ID=$(aws cloudfront create-invalidation \
+            --distribution-id E21QLU9SBUBY7Z \
+            --paths "/catalog/css/*" "/catalog/js/*" "/catalog/data/*" \
+            --query 'Invalidation.Id' --output text)
+          aws cloudfront wait invalidation-completed \
+            --distribution-id E21QLU9SBUBY7Z --id "$INV_ID"
 
       # 3. Sync Root & HTML Files (Aggressive cache invalidation for entry points)
       - name: Sync HTML and Root Configs
         run: |
           aws s3 sync . s3://bulkplaintshirt.com/catalog/ \
             --delete \
-            --size-only \
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude "generate-pages.js" \
+            --exclude "scripts/*" \
+            --exclude ".deploy-backup/*" \
+            --exclude "cloudfront/*" \
             --exclude ".nojekyll" \
             --exclude "images/*" \
             --exclude "css/*" \
             --exclude "js/*" \
+            --exclude "data/*" \
             --cache-control "no-cache, no-store, must-revalidate"
 
       # 4. Smart Invalidation
@@ -70,7 +100,4 @@ jobs:
               "/catalog/*.json" \
               "/catalog/*.txt" \
               "/catalog/*.xml" \
-              "/catalog/css/*" \
-              "/catalog/js/*" \
-              "/catalog/data/*" \
               "/catalog/.well-known/*"

@@ -105,6 +105,61 @@
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-210gsm/"
         },
         {
+          "name": "Oversize 180gsm",
+          "slug": "oversize-180gsm",
+          "description": "Oversized Drop-shoulder 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
+          "gsm": 180,
+          "bulkPriceFrom": 173,
+          "bulkPriceTo": 173,
+          "moq": 10,
+          "samplePriceFrom": 208,
+          "samplePriceTo": 208,
+          "sizes": [
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "White"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#FFFFFF"
+              ],
+              "pricePerSize": {
+                "S": 173,
+                "M": 173,
+                "L": 173,
+                "XL": 173,
+                "XXL": 173
+              },
+              "priceBands": [
+                {
+                  "sizes": "S–XXL",
+                  "price": 173
+                }
+              ],
+              "samplePrice": 208
+            }
+          ],
+          "colors": [
+            "Black",
+            "White"
+          ],
+          "colorCodes": [
+            "#222222",
+            "#FFFFFF"
+          ],
+          "imageCount": 2,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-180gsm/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-180gsm/"
+        },
+        {
           "name": "Oversize 240gsm",
           "slug": "oversize-240gsm",
           "description": "Oversized Drop-shoulder, 240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Premium Quality Biowash Fabric",
@@ -210,138 +265,6 @@
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-240gsm/"
         },
         {
-          "name": "Oversize 180gsm",
-          "slug": "oversize-180gsm",
-          "description": "Oversized Drop-shoulder 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
-          "gsm": 180,
-          "bulkPriceFrom": 173,
-          "bulkPriceTo": 173,
-          "moq": 10,
-          "samplePriceFrom": 208,
-          "samplePriceTo": 208,
-          "sizes": [
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
-          "rates": [
-            {
-              "colors": [
-                "Black",
-                "White"
-              ],
-              "colorCodes": [
-                "#222222",
-                "#FFFFFF"
-              ],
-              "pricePerSize": {
-                "S": 173,
-                "M": 173,
-                "L": 173,
-                "XL": 173,
-                "XXL": 173
-              },
-              "priceBands": [
-                {
-                  "sizes": "S–XXL",
-                  "price": 173
-                }
-              ],
-              "samplePrice": 208
-            }
-          ],
-          "colors": [
-            "Black",
-            "White"
-          ],
-          "colorCodes": [
-            "#222222",
-            "#FFFFFF"
-          ],
-          "imageCount": 2,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-180gsm/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-180gsm/"
-        },
-        {
-          "name": "AcidWash Oversize",
-          "slug": "acidwash-oversize",
-          "description": "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
-          "gsm": 240,
-          "bulkPriceFrom": 233,
-          "bulkPriceTo": 233,
-          "moq": 10,
-          "samplePriceFrom": 280,
-          "samplePriceTo": 280,
-          "sizes": [
-            "XS",
-            "S",
-            "M",
-            "L",
-            "XL",
-            "XXL"
-          ],
-          "rates": [
-            {
-              "colors": [
-                "Black",
-                "Brown",
-                "Navy",
-                "Maroon",
-                "Charcoal",
-                "Red",
-                "Army Green"
-              ],
-              "colorCodes": [
-                "#222222",
-                "#8B4513",
-                "#1E3A5F",
-                "#800020",
-                "#36454F",
-                "#DC143C",
-                "#4B5320"
-              ],
-              "pricePerSize": {
-                "XS": 233,
-                "S": 233,
-                "M": 233,
-                "L": 233,
-                "XL": 233,
-                "XXL": 233
-              },
-              "priceBands": [
-                {
-                  "sizes": "XS–XXL",
-                  "price": 233
-                }
-              ],
-              "samplePrice": 280
-            }
-          ],
-          "colors": [
-            "Black",
-            "Brown",
-            "Navy",
-            "Maroon",
-            "Charcoal",
-            "Red",
-            "Army Green"
-          ],
-          "colorCodes": [
-            "#222222",
-            "#8B4513",
-            "#1E3A5F",
-            "#800020",
-            "#36454F",
-            "#DC143C",
-            "#4B5320"
-          ],
-          "imageCount": 4,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/acidwash-oversize/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/acidwash-oversize/"
-        },
-        {
           "name": "Oversize 260gsm",
           "slug": "oversize-260gsm",
           "description": "Oversized Drop-shoulder 260gsm with MOON PATCH, Terry Loopknit 100% Cotton Premium Biowash",
@@ -429,6 +352,83 @@
           "imageCount": 10,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/oversize-260gsm/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/oversize-260gsm/"
+        },
+        {
+          "name": "AcidWash Oversize",
+          "slug": "acidwash-oversize",
+          "description": "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
+          "gsm": 240,
+          "bulkPriceFrom": 233,
+          "bulkPriceTo": 233,
+          "moq": 10,
+          "samplePriceFrom": 280,
+          "samplePriceTo": 280,
+          "sizes": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL",
+            "XXL"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black",
+                "Brown",
+                "Navy",
+                "Maroon",
+                "Charcoal",
+                "Red",
+                "Army Green"
+              ],
+              "colorCodes": [
+                "#222222",
+                "#8B4513",
+                "#1E3A5F",
+                "#800020",
+                "#36454F",
+                "#DC143C",
+                "#4B5320"
+              ],
+              "pricePerSize": {
+                "XS": 233,
+                "S": 233,
+                "M": 233,
+                "L": 233,
+                "XL": 233,
+                "XXL": 233
+              },
+              "priceBands": [
+                {
+                  "sizes": "XS–XXL",
+                  "price": 233
+                }
+              ],
+              "samplePrice": 280
+            }
+          ],
+          "colors": [
+            "Black",
+            "Brown",
+            "Navy",
+            "Maroon",
+            "Charcoal",
+            "Red",
+            "Army Green"
+          ],
+          "colorCodes": [
+            "#222222",
+            "#8B4513",
+            "#1E3A5F",
+            "#800020",
+            "#36454F",
+            "#DC143C",
+            "#4B5320"
+          ],
+          "imageCount": 4,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/acidwash-oversize/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/acidwash-oversize/"
         }
       ]
     },
@@ -635,63 +635,6 @@
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/biowash-round-neck/"
         },
         {
-          "name": "Non Bio Round Neck",
-          "slug": "non-bio-round-neck",
-          "description": "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
-          "gsm": 180,
-          "bulkPriceFrom": 105,
-          "bulkPriceTo": 110,
-          "moq": 10,
-          "samplePriceFrom": 129,
-          "samplePriceTo": 129,
-          "sizes": [
-            "36",
-            "38",
-            "40",
-            "42",
-            "44",
-            "46"
-          ],
-          "rates": [
-            {
-              "colors": [
-                "Black"
-              ],
-              "colorCodes": [
-                "#222222"
-              ],
-              "pricePerSize": {
-                "36": 105,
-                "38": 105,
-                "40": 105,
-                "42": 105,
-                "44": 110,
-                "46": 110
-              },
-              "priceBands": [
-                {
-                  "sizes": "36–42",
-                  "price": 105
-                },
-                {
-                  "sizes": "44–46",
-                  "price": 110
-                }
-              ],
-              "samplePrice": 129
-            }
-          ],
-          "colors": [
-            "Black"
-          ],
-          "colorCodes": [
-            "#222222"
-          ],
-          "imageCount": 7,
-          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/non-bio-round-neck/",
-          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/non-bio-round-neck/"
-        },
-        {
           "name": "Sublimation T-Shirt",
           "slug": "sublimation-t-shirt",
           "description": "Regular Fit Round neck, 200gsm, Cotton Feel Polyester Sublimation tshirt, Premium Quality Sarina Knitting Type",
@@ -747,6 +690,63 @@
           "imageCount": 7,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/sublimation-t-shirt/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/sublimation-t-shirt/"
+        },
+        {
+          "name": "Non Bio Round Neck",
+          "slug": "non-bio-round-neck",
+          "description": "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
+          "gsm": 180,
+          "bulkPriceFrom": 105,
+          "bulkPriceTo": 110,
+          "moq": 10,
+          "samplePriceFrom": 129,
+          "samplePriceTo": 129,
+          "sizes": [
+            "36",
+            "38",
+            "40",
+            "42",
+            "44",
+            "46"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black"
+              ],
+              "colorCodes": [
+                "#222222"
+              ],
+              "pricePerSize": {
+                "36": 105,
+                "38": 105,
+                "40": 105,
+                "42": 105,
+                "44": 110,
+                "46": 110
+              },
+              "priceBands": [
+                {
+                  "sizes": "36–42",
+                  "price": 105
+                },
+                {
+                  "sizes": "44–46",
+                  "price": 110
+                }
+              ],
+              "samplePrice": 129
+            }
+          ],
+          "colors": [
+            "Black"
+          ],
+          "colorCodes": [
+            "#222222"
+          ],
+          "imageCount": 7,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/non-bio-round-neck/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/non-bio-round-neck/"
         }
       ]
     },

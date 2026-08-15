@@ -148,7 +148,7 @@ function getAllProducts() {
         catalogUrl: product.catalogUrl || tiers[0].catalogUrl,
         images: images,
         sizeChart: product.sizeChart,
-        video: product.video,
+        videos: product.videos || (product.video ? [{ src: product.video }] : []),
         categoryName: cat.name,
         categoryIcon: cat.icon,
         categoryColor: cat.color
@@ -336,6 +336,39 @@ function specStripHtml(product) {
   }).join('') + '</div>';
 }
 
+// ===== Family ladder =====
+// The comparison every reseller makes ("210 or 240?") as tap-throughs instead of
+// a WhatsApp question: the product's own category siblings, each with its weight
+// and advertised rate.
+function familyStripHtml(product, all) {
+  var sibs = [];
+  for (var i = 0; i < all.length; i++) {
+    var s = all[i];
+    if (s.hidden || s.id === product.id || s.categoryId !== product.categoryId) continue;
+    sibs.push(s);
+  }
+  if (!sibs.length) return '';
+  // A sibling that shares this product's GSM (Zip Hoodie next to Hoodie 320gsm)
+  // must not be labelled by weight alone — "320 GSM" would read as this product.
+  // And a weight-only label is only meaningful within the same garment family:
+  // on the Kids page, "240 GSM" meaning the Shorts would be nonsense.
+  function chartFam(p) { return String(p.sizeChart || '').replace(/\d+$/, ''); }
+  var ownGsm = gsmOf(product);
+  var gsmCount = {};
+  sibs.forEach(function (s) { var g = gsmOf(s); if (g) gsmCount[g] = (gsmCount[g] || 0) + 1; });
+  var html = '<div class="family-strip"><span class="family-strip-label">Also in ' +
+    product.categoryName.toLowerCase() + ':</span>';
+  sibs.forEach(function (s) {
+    var gsm = gsmOf(s);
+    var label = gsm && gsm !== ownGsm && gsmCount[gsm] === 1 && chartFam(s) === chartFam(product)
+      ? gsm + ' GSM' : s.nickname;
+    html += '<button class="family-chip" onclick="openProduct(\'' + s.id + '\')">' +
+      label + ' <b>' + rateText(s) + '</b></button>';
+  });
+  html += '</div>';
+  return html;
+}
+
 // ===== Open Product Detail =====
 function findProduct(productId) {
   var all = getAllProducts();
@@ -353,9 +386,17 @@ function openProduct(productId, skipPush) {
   var product = findProduct(productId);
   if (!product) return;
 
-  // Update URL hash for shareable link (skip on product pages)
+  // Update URL hash for shareable link (skip on product pages). A modal session
+  // holds exactly ONE history entry: hopping between products via family chips
+  // or suggestions REPLACES it, so a single Back/close always lands on the grid
+  // — closing must never replay the browsing trail product by product.
   if (!skipPush && !(typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE)) {
-    history.pushState({ product: productId }, '', '#product=' + productId);
+    var overlayEl = document.getElementById('modalOverlay');
+    if (overlayEl && overlayEl.classList.contains('active')) {
+      history.replaceState({ product: productId }, '', '#product=' + productId);
+    } else {
+      history.pushState({ product: productId }, '', '#product=' + productId);
+    }
   }
 
   var overlay = document.getElementById('modalOverlay');
@@ -379,24 +420,45 @@ function openProduct(productId, skipPush) {
       (t.maxPrice > t.minPrice ? '–' + t.maxPrice : '') + '/pc</div>';
   }
 
-  // Main product image (m.webp) as first slide
+  // A video's colour decides which tier's rate its label carries, exactly like a
+  // photo. A clip whose colour is not found falls back to the cheapest tier.
+  function tierOfColor(color) {
+    if (!color) return product.tiers[0];
+    for (var ti = 0; ti < product.tiers.length; ti++) {
+      if (product.tiers[ti].colors.indexOf(color) > -1) return product.tiers[ti];
+    }
+    return product.tiers[0];
+  }
+
+  // Main product image (m.webp) as first slide. Only this slide loads eagerly —
+  // every later slide carries data-src and is hydrated as the buyer approaches
+  // it, so opening a product costs one image, not the whole 24-photo gallery.
   var mainImg = imgBasePath + (product.mainImage || 'm') + '.webp';
   var mainFallback = product.images && product.images[0] ? product.images[0] : placeholder(product.categoryIcon, product.categoryColor, 600, 600);
   var heroTier = product.tiers[product.mainImageTier || 0];
+  var videos = product.videos || [];
   slides += '<div class="swipe-slide" data-hero="1">' +
-    '<img src="' + mainImg + '" alt="' + product.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'};this.src=\'' + mainFallback.replace(/'/g, "\\'") + '\'">' +
+    '<img src="' + mainImg + '" fetchpriority="high" alt="' + product.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'};this.src=\'' + mainFallback.replace(/'/g, "\\'") + '\'">' +
+    (videos.length ? '<button class="video-play-badge hero-video-hint" id="heroVideoHint">&#9654; Watch video</button>' : '') +
     tierLabelHtml(heroTier) +
   '</div>';
   slideCount++;
 
-  if (product.video) {
-    slides += '<div class="swipe-slide">' +
-      '<video src="' + product.video + '" playsinline muted loop preload="metadata" onclick="this.paused?this.play():this.pause()"></video>' +
+  // Real factory clips, one slide each, right after the hero so they are one
+  // swipe away. The clip plays when its slide arrives and pauses when it leaves.
+  videos.forEach(function (v) {
+    var vt = tierOfColor(v.color);
+    var vLabel = multiTier
+      ? '<div class="swipe-slide-label">' + (v.color || vt.colors[0]) + ' &nbsp;₹' + vt.minPrice +
+        (vt.maxPrice > vt.minPrice ? '–' + vt.maxPrice : '') + '/pc</div>'
+      : '';
+    slides += '<div class="swipe-slide" data-video="1">' +
+      '<video data-vsrc="' + v.src + '"' + (v.poster ? ' data-poster="' + v.poster + '"' : '') + ' playsinline muted loop preload="none"></video>' +
       '<div class="video-play-badge">&#9654; Video</div>' +
-      '<div class="swipe-slide-label">Product Video</div>' +
+      vLabel +
     '</div>';
     slideCount++;
-  }
+  });
 
   // All product photos, tier by tier. On a two-rate product every photo carries the
   // rate for the colours it belongs to, so a buyer swiping the gallery can never
@@ -405,7 +467,7 @@ function openProduct(productId, skipPush) {
     var tierLabel = tierLabelHtml(t);
     t.images.forEach(function (src, s) {
       slides += '<div class="swipe-slide">' +
-        '<img src="' + src + '" alt="' + product.name + ' - ' + t.colors[0] + ' - Photo ' + (s + 1) + '" onerror="this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'">' +
+        '<img data-src="' + src + '" alt="' + product.name + ' - ' + t.colors[0] + ' - Photo ' + (s + 1) + '" onerror="this.onerror=null;this.src=\'' + fallbackPlaceholder + '\'">' +
         tierLabel +
       '</div>';
       slideCount++;
@@ -454,7 +516,9 @@ function openProduct(productId, skipPush) {
       '<div class="detail-name">' + product.name + '</div>' +
       '<div class="detail-nickname">' + product.nickname + ' \u00B7 ' + product.categoryName + '</div>' +
       rateBlockHtml(product) +
+      '<button class="sample-link" onclick="sampleWhatsApp(\'' + product.id + '\')">Test it first — 1-pc sample on WhatsApp</button>' +
       specStripHtml(product) +
+      familyStripHtml(product, all) +
       '<div class="detail-desc">' + product.description + '</div>' +
       (product.tiers.length > 1 ? '' :
         '<div class="detail-label">Colours (' + product.colors.length + ')</div>' +
@@ -524,7 +588,7 @@ function openProduct(productId, skipPush) {
 
     sugHtml += '<div class="suggestion-card" onclick="openProduct(\'' + sp.id + '\')">' +
       '<div class="suggestion-card-image" style="background:' + sp.categoryColor + '10">' +
-        '<img src="' + sugMainImg + '" alt="' + sp.name + '" loading="lazy" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + sugPlaceholder + '\'};this.src=\'' + sugFallback.replace(/'/g, "\\'") + '\'">' +
+        '<img data-src="' + sugMainImg + '" alt="' + sp.name + '" onerror="this.onerror=function(){this.onerror=null;this.src=\'' + sugPlaceholder + '\'};this.src=\'' + sugFallback.replace(/'/g, "\\'") + '\'">' +
       '</div>' +
       '<div class="suggestion-card-body">' +
         '<div class="suggestion-card-name">' + sp.name + '</div>' +
@@ -536,7 +600,51 @@ function openProduct(productId, skipPush) {
   sugHtml += '</div>' +
     '<button class="suggestion-arrow suggestion-arrow-right" aria-label="Scroll right">&#8250;</button>' +
     '</div>';
+
+  // Deep-link arrivals land inside one product and never learn the grid exists —
+  // give them a plain path to it.
+  var visibleCount = 0;
+  for (var vc = 0; vc < all.length; vc++) { if (!all[vc].hidden) visibleCount++; }
+  sugHtml += (typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE)
+    ? '<a class="browse-all-btn" href="/catalog/">Browse all ' + visibleCount + ' products &rarr;</a>'
+    : '<button class="browse-all-btn" onclick="closeModal()">Browse all ' + visibleCount + ' products &rarr;</button>';
   suggestions.innerHTML = sugHtml;
+
+  // The always-visible order bar. This is the moment the buyer has just
+  // understood the rate — it must never require a scroll to act on.
+  var ctaBar = document.getElementById('modalCta');
+  if (ctaBar) {
+    var sampleTxt = product.samplePriceMax > product.samplePrice
+      ? '₹' + product.samplePrice + '–' + product.samplePriceMax
+      : '₹' + product.samplePrice;
+    ctaBar.innerHTML =
+      '<button class="cta-sample" onclick="sampleWhatsApp(\'' + product.id + '\')"><small>1-pc sample</small><b>' + sampleTxt + '</b></button>' +
+      '<button class="cta-wa" onclick="enquireWhatsApp(\'' + product.id + '\')">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>' +
+        ' Order on WhatsApp' +
+      '</button>';
+  }
+
+  // The 16 thumbnails only download when the row actually approaches the screen
+  // — native loading=lazy prefetches them ~1250px early, which on a product open
+  // meant the entire row rode along with the hero.
+  (function () {
+    var hydrateSugs = function () {
+      var imgs = suggestions.querySelectorAll('img[data-src]');
+      for (var i = 0; i < imgs.length; i++) {
+        imgs[i].src = imgs[i].getAttribute('data-src');
+        imgs[i].removeAttribute('data-src');
+      }
+    };
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) { hydrateSugs(); io.disconnect(); }
+      }, { rootMargin: '200px' });
+      io.observe(suggestions);
+    } else {
+      hydrateSugs();
+    }
+  })();
 
   // Desktop arrow scroll handlers
   var scrollWrapper = suggestions.querySelector('.suggestion-scroll-wrapper');
@@ -558,8 +666,10 @@ function openProduct(productId, skipPush) {
     updateArrows();
   }
 
-  // Show modal
+  // Show modal. The body class also hides the site header, the home-page FAB and
+  // the crawler-only article — the sheet owns the screen with a clean edge.
   overlay.classList.add('active');
+  document.body.classList.add('modal-open');
   document.body.style.overflow = 'hidden';
   document.querySelector('.modal-container').scrollTop = 0;
 }
@@ -574,11 +684,48 @@ function initSwipe() {
   var slides = track.children;
   var currentIndex = 0;
   var startX = 0;
+  var startY = 0;
   var diffX = 0;
+  var axis = null; // 'x' once the drag commits to the carousel, 'y' when it belongs to the page scroll
   var dragging = false;
+  var didDrag = false;    // a drag that returns to its start point is still not a tap
+  var lastTouchEnd = 0;   // guards the synthetic click that follows a touch tap
 
   var leftArrow = document.getElementById('swipeLeft');
   var rightArrow = document.getElementById('swipeRight');
+
+  // Only the slide being viewed and its two neighbours hold real image URLs.
+  // Everything else waits as data-src, so opening a product downloads one photo
+  // instead of the whole gallery, and each swipe stays a step ahead of the buyer.
+  function hydrate(i) {
+    if (i < 0 || i >= slides.length) return;
+    var img = slides[i].querySelector('img[data-src]');
+    if (img) {
+      img.src = img.getAttribute('data-src');
+      img.removeAttribute('data-src');
+    }
+    var vid = slides[i].querySelector('video[data-poster]');
+    if (vid) {
+      vid.poster = vid.getAttribute('data-poster');
+      vid.removeAttribute('data-poster');
+    }
+  }
+
+  // The clip plays while its slide is on screen and pauses the moment it leaves.
+  // src is attached on first arrival so the 4-5MB file is only ever streamed for
+  // a slide the buyer actually reached.
+  function syncVideos() {
+    for (var i = 0; i < slides.length; i++) {
+      var vid = slides[i].querySelector('video');
+      if (!vid) continue;
+      if (i === currentIndex) {
+        if (!vid.getAttribute('src')) vid.src = vid.getAttribute('data-vsrc');
+        vid.play().catch(function () {});
+      } else if (!vid.paused) {
+        vid.pause();
+      }
+    }
+  }
 
   function updateArrows() {
     if (leftArrow) leftArrow.style.display = currentIndex > 0 ? '' : 'none';
@@ -589,6 +736,9 @@ function initSwipe() {
     if (index < 0) index = 0;
     if (index >= slides.length) index = slides.length - 1;
     currentIndex = index;
+    hydrate(currentIndex);
+    hydrate(currentIndex + 1);
+    hydrate(currentIndex - 1);
     track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
     var allDots = dotsContainer.querySelectorAll('.swipe-dot');
     for (var i = 0; i < allDots.length; i++) {
@@ -597,36 +747,110 @@ function initSwipe() {
     var counter = dotsContainer.querySelector('.swipe-count b');
     if (counter) counter.textContent = currentIndex + 1;
     updateArrows();
+    syncVideos();
   }
 
   if (leftArrow) leftArrow.addEventListener('click', function () { goToSlide(currentIndex - 1); });
   if (rightArrow) rightArrow.addEventListener('click', function () { goToSlide(currentIndex + 1); });
   updateArrows();
+  hydrate(1);
+
+  var heroHint = document.getElementById('heroVideoHint');
+  if (heroHint) heroHint.addEventListener('click', function () { goToSlide(1); });
+
+  function snapBack() {
+    track.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+  }
 
   container.addEventListener('touchstart', function (e) {
+    if (e.touches.length > 1) { dragging = false; return; } // pinch-zoom is not ours
     startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    axis = null;
     dragging = true;
+    didDrag = false;
+    diffX = 0;
     track.style.transition = 'none';
   });
 
+  // Axis lock: the first move decides whether this gesture is a swipe or a page
+  // scroll. A vertical scroll over the photo used to jiggle the carousel.
   container.addEventListener('touchmove', function (e) {
+    if (e.touches.length > 1) {
+      if (dragging) { dragging = false; track.style.transition = 'transform 0.3s ease'; snapBack(); }
+      return;
+    }
     if (!dragging) return;
-    diffX = e.touches[0].clientX - startX;
+    var dx = e.touches[0].clientX - startX;
+    var dy = e.touches[0].clientY - startY;
+    if (!axis) {
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      if (axis === 'y') { dragging = false; track.style.transition = 'transform 0.3s ease'; return; }
+    }
+    if (e.cancelable) e.preventDefault();
+    diffX = dx;
+    if (Math.abs(diffX) > 8) didDrag = true;
     var offset = -(currentIndex * 100) + (diffX / container.offsetWidth * 100);
     track.style.transform = 'translateX(' + offset + '%)';
-  });
+  }, { passive: false });
 
-  container.addEventListener('touchend', function () {
+  container.addEventListener('touchend', function (e) {
+    lastTouchEnd = Date.now();
+    if (!dragging) { diffX = 0; return; }
     dragging = false;
     track.style.transition = 'transform 0.3s ease';
     if (diffX > 50) {
       goToSlide(currentIndex - 1);
     } else if (diffX < -50) {
       goToSlide(currentIndex + 1);
-    } else {
+    } else if (didDrag) {
+      // dragged out and back: settle, never navigate or toggle
       goToSlide(currentIndex);
+    } else {
+      // A stationary touch is a tap. Left third = previous, right third = next —
+      // the pattern this audience already knows from status stories. On a video
+      // slide a tap toggles playback instead — and must NOT run goToSlide after,
+      // whose syncVideos would instantly undo the pause.
+      var t = e.target;
+      var interactive = t.closest && (t.closest('.swipe-dots') || t.closest('.swipe-arrow') || t.closest('.hero-video-hint'));
+      var toggledVideo = false;
+      if (!interactive) {
+        var slide = slides[currentIndex];
+        var vid = slide && slide.querySelector('video');
+        if (vid) {
+          toggledVideo = true;
+          if (vid.paused) { if (!vid.getAttribute('src')) vid.src = vid.getAttribute('data-vsrc'); vid.play().catch(function () {}); }
+          else vid.pause();
+        } else {
+          var x = e.changedTouches[0].clientX - container.getBoundingClientRect().left;
+          if (x < container.offsetWidth / 3) goToSlide(currentIndex - 1);
+          else if (x > container.offsetWidth * 2 / 3) goToSlide(currentIndex + 1);
+        }
+      }
+      if (toggledVideo) snapBack();
+      else goToSlide(currentIndex);
     }
     diffX = 0;
+  });
+
+  // iOS cancels the touch (edge back-swipe, incoming call, control centre)
+  // without a touchend — snap home or the track sits frozen between two slides.
+  container.addEventListener('touchcancel', function () {
+    dragging = false;
+    diffX = 0;
+    track.style.transition = 'transform 0.3s ease';
+    snapBack();
+  });
+
+  // Desktop: click a video to pause/replay. The timestamp guard swallows the
+  // synthetic click that follows a touch tap, which already toggled.
+  container.addEventListener('click', function (e) {
+    if (Date.now() - lastTouchEnd < 700) return;
+    var t = e.target;
+    if (!t || t.tagName !== 'VIDEO') return;
+    if (t.paused) { if (!t.getAttribute('src')) t.src = t.getAttribute('data-vsrc'); t.play().catch(function () {}); }
+    else t.pause();
   });
 
   dotsContainer.addEventListener('click', function (e) {
@@ -677,7 +901,10 @@ function closeModal(skipHistory) {
   var overlay = document.getElementById('modalOverlay');
   if (!overlay.classList.contains('active')) return;
   overlay.classList.remove('active');
+  document.body.classList.remove('modal-open');
   document.body.style.overflow = '';
+  var vids = overlay.querySelectorAll('video');
+  for (var i = 0; i < vids.length; i++) { if (!vids[i].paused) vids[i].pause(); }
   // Product page: close → go to main catalog
   if (typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE) {
     window.location.href = PRODUCT_PAGE.baseUrl;
@@ -732,12 +959,29 @@ function enquireWhatsApp(productId) {
   var p = findProduct(productId);
   if (!p) { window.open(waLink('Hi, I saw the sale91 catalog.'), '_blank'); return; }
   var rate = rateText(p);
-  var lines = ['Hi, I saw *' + p.name + '* (' + p.nickname + ') in the sale91 catalog.'];
+  // The blanks turn the first message into the start of an order instead of an
+  // echo of the catalog — one WhatsApp round-trip saved on every lead.
+  var lines = ['Hi, I want to order *' + p.name + '* (' + p.nickname + ') from the sale91 catalog.'];
   p.tiers.forEach(function (t) {
     var groups = t.priceGroups.map(function (g) { return g.label + ' ₹' + g.price; }).join(', ');
     lines.push((p.tiers.length > 1 ? t.colors.join(', ') + ' — ' : '') + groups);
   });
   lines.push('Bulk ' + rate + '/pc, min ' + (p.moq || 10) + ' pcs (mixed).');
+  lines.push('');
+  lines.push('Quantity: ___ pcs');
+  lines.push('Colours & sizes: ___');
+  lines.push('');
+  lines.push(getProductPageUrl(p.slug));
+  window.open(waLink(lines.join('\n')), '_blank');
+}
+function sampleWhatsApp(productId) {
+  var p = findProduct(productId);
+  if (!p) { window.open(waLink('Hi, I want to order a 1-pc sample from the sale91 catalog.'), '_blank'); return; }
+  var lines = ['Hi, I want a *1-pc sample* of *' + p.name + '* (' + p.nickname + ').'];
+  p.tiers.forEach(function (t) {
+    lines.push((p.tiers.length > 1 ? t.colors.join(', ') + ' — ' : 'Sample ') + '₹' + t.samplePrice);
+  });
+  lines.push('Colour & size: ___');
   lines.push(getProductPageUrl(p.slug));
   window.open(waLink(lines.join('\n')), '_blank');
 }
@@ -754,6 +998,20 @@ document.addEventListener('DOMContentLoaded', function () {
         openProduct(card.dataset.id);
       }
     });
+  }
+
+  // Switching category four screens deep used to keep the old scroll offset and
+  // dump the buyer past the end of the now-shorter grid — snap to the chips.
+  var catTabs = document.getElementById('categoryTabs');
+  if (catTabs) {
+    var catRadios = document.querySelectorAll('.cat-radio');
+    var onCatChange = function () {
+      var top = catTabs.offsetTop;
+      if (window.pageYOffset > top) window.scrollTo(0, top);
+    };
+    for (var ci = 0; ci < catRadios.length; ci++) {
+      catRadios[ci].addEventListener('change', onCatChange);
+    }
   }
 
   // WhatsApp FAB
@@ -782,7 +1040,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ===== Product Page Mode =====
   if (typeof PRODUCT_PAGE !== 'undefined' && PRODUCT_PAGE) {
-    openProduct(PRODUCT_PAGE.id, true);
+    if (findProduct(PRODUCT_PAGE.id)) {
+      openProduct(PRODUCT_PAGE.id, true);
+    } else {
+      // A /p/ page for a product no longer in the data: fall back to the
+      // static article instead of a hidden-header blank.
+      document.body.classList.remove('modal-open');
+    }
     return;
   }
 

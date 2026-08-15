@@ -24,38 +24,85 @@ body {
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
-/* ===== Header ===== */
+/* ===== Header =====
+   Not sticky: the always-on-screen slot belongs to the category chips (the only
+   navigation), not to a banner. One row — brand left, a real Order button right,
+   and a factual trust line where the generic tagline used to be. */
 .site-header {
   background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #fff;
-  padding: 14px 16px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+  padding: 12px 16px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-.header-content { max-width: 1200px; margin: 0 auto; display: block; }
-.site-logo { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.header-brand { min-width: 0; }
+.site-logo { font-size: 21px; font-weight: 800; letter-spacing: -0.5px; }
 .site-logo span { color: #93c5fd; }
-.header-cta { font-size: 12px; font-weight: 600; color: #93c5fd; letter-spacing: 0; }
-.site-tagline { font-size: 11px; opacity: 0.8; margin-top: 1px; }
+.site-tagline {
+  font-size: 11px;
+  opacity: 0.92;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.header-order-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 8px 16px;
+  background: #fff;
+  color: #1d4ed8;
+  font-size: 13.5px;
+  font-weight: 800;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  white-space: nowrap;
+}
+.header-order-btn:active { transform: scale(0.96); }
 
-/* ===== Category Tabs ===== */
+/* Hide the page chrome while a product sheet owns the screen. The header keeps
+   its layout box (visibility) so nothing shifts behind the scrim. The 2000-word
+   crawler article (.seo-content) is deliberately NOT hidden — Googlebot's
+   rendered DOM must keep the text, and the opaque sheet already covers it.
+   Only the static image grid hides: every one of those URLs is also in the
+   page's JSON-LD image array, and an unhidden grid makes the browser fetch
+   several of them behind the sheet. */
+body.modal-open .site-header { visibility: hidden; }
+body.modal-open .whatsapp-fab { display: none; }
+body.modal-open .static-product-images { display: none; }
+
+/* ===== Category Tabs =====
+   The chips are the navigation, so THEY get the sticky slot the header gave up —
+   a buyer four screens deep can jump from tees to hoodies with one thumb-tap. */
 .category-tabs {
   display: flex;
   gap: 8px;
   overflow-x: auto;
-  padding: 12px 10px;
+  padding: 10px;
   max-width: 1200px;
   margin: 0 auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #f8fafc;
+  box-shadow: 0 1px 0 #e2e8f0;
 }
 .category-tabs::-webkit-scrollbar { display: none; }
 
 .category-tab {
   flex-shrink: 0;
-  padding: 7px 16px;
+  padding: 9px 16px;
   border-radius: 20px;
   border: 1.5px solid #e2e8f0;
   background: #fff;
@@ -141,8 +188,81 @@ img { max-width: 100%; display: block; }
   aspect-ratio: 4/3;
 }
 
+/* ===== Mix-rule strip =====
+   The strongest reason to browse more products, stated where the browsing
+   happens: the 10-pc minimum is a TOTAL, not per product. */
+.mix-strip {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 7px 12px 9px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  text-align: center;
+}
+.mix-strip b { color: #0f172a; }
+
 /* ===== Main ===== */
 .main-content { max-width: 1200px; margin: 0 auto; padding: 0 10px 10px; }
+
+/* ===== End cap =====
+   The buyer who scrolled all 17 cards is the hottest visitor the page has — give
+   the page a designed ending instead of a copyright line under the FAB. */
+.end-cap {
+  max-width: 600px;
+  margin: 20px auto 0;
+  padding: 20px 16px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+.end-cap-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+.end-cap-sub {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 14px;
+  line-height: 1.5;
+}
+.end-cap-wa {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 13px 16px;
+  background: #25d366;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 800;
+  border-radius: 10px;
+}
+.end-cap-wa:active { background: #1da851; }
+.end-cap-wa svg { width: 20px; height: 20px; }
+.end-cap-phone {
+  display: block;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+.end-cap-live {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #334155;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+}
 
 /* ===== Product Grid — 2 columns mobile ===== */
 .product-grid {
@@ -169,16 +289,32 @@ img { max-width: 100%; display: block; }
 }
 .product-card-image img { width: 100%; height: 100%; object-fit: cover; }
 
+/* GSM is the primary cross-card comparison key — keep it readable */
 .product-card-badge {
   position: absolute;
   top: 6px;
   left: 6px;
   background: rgba(0,0,0,0.6);
   color: #fff;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   padding: 2px 8px;
   border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+.product-card-play {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(15,23,42,0.72);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 999px;
   backdrop-filter: blur(4px);
 }
 
@@ -200,10 +336,11 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
 }
 
+/* Buyers order by this code — functional data, not decoration */
 .product-card-nickname {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
-  color: #94a3b8;
+  color: #64748b;
   margin-bottom: 4px;
   text-transform: uppercase;
   letter-spacing: 0.3px;
@@ -273,6 +410,7 @@ img { max-width: 100%; display: block; }
   max-height: 96vh;
   border-radius: 14px 14px 0 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   position: relative;
   animation: slideUp 0.25s ease-out;
 }
@@ -285,13 +423,13 @@ img { max-width: 100%; display: block; }
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border: none;
   background: rgba(255,255,255,0.85);
   backdrop-filter: blur(4px);
   border-radius: 50%;
-  font-size: 20px;
+  font-size: 24px;
   color: #475569;
   cursor: pointer;
   z-index: 10;
@@ -300,6 +438,123 @@ img { max-width: 100%; display: block; }
   justify-content: center;
 }
 
+/* ===== Sticky order bar =====
+   The moment the buyer has just understood the rate must never require a scroll
+   to act on. Sticky inside the sheet, so it rides along the whole page. */
+.modal-cta {
+  position: sticky;
+  bottom: 0;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  background: #fff;
+  border-top: 1px solid #e2e8f0;
+  box-shadow: 0 -4px 12px rgba(15,23,42,0.06);
+}
+.modal-cta:empty { display: none; }
+.cta-wa {
+  flex: 1.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 48px;
+  padding: 8px 10px;
+  background: #25d366;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 14.5px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.cta-wa:active { background: #1da851; }
+.cta-sample {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 5px 8px;
+  background: #fff;
+  color: #334155;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  cursor: pointer;
+  line-height: 1.25;
+}
+.cta-sample:active { background: #f1f5f9; }
+.cta-sample small { font-size: 10px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.3px; }
+.cta-sample b { font-size: 13.5px; font-weight: 800; }
+
+/* Below the rate card: the low-risk first step in plain words */
+.sample-link {
+  display: block;
+  width: 100%;
+  margin: -4px 0 12px;
+  padding: 9px 12px;
+  background: none;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #475569;
+  text-align: center;
+  cursor: pointer;
+}
+.sample-link:active { background: #f1f5f9; }
+
+/* ===== Family ladder ===== */
+.family-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0 0 12px;
+}
+.family-strip-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.family-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 11px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+}
+.family-chip b { font-weight: 800; color: #0f172a; }
+.family-chip:active { background: #f1f5f9; }
+
+/* ===== Browse-all ===== */
+.browse-all-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #1d4ed8;
+  cursor: pointer;
+}
+.browse-all-btn:active { background: #f1f5f9; }
+
 /* ===== Swipe Carousel ===== */
 .swipe-container {
   position: relative;
@@ -307,6 +562,8 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   aspect-ratio: 1;
   background: #f1f5f9;
+  /* story-style tap zones must not trigger iOS double-tap zoom */
+  touch-action: manipulation;
 }
 
 .swipe-track {
@@ -370,6 +627,21 @@ img { max-width: 100%; display: block; }
   display: flex;
   align-items: center;
   gap: 3px;
+  border: none;
+}
+/* On the hero it is a real button: nobody knows the video is one swipe away */
+.hero-video-hint {
+  top: auto;
+  bottom: 44px;
+  left: 8px;
+  right: auto;
+  font-size: 11.5px;
+  font-weight: 800;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: rgba(15,23,42,0.78);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
 }
 
 /* Swipe Arrow Buttons (desktop) */
@@ -671,7 +943,8 @@ img { max-width: 100%; display: block; }
   white-space: nowrap;
 }
 
-.color-dot-small.cd-light { border-color: #cbd5e1; }
+/* White is the #1 blank-apparel colour — its dot must not be invisible */
+.color-dot-small.cd-light { border-color: #94a3b8; }
 
 /* ===== Price Table ===== */
 .price-table-wrap {
@@ -1098,9 +1371,10 @@ img { max-width: 100%; display: block; }
 .whatsapp-fab svg { width: 28px; height: 28px; }
 
 /* ===== Footer ===== */
+/* The bottom padding keeps the FAB from sitting on the copyright line */
 .site-footer {
   text-align: center;
-  padding: 20px 16px;
+  padding: 20px 16px 96px;
   color: #94a3b8;
   font-size: 12px;
   margin-top: 16px;

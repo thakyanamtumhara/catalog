@@ -37,23 +37,6 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1-GEQ5CGKgngbeximSerhnkD_2xyOj-FuvyQZhlPG3Dk/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Oversize 240gsm",
-          mainImage: "m2",
-          id: "oversized-tees-1",
-          nickname: "OS240",
-          description: "Oversized Drop-shoulder, 240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Premium Quality Biowash Fabric",
-          sizeChart: "oversized",
-          rate: 190,
-          samplePrice: 228,
-          moq: 10,
-          colors: ["Black", "White", "Navy", "Red", "Maroon", "Off-white", "Beige", "Lavender", "Brown", "Rose Pink", "Charcoal", "Army Green", "Powder Blue", "Royal Blue"],
-          colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#DC143C", "#800020", "#FAF5E4", "#D4C5A9", "#C4B7D5", "#8B4513", "#FF8FAB", "#36454F", "#4B5320", "#B0D4F1", "#4169E1"],
-          imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27],
-          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-          bulkPrices: [190, 190, 190, 190, 190, 190],
-          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTwoQtM14uhd4-3HM7q6lmbFGDD8IJrbxfMSGHAdcT3yR8Yv3XZBBgedc0TKMLaFpQot9kUt8u2KYFB/pub?start=false&loop=false&delayms=3000"
-        },
-        {
           name: "Oversize 180gsm",
           mainImage: "m2",
           id: "oversized-tees-2",
@@ -71,38 +54,24 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1ZSWvKG4ZbGk2KtTKdunLvVfCDB3l_EwYXDVAZcKKIXs/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Boxy Fit",
-          id: "oversized-tees-3",
-          hidden: true,
-          nickname: "Boxy",
-          description: "Boxy Fit Drop-shoulder Tshirt, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
-          sizeChart: "boxy",
-          rate: 175,
-          samplePrice: 204,
-          moq: 10,
-          colors: ["Black", "White"],
-          colorCodes: ["#222222", "#FFFFFF"],
-          imageFiles: [1,2,4,5,6],
-          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-          bulkPrices: [175, 175, 175, 175, 175, 175],
-          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTiAKoubYbfn-ByHz3ttHo_XuOiy4rcIeCzSyBNVTh2wAuvic1erLuvE-ry6d3taBYx8q7x8PzbwX8b/pub?start=false&loop=false&delayms=3000"
-        },
-        {
-          name: "AcidWash Oversize",
+          name: "Oversize 240gsm",
+          videos: [
+            { src: "/ph/vid/oversize-240gsm-royalblue-navy.mp4", poster: "/ph/vid/oversize-240gsm-royalblue-navy.jpg", color: "Royal Blue" }
+          ],
           mainImage: "m2",
-          id: "oversized-tees-4",
-          nickname: "Acid-OS",
-          description: "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
+          id: "oversized-tees-1",
+          nickname: "OS240",
+          description: "Oversized Drop-shoulder, 240gsm, Terry cotton/Loopknit Heavy Gauge, 100% Cotton Premium Quality Biowash Fabric",
           sizeChart: "oversized",
-          rate: 233,
-          samplePrice: 280,
+          rate: 190,
+          samplePrice: 228,
           moq: 10,
-          colors: ["Black", "Brown", "Navy", "Maroon", "Charcoal", "Red", "Army Green"],
-          colorCodes: ["#222222", "#8B4513", "#1E3A5F", "#800020", "#36454F", "#DC143C", "#4B5320"],
-          imageFiles: [1,2,3],
+          colors: ["Black", "White", "Navy", "Red", "Maroon", "Off-white", "Beige", "Lavender", "Brown", "Rose Pink", "Charcoal", "Army Green", "Powder Blue", "Royal Blue"],
+          colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#DC143C", "#800020", "#FAF5E4", "#D4C5A9", "#C4B7D5", "#8B4513", "#FF8FAB", "#36454F", "#4B5320", "#B0D4F1", "#4169E1"],
+          imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,15,16,17,18,19,20,21,22,23,24,25,26,27],
           sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-          bulkPrices: [233, 233, 233, 233, 233, 233],
-          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTkrBu6AtzfU5w-qu84ySWFrIOaVQNGR7-laG9PQfUV0P6Y9ate-SU7s6QSz7Qy9lJbos2S0a8ffn4L/pub?start=false&loop=false&delayms=3000"
+          bulkPrices: [190, 190, 190, 190, 190, 190],
+          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTwoQtM14uhd4-3HM7q6lmbFGDD8IJrbxfMSGHAdcT3yR8Yv3XZBBgedc0TKMLaFpQot9kUt8u2KYFB/pub?start=false&loop=false&delayms=3000"
         },
         {
           name: "Oversize 260gsm",
@@ -119,6 +88,49 @@ const CATALOG_DATA = {
           mainImage: "m2",
           sizes: ["XXS", "XS", "S", "M", "L", "XL", "XXL", "XXXL"],
           bulkPrices: [190, 195, 205, 220, 225, 230, 240, 255]
+        },
+        {
+          name: "AcidWash Oversize",
+          videos: [
+            { src: "/ph/vid/acidwash-os-multi-v2.mp4", poster: "/ph/vid/acidwash-os-multi-v2.jpg" },
+            { src: "/ph/vid/acidwash-os.mp4", poster: "/ph/vid/acidwash-os.jpg", color: "Black" },
+            { src: "/ph/vid/acidwash-os-brown.mp4", poster: "/ph/vid/acidwash-os-brown.jpg", color: "Brown" },
+            { src: "/ph/vid/acidwash-os-navy.mp4", poster: "/ph/vid/acidwash-os-navy.jpg", color: "Navy" },
+            { src: "/ph/vid/acidwash-os-maroon.mp4", poster: "/ph/vid/acidwash-os-maroon.jpg", color: "Maroon" },
+            { src: "/ph/vid/acidwash-os-armygreen-v2.mp4", poster: "/ph/vid/acidwash-os-armygreen-v2.jpg", color: "Army Green" },
+            { src: "/ph/vid/acidwash-os-red-v2.mp4", poster: "/ph/vid/acidwash-os-red-v2.jpg", color: "Red" }
+          ],
+          mainImage: "m2",
+          id: "oversized-tees-4",
+          nickname: "Acid-OS",
+          description: "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
+          sizeChart: "oversized",
+          rate: 233,
+          samplePrice: 280,
+          moq: 10,
+          colors: ["Black", "Brown", "Navy", "Maroon", "Charcoal", "Red", "Army Green"],
+          colorCodes: ["#222222", "#8B4513", "#1E3A5F", "#800020", "#36454F", "#DC143C", "#4B5320"],
+          imageFiles: [1,2,3],
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          bulkPrices: [233, 233, 233, 233, 233, 233],
+          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTkrBu6AtzfU5w-qu84ySWFrIOaVQNGR7-laG9PQfUV0P6Y9ate-SU7s6QSz7Qy9lJbos2S0a8ffn4L/pub?start=false&loop=false&delayms=3000"
+        },
+        {
+          name: "Boxy Fit",
+          id: "oversized-tees-3",
+          hidden: true,
+          nickname: "Boxy",
+          description: "Boxy Fit Drop-shoulder Tshirt, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
+          sizeChart: "boxy",
+          rate: 175,
+          samplePrice: 204,
+          moq: 10,
+          colors: ["Black", "White"],
+          colorCodes: ["#222222", "#FFFFFF"],
+          imageFiles: [1,2,4,5,6],
+          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
+          bulkPrices: [175, 175, 175, 175, 175, 175],
+          catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTiAKoubYbfn-ByHz3ttHo_XuOiy4rcIeCzSyBNVTh2wAuvic1erLuvE-ry6d3taBYx8q7x8PzbwX8b/pub?start=false&loop=false&delayms=3000"
         }
       ]
     },
@@ -130,6 +142,9 @@ const CATALOG_DATA = {
       products: [
         {
           name: "True Biowash Round Neck",
+          videos: [
+            { src: "/ph/vid/true-bio-rneck-mustardyellow.mp4", poster: "/ph/vid/true-bio-rneck-mustardyellow.jpg", color: "Mustard Yellow" }
+          ],
           mainImage: "m2",
           id: "roundneck-tees-0",
           nickname: "True Bio",
@@ -163,23 +178,10 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vS-IYqDUp9Xtyls2ks1pLkE4JT9LgS2SX8IgomwpkK-xK23XoKC7lykAK1yRnJ7orjQ_Lw0laWU0d5M/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Non Bio Round Neck",
-          id: "roundneck-tees-2",
-          nickname: "NBio",
-          description: "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
-          sizeChart: "roundneck",
-          rate: 105,
-          samplePrice: 129,
-          moq: 10,
-          colors: ["Black"],
-          colorCodes: ["#222222"],
-          imageFiles: [1,2,3,4,5,6],
-          sizes: ["36", "38", "40", "42", "44", "46"],
-          bulkPrices: [105, 105, 105, 105, 110, 110],
-          catalogUrl: "https://docs.google.com/presentation/d/1ru4nIzCmrIIZInYCBpBasU9wxbF4gPYb89OF_zc89jw/pub?start=false&loop=false&delayms=3000"
-        },
-        {
           name: "Sublimation T-Shirt",
+          videos: [
+            { src: "/ph/vid/sublimation.mp4", poster: "/ph/vid/sublimation.jpg" }
+          ],
           mainImage: "m2",
           id: "roundneck-tees-3",
           nickname: "Sublimation",
@@ -194,6 +196,22 @@ const CATALOG_DATA = {
           sizes: ["36", "38", "40", "42", "44", "46"],
           bulkPrices: [118, 118, 118, 118, 123, 123],
           catalogUrl: "https://docs.google.com/presentation/d/1flL8p0VuI5twjdg7qM54wlJqAJkJzPlNKu1PERSbOtE/pub?start=false&loop=false&delayms=3000"
+        },
+        {
+          name: "Non Bio Round Neck",
+          id: "roundneck-tees-2",
+          nickname: "NBio",
+          description: "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
+          sizeChart: "roundneck",
+          rate: 105,
+          samplePrice: 129,
+          moq: 10,
+          colors: ["Black"],
+          colorCodes: ["#222222"],
+          imageFiles: [1,2,3,4,5,6],
+          sizes: ["36", "38", "40", "42", "44", "46"],
+          bulkPrices: [105, 105, 105, 105, 110, 110],
+          catalogUrl: "https://docs.google.com/presentation/d/1ru4nIzCmrIIZInYCBpBasU9wxbF4gPYb89OF_zc89jw/pub?start=false&loop=false&delayms=3000"
         }
       ]
     },
@@ -222,6 +240,9 @@ const CATALOG_DATA = {
         },
         {
           name: "Cotton Polo",
+          videos: [
+            { src: "/ph/vid/cotton-polo.mp4", poster: "/ph/vid/cotton-polo.jpg" }
+          ],
           mainImage: "m2",
           id: "polo-tees-1",
           nickname: "Polo",
@@ -264,6 +285,11 @@ const CATALOG_DATA = {
         },
         {
           name: "Hoodie 320gsm",
+          videos: [
+            { src: "/ph/vid/hoodie-320gsm-black-v2.mp4", poster: "/ph/vid/hoodie-320gsm-black-v2.jpg", color: "Black" },
+            { src: "/ph/vid/hoodie-320gsm-white.mp4", poster: "/ph/vid/hoodie-320gsm-white.jpg", color: "White" },
+            { src: "/ph/vid/hoodie-320gsm-navy.mp4", poster: "/ph/vid/hoodie-320gsm-navy.jpg", color: "Navy" }
+          ],
           id: "hoodies-1",
           aliases: ["hoodies-2"],
           nickname: "Hood320",
@@ -300,6 +326,9 @@ const CATALOG_DATA = {
           // ranks 49.5 for nothing. The display name is free to change; the URL
           // is not.
           name: "Dropshoulder Hoodie 430gsm",
+          videos: [
+            { src: "/ph/vid/hoodie-430gsm-black-v2.mp4", poster: "/ph/vid/hoodie-430gsm-black-v2.jpg", color: "Black" }
+          ],
           slug: "hoodie-430gsm",
           id: "hoodies-3",
           aliases: ["hoodies-4"],
@@ -341,6 +370,11 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Sweatshirt",
+          videos: [
+            { src: "/ph/vid/sweatshirt-grey.mp4", poster: "/ph/vid/sweatshirt-grey.jpg", color: "Grey" },
+            { src: "/ph/vid/sweatshirt-offwhite.mp4", poster: "/ph/vid/sweatshirt-offwhite.jpg", color: "Off-white" },
+            { src: "/ph/vid/sweatshirt-maroon.mp4", poster: "/ph/vid/sweatshirt-maroon.jpg", color: "Maroon" }
+          ],
           id: "sweatshirts-0",
           aliases: ["sweatshirts-1"],
           nickname: "Sweatshirt",
