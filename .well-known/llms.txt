@@ -247,7 +247,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 * Boxy Fit: 6 images | AcidWash Oversize: 4 images
 * True Biowash Round Neck: 14 images | Biowash Round Neck: 27 images
 * Non Bio Round Neck: 7 images | Sublimation T-Shirt: 7 images
-* Premium Polo: 19 images | Cotton Polo: 18 images
+* Premium Polo: 19 images | Cotton Polo: 16 images
 * Zip Hoodie: 6 images | Hoodie 320gsm (Black): 4 images | Hoodie 320gsm: 21 images
 * Dropshoulder Hoodie 430gsm: 4 images | Hoodie 430gsm: 11 images
 * Sweatshirt: 11 images | Sweatshirt 2: 9 images | Varsity Jacket: 3 images
