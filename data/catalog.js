@@ -253,7 +253,7 @@ const CATALOG_DATA = {
           moq: 10,
           colors: ["Black", "White", "Navy", "Grey", "Maroon", "Charcoal", "Red"],
           colorCodes: ["#222222", "#FFFFFF", "#1E3A5F", "#808080", "#800020", "#36454F", "#DC143C"],
-          imageFiles: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17],
+          imageFiles: [1,2,3,4,5,6,7,8,9,10,13,14,15,16,17],
           sizes: ["36", "38", "40", "42", "44", "46"],
           bulkPrices: [185, 185, 185, 185, 185, 190],
           catalogUrl: "https://docs.google.com/presentation/d/1D0FRyvgSLbBOmQLYzQfFxru1ggHtJJnUt6LL9LiTJy0/pub?start=false&loop=false&delayms=3000"
