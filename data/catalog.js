@@ -143,7 +143,9 @@ const CATALOG_DATA = {
         {
           name: "True Biowash Round Neck",
           videos: [
-            { src: "/ph/vid/true-bio-rneck-mustardyellow.mp4", poster: "/ph/vid/true-bio-rneck-mustardyellow.jpg", color: "Mustard Yellow" }
+            { src: "/ph/vid/true-bio-rneck-navy.mp4", poster: "/ph/vid/true-bio-rneck-navy.jpg", color: "Navy" },
+            { src: "/ph/vid/true-bio-rneck-mustardyellow.mp4", poster: "/ph/vid/true-bio-rneck-mustardyellow.jpg", color: "Mustard Yellow" },
+            { src: "/ph/vid/true-bio-rneck-grey.mp4", poster: "/ph/vid/true-bio-rneck-grey.jpg", color: "Grey" }
           ],
           mainImage: "m2",
           id: "roundneck-tees-0",
