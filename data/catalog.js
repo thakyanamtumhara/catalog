@@ -56,7 +56,8 @@ const CATALOG_DATA = {
         {
           name: "Oversize 240gsm",
           videos: [
-            { src: "/ph/vid/oversize-240gsm-royalblue-navy.mp4", poster: "/ph/vid/oversize-240gsm-royalblue-navy.jpg", color: "Royal Blue" }
+            { src: "/ph/vid/oversize-240gsm-royalblue-navy.mp4", poster: "/ph/vid/oversize-240gsm-royalblue-navy.jpg", color: "Royal Blue" },
+            { src: "/ph/vid/oversize-240gsm-charcoal.mp4", poster: "/ph/vid/oversize-240gsm-charcoal.jpg", color: "Charcoal" }
           ],
           mainImage: "m2",
           id: "oversized-tees-1",
