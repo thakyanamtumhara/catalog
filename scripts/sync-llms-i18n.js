@@ -34,7 +34,7 @@ for (const cat of catalog().categories) {
     // A ₹5 or ₹10 step at the biggest sizes is normal and is not quoted; a colour
     // tier or a real ladder is. Computed per tier, so Sweatshirt reads ₹225–240
     // (its two colour rates) rather than ₹225–250 (which is just the XXL step).
-    const NORMAL_SIZE_STEP = 10;
+    const NORMAL_SIZE_STEP = 11;
     const headHigh = Math.max(...tiers.map(t => {
       const lo = Math.min(...t.bulkPrices), hi = Math.max(...t.bulkPrices);
       return hi - lo <= NORMAL_SIZE_STEP ? lo : hi;

@@ -64,7 +64,7 @@ function generateFAQ(p) {
 // not ₹295–335, because the ₹335 is only the XXL step on the ₹325 colours. What
 // DOES widen it is a genuinely different rate: a colour tier, or a real ladder
 // like the 260gsm. The full per-size grid on the page stays exact either way.
-var NORMAL_SIZE_STEP = 10;
+var NORMAL_SIZE_STEP = 11;
 function headlineRange(p) {
   var low = Infinity, high = -Infinity;
   p.tiers.forEach(function (t) {
@@ -567,7 +567,7 @@ products.forEach(function (p) {
     // About Sale91
     '<h2>About Sale91 — India\'s Trusted Blank Apparel Supplier</h2>' +
     '<p>Sale91 is India\'s trusted premium blank apparel wholesale supplier. We offer a wide range of blank t-shirts, hoodies, sweatshirts, polo shirts, shorts, varsity jackets, and more at factory-direct wholesale prices. ' +
-    'Our catalog includes over 21 products across 6 categories, with prices starting from ₹102 per piece. ' +
+    'Our catalog includes over 21 products across 6 categories, with prices starting from ₹107 per piece. ' +
     'We serve clothing brands, print shops, D2C businesses, corporate buyers, and event organizers across India.</p>' +
     '<p>With consistent quality, competitive pricing, and excellent customer support via WhatsApp, Sale91 has become the go-to blank apparel supplier for hundreds of businesses nationwide. ' +
     'Every product is quality-checked, pre-shrunk, and ready for custom printing or embroidery.</p>' +

@@ -163,7 +163,7 @@ function getAllProducts() {
 // widen the price we quote — Hoodie 320gsm reads ₹295–325, not ₹295–335, because
 // the ₹335 is only the XXL step on the ₹325 colours. What DOES widen it is a
 // genuinely different rate: a colour tier, or a real ladder like the 260gsm.
-var NORMAL_SIZE_STEP = 10;
+var NORMAL_SIZE_STEP = 11;
 function headlineRange(product) {
   var low = Infinity, high = -Infinity;
   product.tiers.forEach(function (t) {

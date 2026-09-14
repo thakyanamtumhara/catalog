@@ -95,7 +95,7 @@ const money = (lo, hi) => (hi > lo ? `₹${lo}–${hi}` : `₹${lo}`);
 // A ₹5 or ₹10 step at the biggest sizes is normal and does not widen the quoted
 // rate; a colour tier or a real ladder does. The per-size detail column beside it
 // stays exact.
-const NORMAL_SIZE_STEP = 10;
+const NORMAL_SIZE_STEP = 11;
 function headline(p) {
   let low = Infinity, high = -Infinity;
   for (const t of p.tiers) {
