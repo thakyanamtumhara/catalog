@@ -35,7 +35,7 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Oversize 180gsm | ₹186 | S–XXL ₹186 | 10 pcs | ₹223 | 180 | 2 | 100% Cotton |
 | Oversize 240gsm | ₹205 | XS–XXL ₹205 | 10 pcs | ₹245 | 240 | 14 | 100% Cotton Biowash |
 | Oversize 260gsm | ₹190–255 | XXS ₹190, XS ₹195, S ₹205, M ₹220, L ₹225, XL ₹230, XXL ₹240, XXXL ₹255 | 10 pcs | ₹275 | 260 | 2 | 100% Cotton |
-| AcidWash Oversize | ₹250 | XS–XXL ₹250 | 10 pcs | ₹300 | 240 | 7 | 100% Cotton Biowash |
+| AcidWash Oversize | ₹250 | XS–XXL ₹250 | 10 pcs | ₹300 | 240 | 6 | 100% Cotton Biowash |
 | True Biowash Round Neck | ₹158 | 36–42 ₹158, 44–46 ₹163 | 10 pcs | ₹195 | 180 | 14 | 100% Cotton |
 | Biowash Round Neck | ₹150 | 36–42 ₹150, 44–46 ₹155 | 10 pcs | ₹185 | 180 | 9 | 100% Cotton |
 | Sublimation T-Shirt | ₹120 | 36–42 ₹120, 44–46 ₹125 | 10 pcs | ₹146 | 200 | 1 | Cotton Feel Polyester |
@@ -296,7 +296,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Oversize 180gsm | ₹186 | Black, White |
 | Oversize 240gsm | ₹205 | Black, White, Navy, Red, Maroon, Off-white, Beige, Lavender, Brown, Rose Pink, Charcoal, Army Green, Powder Blue, Royal Blue |
 | Oversize 260gsm | ₹190–255 | Black, White |
-| AcidWash Oversize | ₹250 | Black, Brown, Navy, Maroon, Charcoal, Red, Army Green |
+| AcidWash Oversize | ₹250 | Black, Brown, Navy, Maroon, Red, Army Green |
 | True Biowash Round Neck | ₹158–163 | Black, White, Maroon, Navy, Mustard Yellow, Red, Bottle Green, Beige, Royal Blue, Lavender, Sky, Grey, Bhagwa, Army Green |
 | Biowash Round Neck | ₹150–155 | Black, White, Navy, Red, Brown, Maroon, Charcoal, Off-white, Rose Pink |
 | Sublimation T-Shirt | ₹120–125 | White |
