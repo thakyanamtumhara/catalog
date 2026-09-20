@@ -358,11 +358,11 @@
           "slug": "acidwash-oversize",
           "description": "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
           "gsm": 240,
-          "bulkPriceFrom": 238,
-          "bulkPriceTo": 238,
+          "bulkPriceFrom": 250,
+          "bulkPriceTo": 250,
           "moq": 10,
-          "samplePriceFrom": 285,
-          "samplePriceTo": 285,
+          "samplePriceFrom": 300,
+          "samplePriceTo": 300,
           "sizes": [
             "XS",
             "S",
@@ -392,20 +392,20 @@
                 "#4B5320"
               ],
               "pricePerSize": {
-                "XS": 238,
-                "S": 238,
-                "M": 238,
-                "L": 238,
-                "XL": 238,
-                "XXL": 238
+                "XS": 250,
+                "S": 250,
+                "M": 250,
+                "L": 250,
+                "XL": 250,
+                "XXL": 250
               },
               "priceBands": [
                 {
                   "sizes": "XS–XXL",
-                  "price": 238
+                  "price": 250
                 }
               ],
-              "samplePrice": 285
+              "samplePrice": 300
             }
           ],
           "colors": [

@@ -106,14 +106,14 @@ const CATALOG_DATA = {
           nickname: "Acid-OS",
           description: "AcidWash OS (Oversize Fit), 240gsm, 100% cotton Biowash French Terry Loopknit",
           sizeChart: "oversized",
-          rate: 250,
-          samplePrice: 300,
+          rate: 238,
+          samplePrice: 285,
           moq: 10,
           colors: ["Black", "Brown", "Navy", "Maroon", "Charcoal", "Red", "Army Green"],
           colorCodes: ["#222222", "#8B4513", "#1E3A5F", "#800020", "#36454F", "#DC143C", "#4B5320"],
           imageFiles: [1,2,3],
           sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-          bulkPrices: [250, 250, 250, 250, 250, 250],
+          bulkPrices: [238, 238, 238, 238, 238, 238],
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTkrBu6AtzfU5w-qu84ySWFrIOaVQNGR7-laG9PQfUV0P6Y9ate-SU7s6QSz7Qy9lJbos2S0a8ffn4L/pub?start=false&loop=false&delayms=3000"
         },
         {
