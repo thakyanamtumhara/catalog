@@ -566,7 +566,7 @@ products.forEach(function (p) {
 
     // About Sale91
     '<h2>About Sale91 — India\'s Trusted Blank Apparel Supplier</h2>' +
-    '<p>Sale91 is India\'s trusted premium blank apparel wholesale supplier. We offer a wide range of blank t-shirts, hoodies, sweatshirts, polo shirts, shorts, varsity jackets, and more at factory-direct wholesale prices. ' +
+    '<p>Sale91 is India\'s trusted premium blank apparel wholesale supplier. We offer a wide range of blank t-shirts, hoodies, sweatshirts, polo shirts, shorts, and more at factory-direct wholesale prices. ' +
     'Our catalog includes over 21 products across 6 categories, with prices starting from ₹107 per piece. ' +
     'We serve clothing brands, print shops, D2C businesses, corporate buyers, and event organizers across India.</p>' +
     '<p>With consistent quality, competitive pricing, and excellent customer support via WhatsApp, Sale91 has become the go-to blank apparel supplier for hundreds of businesses nationwide. ' +

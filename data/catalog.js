@@ -409,23 +409,6 @@ const CATALOG_DATA = {
               catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vQ-U20uFkZqVUmNUAWItRkBZUYKA_RQ2nVvohMze4SxmBWHW5itG0M_tKqVkkvuCh_BTZxOVi_QTw4B/pub?start=false&loop=false&delayms=3000"
             }
           ]
-        },
-        {
-          name: "Varsity Jacket",
-          id: "sweatshirts-2",
-          hidden: true,
-          nickname: "Varsity",
-          description: "Varsity Jacket, 320gsm, Cotton Brushed Loopknit, White Sleeve/Black Body, 88% cotton, 12% polyester",
-          sizeChart: "hoodie320",
-          rate: 335,
-          samplePrice: 402,
-          moq: 10,
-          colors: ["Black"],
-          colorCodes: ["#222222"],
-          imageFiles: [1,2],
-          sizes: ["XS", "S", "M", "L", "XL", "XXL"],
-          bulkPrices: [335, 335, 335, 335, 335, 335],
-          catalogUrl: "https://docs.google.com/presentation/d/1Xn3Eqq1MsfvohHHhzyeGbSDx02WeVh5f0VVk3EXCzW0/pub?start=false&loop=false&delayms=3000"
         }
       ]
     },
