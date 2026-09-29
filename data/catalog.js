@@ -21,6 +21,9 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Oversize 210gsm",
+          videos: [
+            { src: "/ph/vid/oversize-210gsm-red.mp4", poster: "/ph/vid/oversize-210gsm-red.jpg", color: "Red" }
+          ],
           mainImage: "m2",
           id: "oversized-tees-0",
           nickname: "OS210",
@@ -76,6 +79,9 @@ const CATALOG_DATA = {
         },
         {
           name: "Oversize 260gsm",
+          videos: [
+            { src: "/ph/vid/oversize-260gsm-white.mp4", poster: "/ph/vid/oversize-260gsm-white.jpg", color: "White" }
+          ],
           id: "oversized-tees-5",
           nickname: "OS260",
           description: "Oversized Drop-shoulder 260gsm with MOON PATCH, Terry Loopknit 100% Cotton Premium Biowash",
@@ -226,6 +232,9 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Premium Polo",
+          videos: [
+            { src: "/ph/vid/premium-polo-white.mp4", poster: "/ph/vid/premium-polo-white.jpg", color: "White" }
+          ],
           mainImage: "m2",
           id: "polo-tees-0",
           nickname: "Bio Polo",
@@ -271,6 +280,9 @@ const CATALOG_DATA = {
       products: [
         {
           name: "Zip Hoodie",
+          videos: [
+            { src: "/ph/vid/zip-hoodie-black.mp4", poster: "/ph/vid/zip-hoodie-black.jpg", color: "Black" }
+          ],
           mainImage: "m2",
           id: "hoodies-0",
           nickname: "Zipper",
