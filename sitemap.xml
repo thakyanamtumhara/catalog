@@ -96,6 +96,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.bulkplaintshirt.com/catalog/rate-alert/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://www.bulkplaintshirt.com/llms.txt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>

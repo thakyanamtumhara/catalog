@@ -279,6 +279,124 @@ body.modal-open .static-product-images { display: none; }
   border-radius: 999px;
 }
 
+.rate-alert {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 12px;
+  text-align: center;
+}
+.rate-alert-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 10px 18px;
+  background: #f0fdf4;
+  color: #15803d;
+  border: 1.5px solid #25d366;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-align: center;
+}
+.rate-alert-btn:active { background: #dcfce7; }
+.rate-alert-note {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+.rate-alert-pill {
+  display: flex;
+  width: fit-content;
+  margin: 0 auto 12px;
+  font-size: 13px;
+}
+@media (min-width: 600px) {
+  .rate-alert { flex-direction: row; justify-content: center; gap: 12px; }
+}
+
+.ra-main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 16px 8px;
+}
+.ra-card {
+  padding: 26px 18px 18px;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+}
+.ra-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 14px;
+  font-size: 28px;
+  line-height: 1;
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: 50%;
+}
+.ra-title {
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+  color: #0f172a;
+  margin-bottom: 8px;
+  text-wrap: balance;
+}
+.ra-sub {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #475569;
+  margin-bottom: 20px;
+  text-wrap: balance;
+}
+.ra-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 16px;
+  background: #25d366;
+  color: #0f172a;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.2;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(37,211,102,0.35);
+}
+.ra-btn:active { background: #1da851; }
+.ra-hint {
+  margin-top: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #64748b;
+  text-wrap: balance;
+}
+.ra-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 8px;
+  padding: 0 12px;
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #1d4ed8;
+}
+.ra-main + .site-footer { padding-bottom: 24px; }
+
 /* ===== Product Grid — 2 columns mobile ===== */
 .product-grid {
   display: grid;

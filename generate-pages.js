@@ -14,6 +14,10 @@ var CATALOG_DATA = eval('(' + dataMatch[1] + ')');
 
 var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
 
+var RATE_ALERT_TEXT = '🔔 Update me if there are any rate changes';
+var RATE_ALERT_URL = 'https://api.whatsapp.com/send/?phone=919336695049&text=' + encodeURIComponent(RATE_ALERT_TEXT);
+var RATE_ALERT_LABEL = '🔔 Update me if rates change';
+
 // css/style.css, js/main.js and data/catalog.js are served max-age=86400 behind
 // CloudFront + Cloudflare, so an edit stays invisible for up to a day even after
 // the deploy invalidation. The HTML is no-cache, so a fresh URL key ships
@@ -683,7 +687,7 @@ llmsComment +
 '      <p style="color:#64748b;margin-bottom:8px;">' + esc(p.description) + '</p>\n' +
 '      <p><strong>Colors (' + p.colors.length + '):</strong> ' + esc(p.colors.join(', ')) + '</p>\n' +
 '      <p><strong>Sizes:</strong> ' + esc(p.sizes.join(', ')) + '</p>\n' +
-'      <p style="margin-top:8px;"><a href="https://www.bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order on the Website</a> | <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Questions? WhatsApp</a></p>\n' +
+'      <p style="margin-top:8px;"><a href="https://www.bulkplaintshirt.com" style="color:#2563eb;font-weight:700;">Order on the Website</a> | <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Questions? WhatsApp</a> | <a href="' + RATE_ALERT_URL + '" target="_blank" rel="noopener" style="color:#15803d;font-weight:700;">' + RATE_ALERT_LABEL + '</a></p>\n' +
 '    </div>\n' +
      richContent + '\n' +
 '  </main>\n' +
@@ -905,7 +909,11 @@ function generateMainPage() {
     '  <!-- Category Tabs -->\n' +
     tabs + '\n' +
     '  <!-- The minimum is a TOTAL across the whole catalog -->\n' +
-    '  <div class="mix-strip"><b>Min 10 pcs total</b> \u2014 mix any products, colours &amp; sizes \u00b7 1-pc samples available</div>\n\n' +
+    '  <div class="mix-strip"><b>Min 10 pcs total</b> \u2014 mix any products, colours &amp; sizes \u00b7 1-pc samples available</div>\n' +
+    '  <div class="rate-alert">\n' +
+    '    <a class="rate-alert-btn" href="' + RATE_ALERT_URL + '" target="_blank" rel="noopener">' + RATE_ALERT_LABEL + '</a>\n' +
+    '    <span class="rate-alert-note">Get a WhatsApp when our rates change. Free.</span>\n' +
+    '  </div>\n\n' +
     '  <!-- Main Content: All Products -->\n' +
     '  <main class="main-content">\n' +
     grid +
@@ -918,6 +926,7 @@ function generateMainPage() {
     '      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>\n' +
     '      Questions? WhatsApp us\n' +
     '    </a>\n' +
+    '    <a class="end-cap-wa" href="' + RATE_ALERT_URL + '" target="_blank" rel="noopener">' + RATE_ALERT_LABEL + '</a>\n' +
     '    <a class="end-cap-phone" href="https://api.whatsapp.com/send/?phone=919336695049">+91 93366 95049</a>\n' +
     '    <a class="end-cap-live" href="https://www.youtube.com/@BulkPlainTshirt_com/live" target="_blank" rel="noopener">&#9654; Godown Live \u2014 watch our warehouse</a>\n' +
     '  </section>\n' +
@@ -950,5 +959,71 @@ function generateMainPage() {
   console.log('Generated: index.html (static grid + CSS-only filtering)');
 }
 
+function generateRateAlertPage() {
+  var dir = path.join(__dirname, 'rate-alert');
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+  var url = SITE_DOMAIN + '/rate-alert/';
+  var ogImage = SITE_DOMAIN + '/images/og-home.png';
+  var title = 'Rate update alerts — BulkPlainTshirt';
+  var heading = 'Get our rate updates on WhatsApp';
+  var line = 'We send you one WhatsApp whenever our T-shirt rates change. Free. Stop anytime.';
+  var desc = 'Get a WhatsApp message whenever BulkPlainTshirt wholesale T-shirt rates change. One tap to join. Free. Stop anytime.';
+
+  var html = '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8">\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '  <meta name="theme-color" content="#2563eb">\n' +
+    '  <title>' + esc(title) + '</title>\n' +
+    '  <meta name="description" content="' + esc(desc) + '">\n' +
+    '  <link rel="canonical" href="' + url + '">\n' +
+    '  <meta name="robots" content="index, follow">\n' +
+    '  <meta property="og:type" content="website">\n' +
+    '  <meta property="og:site_name" content="BulkPlainTshirt">\n' +
+    '  <meta property="og:title" content="' + esc(heading) + '">\n' +
+    '  <meta property="og:description" content="' + esc(line) + '">\n' +
+    '  <meta property="og:url" content="' + url + '">\n' +
+    '  <meta property="og:image" content="' + ogImage + '">\n' +
+    '  <meta property="og:image:width" content="1200">\n' +
+    '  <meta property="og:image:height" content="630">\n' +
+    '  <meta property="og:locale" content="en_IN">\n' +
+    '  <meta name="twitter:card" content="summary_large_image">\n' +
+    '  <meta name="twitter:title" content="' + esc(heading) + '">\n' +
+    '  <meta name="twitter:description" content="' + esc(line) + '">\n' +
+    '  <meta name="twitter:image" content="' + ogImage + '">\n' +
+    '  <link rel="stylesheet" href="/catalog/css/style.css?v=' + CSS_V + '">\n' +
+    '</head>\n' +
+    '<body>\n' +
+    '  <header class="site-header">\n' +
+    '    <div class="header-content">\n' +
+    '      <a href="/catalog/" class="header-brand">\n' +
+    '        <div class="site-logo">sale<span>91</span>.com</div>\n' +
+    '        <div class="site-tagline">Factory-direct · GST invoice · Pan-India</div>\n' +
+    '      </a>\n' +
+    '      <a href="https://www.bulkplaintshirt.com" target="_blank" rel="noopener" class="header-order-btn">Order Now &rarr;</a>\n' +
+    '    </div>\n' +
+    '  </header>\n\n' +
+    '  <main class="ra-main">\n' +
+    '    <section class="ra-card">\n' +
+    '      <div class="ra-icon" aria-hidden="true">🔔</div>\n' +
+    '      <h1 class="ra-title">' + esc(heading) + '</h1>\n' +
+    '      <p class="ra-sub">' + esc(line) + '</p>\n' +
+    '      <a class="ra-btn" href="' + RATE_ALERT_URL + '" target="_blank" rel="noopener">' + RATE_ALERT_LABEL + '</a>\n' +
+    '      <p class="ra-hint">WhatsApp opens with the message typed. Just press Send.</p>\n' +
+    '      <a class="ra-link" href="/catalog/">See current rates &rarr;</a>\n' +
+    '    </section>\n' +
+    '  </main>\n\n' +
+    '  <footer class="site-footer">\n' +
+    '    &copy; 2026 <a href="https://www.bulkplaintshirt.com">www.bulkplaintshirt.com</a>. All rights reserved.\n' +
+    '  </footer>\n' +
+    '</body>\n' +
+    '</html>\n';
+
+  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  console.log('Generated: rate-alert/index.html');
+}
+
 generateMainPage();
-console.log('\nDone! Generated ' + products.length + ' product pages + main index.html.');
+generateRateAlertPage();
+console.log('\nDone! Generated ' + products.length + ' product pages + main index.html + rate-alert page.');

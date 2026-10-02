@@ -523,6 +523,7 @@ function openProduct(productId, skipPush) {
       '<div class="detail-nickname">' + product.nickname + ' \u00B7 ' + product.categoryName + '</div>' +
       rateBlockHtml(product) +
       '<a class="sample-link" href="' + orderUrl + '" target="_blank" rel="noopener">Test it first — order a 1-pc sample online</a>' +
+      '<a class="rate-alert-btn rate-alert-pill" href="' + waLink(RATE_ALERT_TEXT) + '" target="_blank" rel="noopener">🔔 Update me if rates change</a>' +
       specStripHtml(product) +
       familyStripHtml(product, all) +
       '<div class="detail-desc">' + product.description + '</div>' +
@@ -987,6 +988,7 @@ var WA_NUMBER = '919336695049';
 function waLink(text) {
   return 'https://api.whatsapp.com/send/?phone=' + WA_NUMBER + '&text=' + encodeURIComponent(text);
 }
+var RATE_ALERT_TEXT = '🔔 Update me if there are any rate changes';
 // WhatsApp is the QUESTION channel — orders go straight to the website, because
 // a WhatsApp "order" just gets redirected to the same website anyway. The
 // prefill names the product so the answer can be immediate.
