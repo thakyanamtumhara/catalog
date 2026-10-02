@@ -279,46 +279,66 @@ body.modal-open .static-product-images { display: none; }
   border-radius: 999px;
 }
 
-.rate-alert {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
+.rate-row-wrap {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 16px 12px;
-  text-align: center;
+  padding: 0 10px 10px;
 }
-.rate-alert-btn {
-  display: inline-flex;
+.rate-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 6px 6px 6px 8px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+  color: #0f172a;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.rate-row:active { background: #f8fafc; }
+.rate-row-icon {
+  flex: none;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  max-width: 100%;
-  padding: 10px 18px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   background: #f0fdf4;
-  color: #15803d;
-  border: 1.5px solid #25d366;
+  color: #16a34a;
+}
+.rate-row-icon svg { width: 17px; height: 17px; }
+.rate-row-text {
+  flex: 1;
+  min-width: 0;
+  font-size: 13.5px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.005em;
+}
+.rate-row-more { display: none; color: #64748b; font-weight: 600; }
+.rate-row-cta {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 14px;
   border-radius: 999px;
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.2;
-  text-align: center;
-}
-.rate-alert-btn:active { background: #dcfce7; }
-.rate-alert-note {
-  font-size: 12px;
-  font-weight: 600;
-  color: #475569;
-}
-.rate-alert-pill {
-  display: flex;
-  width: fit-content;
-  margin: 0 auto 12px;
+  background: #dcfce7;
+  color: #166534;
   font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
 }
+.rate-row:active .rate-row-cta { background: #bbf7d0; }
+.rate-row-sheet { margin: 10px 0 14px; }
 @media (min-width: 600px) {
-  .rate-alert { flex-direction: row; justify-content: center; gap: 12px; }
+  .rate-row-wrap { padding: 0 16px 14px; }
+  .rate-row-wrap .rate-row { width: fit-content; margin: 0 auto; padding-right: 6px; gap: 12px; }
+  .rate-row-more { display: inline; }
 }
 
 .ra-main {

@@ -17,6 +17,11 @@ var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
 var RATE_ALERT_TEXT = '🔔 Update me if there are any rate changes';
 var RATE_ALERT_URL = 'https://api.whatsapp.com/send/?phone=919336695049&text=' + encodeURIComponent(RATE_ALERT_TEXT);
 var RATE_ALERT_LABEL = '🔔 Update me if rates change';
+var BELL_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>';
+var RATE_ROW_HTML = '<a class="rate-row" href="' + RATE_ALERT_URL + '" target="_blank" rel="noopener">' +
+  '<span class="rate-row-icon" aria-hidden="true">' + BELL_SVG + '</span>' +
+  '<span class="rate-row-text">Know when rates change<span class="rate-row-more"> \u00b7 free WhatsApp alert</span></span>' +
+  '<span class="rate-row-cta">Notify me</span></a>';
 
 // css/style.css, js/main.js and data/catalog.js are served max-age=86400 behind
 // CloudFront + Cloudflare, so an edit stays invisible for up to a day even after
@@ -910,10 +915,7 @@ function generateMainPage() {
     tabs + '\n' +
     '  <!-- The minimum is a TOTAL across the whole catalog -->\n' +
     '  <div class="mix-strip"><b>Min 10 pcs total</b> \u2014 mix any products, colours &amp; sizes \u00b7 1-pc samples available</div>\n' +
-    '  <div class="rate-alert">\n' +
-    '    <a class="rate-alert-btn" href="' + RATE_ALERT_URL + '" target="_blank" rel="noopener">' + RATE_ALERT_LABEL + '</a>\n' +
-    '    <span class="rate-alert-note">Get a WhatsApp when our rates change. Free.</span>\n' +
-    '  </div>\n\n' +
+    '  <div class="rate-row-wrap">' + RATE_ROW_HTML + '</div>\n\n' +
     '  <!-- Main Content: All Products -->\n' +
     '  <main class="main-content">\n' +
     grid +

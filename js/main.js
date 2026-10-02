@@ -523,7 +523,10 @@ function openProduct(productId, skipPush) {
       '<div class="detail-nickname">' + product.nickname + ' \u00B7 ' + product.categoryName + '</div>' +
       rateBlockHtml(product) +
       '<a class="sample-link" href="' + orderUrl + '" target="_blank" rel="noopener">Test it first — order a 1-pc sample online</a>' +
-      '<a class="rate-alert-btn rate-alert-pill" href="' + waLink(RATE_ALERT_TEXT) + '" target="_blank" rel="noopener">🔔 Update me if rates change</a>' +
+      '<a class="rate-row rate-row-sheet" href="' + waLink(RATE_ALERT_TEXT) + '" target="_blank" rel="noopener">' +
+        '<span class="rate-row-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg></span>' +
+        '<span class="rate-row-text">Know when rates change</span>' +
+        '<span class="rate-row-cta">Notify me</span></a>' +
       specStripHtml(product) +
       familyStripHtml(product, all) +
       '<div class="detail-desc">' + product.description + '</div>' +
