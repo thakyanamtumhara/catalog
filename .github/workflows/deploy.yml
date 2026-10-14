@@ -68,6 +68,8 @@ jobs:
             --distribution-id E21QLU9SBUBY7Z --id "$INV_ID"
 
       # 3. Sync Root & HTML Files (Aggressive cache invalidation for entry points)
+      # pdf/ = the no-rate catalogue PDFs (catalog-pdfs.yml on the default branch builds them from
+      # master after every deploy and daily); --delete must never remove them.
       - name: Sync HTML and Root Configs
         run: |
           aws s3 sync . s3://bulkplaintshirt.com/catalog/ \
