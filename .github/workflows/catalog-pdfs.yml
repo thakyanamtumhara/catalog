@@ -2,7 +2,8 @@ name: Catalogue PDFs (no rates) to S3
 
 # One no-rate PDF per product at /catalog/pdf/<slug>.pdf (+ index.json), built from the live
 # website colours (pc.js) and HD photos (phphotos.js). The clone sends these as WhatsApp documents
-# when a buyer wants something to forward to his own customers. Rebuilt daily so new colours show up.
+# when a buyer wants something to forward to his own customers. Rebuilt daily so new colours show up; after a catalog
+# change that matters, run it by hand: gh workflow run catalog-pdfs.yml -R thakyanamtumhara/catalog --ref claude/mobile-catalog-website-k6LP5
 # A failed build uploads nothing, so the last good PDFs stay live.
 # This file lives on the repo's DEFAULT branch (claude/mobile-catalog-website-k6LP5) because GitHub runs
 # schedule and workflow_run jobs only from the default branch; the job itself builds from master.
@@ -10,10 +11,6 @@ name: Catalogue PDFs (no rates) to S3
 on:
   schedule:
     - cron: '30 0 * * *'
-  workflow_run:
-    workflows: ['Deploy to AWS S3 + CloudFront']
-    types: [completed]
-    branches: [master]
   workflow_dispatch:
 
 concurrency:
@@ -22,7 +19,6 @@ concurrency:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
