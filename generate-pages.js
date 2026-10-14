@@ -13,6 +13,7 @@ if (!dataMatch) { console.error('Could not parse catalog data'); process.exit(1)
 var CATALOG_DATA = eval('(' + dataMatch[1] + ')');
 
 var SITE_DOMAIN = 'https://www.bulkplaintshirt.com/catalog';
+var DTF = CATALOG_DATA.dtf && !CATALOG_DATA.dtf.hidden ? CATALOG_DATA.dtf : null;
 
 var RATE_ALERT_TEXT = '🔔 Update me if there are any rate changes';
 var RATE_ALERT_URL = 'https://api.whatsapp.com/send/?phone=919336695049&text=' + encodeURIComponent(RATE_ALERT_TEXT);
@@ -589,6 +590,7 @@ products.forEach(function (p) {
       richContent += '<li><a href="/catalog/p/' + other.slug + '/">' + esc(other.name) + '</a> — ₹' + other.rate + '/pc bulk</li>';
     }
   });
+  if (DTF) richContent += '<li><a href="/catalog/p/' + DTF.slug + '/">' + esc(DTF.name) + '</a> — ' + dtfMoney(DTF.pricePerMetre) + ' per metre</li>';
   richContent += '</ul>' +
 
     // Footer tags / related searches
@@ -729,6 +731,213 @@ llmsComment +
   console.log('Generated: p/' + p.slug + '/index.html');
 });
 
+function dtfMoney(n) {
+  return '₹' + (n % 1 ? n.toFixed(2) : String(n));
+}
+var DTF_LENGTHS = [[25, '25 cm'], [50, '50 cm'], [100, '1 metre'], [200, '2 metres'], [500, '5 metres']];
+function dtfPriceFor(cm) { return Math.round(DTF.pricePerMetre * cm) / 100; }
+
+function dtfFAQ(d) {
+  return [
+    { q: 'What is the price of DTF printing at Sale91?', a: dtfMoney(d.pricePerMetre) + ' per metre (100 cm) of sheet length, plus ' + d.gstPercent + '% GST and delivery. The sheet is ' + d.sheetWidthIn + ' in (' + d.sheetWidthCm + ' cm) wide and you pay only for the length you use: 50 cm costs ' + dtfMoney(dtfPriceFor(50)) + ' and 2 metres cost ' + dtfMoney(dtfPriceFor(200)) + ' before GST.' },
+    { q: 'What sheet size do you print?', a: 'Every sheet is ' + d.sheetWidthIn + ' in (' + d.sheetWidthCm + ' cm) wide. A sheet can be any length up to ' + d.maxLengthIn + ' in.' },
+    { q: 'What file do I need to upload?', a: d.fileRule + ' Upload a ready ' + d.sheetWidthIn + ' in wide sheet, or upload single designs and choose their width and pieces: the website sets every piece on the sheet for you.' },
+    { q: 'Is there a minimum order?', a: 'There is no minimum length: a sheet can be as short as 1 in. To check the print quality first, order 1 metre for ' + dtfMoney(d.pricePerMetre) + ' plus GST and delivery.' },
+    { q: 'How do I order DTF prints?', a: 'Order on ' + d.orderUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') + ': upload your sheet or designs, enter the pieces, choose delivery and pay online.' },
+    { q: 'Where are DTF prints dispatched from?', a: 'From ' + d.dispatchFrom + ', by courier across India. Inside ' + d.dispatchFrom + ', same-day bike delivery is available.' },
+    { q: 'Is GST included in the price?', a: 'No. ' + dtfMoney(d.pricePerMetre) + ' per metre is before GST. ' + d.gstPercent + '% GST is added on the print and the delivery, and you get a GST bill.' }
+  ];
+}
+
+function generateDtfPage(d) {
+  var dir = path.join(pDir, d.slug);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  var price = d.pricePerMetre;
+  var canonicalUrl = SITE_DOMAIN + '/p/' + d.slug + '/';
+  var mainUrl = SITE_DOMAIN + '/images/' + d.slug + '/' + (d.mainImage || 'm') + '.webp';
+  var imageUrls = [mainUrl].concat(d.imageFiles.map(function (n) { return SITE_DOMAIN + '/images/' + d.slug + '/' + n + '.webp'; }));
+  var title = d.name + ' — ' + dtfMoney(price) + ' per metre, ' + d.sheetWidthIn + ' in sheets | Sale91';
+  var desc = 'DTF transfer sheets printed from your designs: ' + dtfMoney(price) + ' per metre + ' + d.gstPercent + '% GST, ' + d.sheetWidthIn + ' in wide, any length up to ' + d.maxLengthIn + ' in. Dispatched from ' + d.dispatchFrom + '.';
+  var metaDesc = desc.length > 160 ? desc.substring(0, 157) + '...' : desc;
+  var faqItems = dtfFAQ(d);
+
+  var productLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": d.name,
+    "description": d.description,
+    "brand": { "@type": "Brand", "name": "Sale91" },
+    "category": "DTF transfer sheets",
+    "image": imageUrls,
+    "url": canonicalUrl,
+    "additionalProperty": [
+      { "@type": "PropertyValue", "name": "Sheet width", "value": d.sheetWidthIn + ' in (' + d.sheetWidthCm + ' cm)' },
+      { "@type": "PropertyValue", "name": "Maximum length", "value": d.maxLengthIn + ' in' },
+      { "@type": "PropertyValue", "name": "Files", "value": d.fileRule }
+    ],
+    "offers": {
+      "@type": "Offer",
+      "price": price,
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock",
+      "url": d.orderUrl,
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": price,
+        "priceCurrency": "INR",
+        "unitCode": "MTR",
+        "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MTR" },
+        "valueAddedTaxIncluded": false
+      },
+      "seller": { "@type": "Organization", "name": "Sale91", "url": "https://www.bulkplaintshirt.com" }
+    }
+  };
+  var breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Sale91 Catalog", "item": SITE_DOMAIN + "/" },
+      { "@type": "ListItem", "position": 2, "name": d.name }
+    ]
+  };
+  var faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqItems.map(function (item) {
+      return { "@type": "Question", "name": item.q, "acceptedAnswer": { "@type": "Answer", "text": item.a } };
+    })
+  };
+
+  var staticImagesHtml = '      <img src="/catalog/images/' + d.slug + '/' + (d.mainImage || 'm') + '.webp" alt="' + esc(d.name + ' - ' + (d.mainCaption || 'DTF print')) + '" width="600" height="600" loading="lazy">\n';
+  d.imageFiles.forEach(function (n, i) {
+    staticImagesHtml += '      <img src="/catalog/images/' + d.slug + '/' + n + '.webp" alt="' + esc(d.name + ' - ' + (d.imageCaptions[i] || 'Photo ' + (i + 1))) + '" width="400" height="400" loading="lazy">\n';
+  });
+
+  var rich = '<div class="seo-content" style="padding:16px;max-width:800px;margin:0 auto;">' +
+    '<h2>' + esc(d.name) + ' price by sheet length</h2>' +
+    '<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;">' +
+    '<tr style="background:#1e293b;color:white;"><th>Sheet length (' + d.sheetWidthIn + ' in wide)</th><th>Price before GST</th></tr>' +
+    DTF_LENGTHS.map(function (l, i) {
+      return '<tr' + (i % 2 ? ' style="background:#f1f5f9;"' : '') + '><td>' + l[1] + '</td><td>' + dtfMoney(dtfPriceFor(l[0])) + '</td></tr>';
+    }).join('') +
+    '</table>' +
+    '<p>' + dtfMoney(price) + ' per metre (100 cm) of sheet length. You pay only for the length you use. GST ' + d.gstPercent + '% and delivery extra.</p>' +
+    '<h2>Two ways to order</h2><ul>' +
+    d.ways.map(function (w) { return '<li><strong>' + esc(w.title) + ':</strong> ' + esc(w.text) + '</li>'; }).join('') +
+    '</ul>' +
+    '<p><strong>Files:</strong> ' + esc(d.fileRule) + '</p>' +
+    '<h2>Specifications</h2>' +
+    '<table border="1" cellpadding="8" style="border-collapse:collapse;width:100%;">' +
+    '<tr><td><strong>Sheet width</strong></td><td>' + d.sheetWidthIn + ' in (' + d.sheetWidthCm + ' cm)</td></tr>' +
+    '<tr style="background:#f1f5f9;"><td><strong>Sheet length</strong></td><td>Any length up to ' + d.maxLengthIn + ' in</td></tr>' +
+    '<tr><td><strong>Price</strong></td><td>' + dtfMoney(price) + ' per metre + ' + d.gstPercent + '% GST</td></tr>' +
+    '<tr style="background:#f1f5f9;"><td><strong>Files</strong></td><td>' + esc(d.fileRule) + '</td></tr>' +
+    '<tr><td><strong>Dispatch</strong></td><td>' + esc(d.dispatchFrom) + '</td></tr>' +
+    '</table>' +
+    '<h2>Frequently Asked Questions</h2>' +
+    faqItems.map(function (f) { return '<h3>' + esc(f.q) + '</h3><p>' + esc(f.a) + '</p>'; }).join('') +
+    '<p><a href="' + d.orderUrl + '" style="color:#2563eb;font-weight:700;">Order DTF on the website</a> | <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Questions? WhatsApp</a></p>' +
+    '<h2>Blank T-shirts and hoodies to print on</h2><ul>';
+  products.forEach(function (other) {
+    if (!other.hidden) rich += '<li><a href="/catalog/p/' + other.slug + '/">' + esc(other.name) + '</a> — ₹' + other.rate + '/pc bulk</li>';
+  });
+  rich += '</ul></div>';
+
+  var html = '<!DOCTYPE html>\n' +
+'<html lang="en">\n' +
+'<head>\n' +
+'  <meta charset="UTF-8">\n' +
+'  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+'  <title>' + esc(title) + '</title>\n' +
+'  <meta name="description" content="' + esc(metaDesc) + '">\n' +
+'  <meta name="keywords" content="dtf print, dtf printing, dtf transfer sheet, dtf gang sheet, dtf sheet price, dtf print per metre, dtf printing india, dtf printing surat, sale91">\n' +
+'  <link rel="canonical" href="' + canonicalUrl + '">\n' +
+'  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">\n' +
+'  <meta property="og:type" content="product">\n' +
+'  <meta property="og:site_name" content="Sale91">\n' +
+'  <meta property="og:title" content="' + esc(title) + '">\n' +
+'  <meta property="og:description" content="' + esc(metaDesc) + '">\n' +
+'  <meta property="og:url" content="' + canonicalUrl + '">\n' +
+'  <meta property="og:image" content="' + mainUrl + '">\n' +
+'  <meta property="og:locale" content="en_IN">\n' +
+'  <meta name="twitter:card" content="summary_large_image">\n' +
+'  <meta name="twitter:title" content="' + esc(title) + '">\n' +
+'  <meta name="twitter:description" content="' + esc(metaDesc) + '">\n' +
+'  <meta name="twitter:image" content="' + mainUrl + '">\n' +
+'  <meta name="ai:product_name" content="' + esc(d.name) + '">\n' +
+'  <meta name="ai:category" content="DTF transfer sheets">\n' +
+'  <meta name="ai:price" content="INR ' + price + ' per metre of sheet length, ' + d.gstPercent + '% GST and delivery extra">\n' +
+'  <meta name="ai:sheet_width" content="' + d.sheetWidthIn + ' in (' + d.sheetWidthCm + ' cm)">\n' +
+'  <meta name="ai:files" content="' + esc(d.fileRule) + '">\n' +
+'  <meta name="ai:order" content="' + d.orderUrl + '">\n' +
+'  <meta name="ai:contact" content="https://whatsapp.sale91.com">\n' +
+'  <script type="application/ld+json">' + JSON.stringify(productLd) + '</script>\n' +
+'  <script type="application/ld+json">' + JSON.stringify(breadcrumbLd) + '</script>\n' +
+'  <script type="application/ld+json">' + JSON.stringify(faqLd) + '</script>\n' +
+'  <meta name="theme-color" content="#2563eb">\n' +
+'  <link rel="stylesheet" href="/catalog/css/style.css?v=' + CSS_V + '">\n' +
+'</head>\n' +
+'<body>\n' +
+'  <script>document.body.className="modal-open";</script>\n' +
+'  <header class="site-header">\n' +
+'    <div class="header-content">\n' +
+'      <a href="/catalog/" class="header-brand">\n' +
+'        <div class="site-logo">sale<span>91</span>.com</div>\n' +
+'        <div class="site-tagline">Factory-direct · GST invoice · Pan-India</div>\n' +
+'      </a>\n' +
+'      <a href="' + d.orderUrl + '" target="_blank" rel="noopener" class="header-order-btn">Order DTF &rarr;</a>\n' +
+'    </div>\n' +
+'  </header>\n' +
+'  <main class="main-content">\n' +
+'    <div class="static-product-images">\n' +
+     staticImagesHtml +
+'    </div>\n' +
+'    <div style="padding:0 16px 16px;">\n' +
+'      <h1>' + esc(d.name) + ' — DTF transfer sheets, ' + dtfMoney(price) + ' per metre | Sale91</h1>\n' +
+'      <p style="font-size:18px;font-weight:700;color:#0f172a;margin:8px 0;">' + dtfMoney(price) + ' per metre + ' + d.gstPercent + '% GST</p>\n' +
+'      <p style="color:#64748b;margin-bottom:8px;">' + esc(d.description) + '</p>\n' +
+'      <p style="margin-top:8px;"><a href="' + d.orderUrl + '" style="color:#2563eb;font-weight:700;">Order DTF on the website</a> | <a href="https://whatsapp.sale91.com" style="color:#25d366;font-weight:700;">Questions? WhatsApp</a></p>\n' +
+'    </div>\n' +
+     rich + '\n' +
+'  </main>\n' +
+'  <div class="modal-overlay" id="modalOverlay">\n' +
+'    <div class="modal-container">\n' +
+'      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>\n' +
+'      <div class="modal-body" id="modalBody"></div>\n' +
+'      <div class="modal-suggestions" id="modalSuggestions"></div>\n' +
+'      <div class="modal-cta" id="modalCta"></div>\n' +
+'    </div>\n' +
+'  </div>\n' +
+'  <div class="sc-popup-overlay" id="sizeChartPopup" onclick="if(event.target===this)closeSizeChart()"></div>\n' +
+'  <footer class="site-footer">\n' +
+'    &copy; 2026 <a href="https://www.bulkplaintshirt.com">www.bulkplaintshirt.com</a>. All rights reserved.\n' +
+'  </footer>\n' +
+'  <script>var PRODUCT_PAGE = { id: "' + d.id + '", baseUrl: "/catalog/" };</script>\n' +
+'  <script src="/catalog/data/catalog.js?v=' + DATA_V + '" onerror="document.body.className=\'\'"></script>\n' +
+'  <script src="/catalog/js/main.js?v=' + JS_V + '" onerror="document.body.className=\'\'"></script>\n' +
+'</body>\n' +
+'</html>\n';
+
+  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  console.log('Generated: p/' + d.slug + '/index.html');
+}
+
+function dtfCardHtml(d) {
+  return '    <a href="/catalog/p/' + d.slug + '/" class="product-card" data-category="' + d.tab.id + '" data-id="' + d.id + '">\n' +
+    '      <div class="product-card-image" style="background:' + d.tab.color + '10">\n' +
+    '        <img src="/catalog/images/' + d.slug + '/' + (d.mainImage || 'm') + '.webp" alt="' + esc(d.name + ' - DTF transfer sheets, ' + d.sheetWidthIn + ' in wide') + '" fetchpriority="high">\n' +
+    '        <span class="product-card-badge product-card-new">NEW</span>\n' +
+    ((d.videos || []).length ? '        <span class="product-card-play">&#9654; Video</span>\n' : '') +
+    '      </div>\n' +
+    '      <div class="product-card-body">\n' +
+    '        <div class="product-card-name">' + esc(d.name) + '</div>\n' +
+    '        <div class="product-card-nickname">' + esc(d.nickname) + '</div>\n' +
+    '        <div class="product-card-rate">₹' + d.pricePerMetre + '<span class="rate-label">/metre</span></div>\n' +
+    '        <div class="product-card-sample">' + d.sheetWidthIn + ' in sheet · GST ' + d.gstPercent + '%</div>\n' +
+    '      </div>\n' +
+    '    </a>\n';
+}
+
 // ===== Generate Main index.html with static content =====
 function generateMainPage() {
   var indexPath = path.join(__dirname, 'index.html');
@@ -749,11 +958,29 @@ function generateMainPage() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "name": "Sale91 Premium Blank Apparel Catalog",
-    "numberOfItems": visible.length,
-    "itemListElement": visible.map(function (p, i) {
+    "numberOfItems": visible.length + (DTF ? 1 : 0),
+    "itemListElement": (DTF ? [{
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "Product",
+        "name": DTF.name,
+        "url": SITE_DOMAIN + '/p/' + DTF.slug + '/',
+        "image": SITE_DOMAIN + '/images/' + DTF.slug + '/' + (DTF.mainImage || 'm') + '.webp',
+        "description": DTF.description,
+        "brand": { "@type": "Brand", "name": "Sale91" },
+        "offers": {
+          "@type": "Offer",
+          "price": DTF.pricePerMetre,
+          "priceCurrency": "INR",
+          "availability": "https://schema.org/InStock",
+          "priceSpecification": { "@type": "UnitPriceSpecification", "price": DTF.pricePerMetre, "priceCurrency": "INR", "unitCode": "MTR", "valueAddedTaxIncluded": false }
+        }
+      }
+    }] : []).concat(visible.map(function (p, i) {
       return {
         "@type": "ListItem",
-        "position": i + 1,
+        "position": i + 1 + (DTF ? 1 : 0),
         "item": {
           "@type": "Product",
           "name": p.name,
@@ -772,7 +999,7 @@ function generateMainPage() {
           }
         }
       };
-    })
+    }))
   };
   headSection = headSection.replace(
     /(<!-- JSON-LD: ItemList[^\n]*-->\n\s*<script type="application\/ld\+json">)[\s\S]*?(<\/script>)/,
@@ -780,15 +1007,20 @@ function generateMainPage() {
   );
 
   // ai:* product metas — one per visible product, with the true rate span
-  var aiMetas = visible.map(function (p, i) {
-    return '  <meta name="ai:product_' + (i + 1) + '" content="' + esc(
-      p.name + ' — ' + rateRange(p) + '/pc bulk (min ' + (p.moq || 10) + ' pcs) — ' +
-      p.colors.length + ' colours — sizes ' + p.sizes.join(', ')
-    ) + '">';
+  var aiLines = (DTF ? [DTF.name + ' — ' + dtfMoney(DTF.pricePerMetre) + ' per metre + ' + DTF.gstPercent + '% GST — ' +
+    DTF.sheetWidthIn + ' in wide DTF transfer sheets, any length up to ' + DTF.maxLengthIn + ' in — order on ' + DTF.orderUrl] : [])
+    .concat(visible.map(function (p) {
+      return p.name + ' — ' + rateRange(p) + '/pc bulk (min ' + (p.moq || 10) + ' pcs) — ' +
+        p.colors.length + ' colours — sizes ' + p.sizes.join(', ');
+    }));
+  var aiMetas = aiLines.map(function (line, i) {
+    return '  <meta name="ai:product_' + (i + 1) + '" content="' + esc(line) + '">';
   }).join('\n');
+  var catNames = CATALOG_DATA.categories.map(function (c) { return c.name; }).concat(DTF ? [DTF.tab.name] : []);
   headSection = headSection
     .replace(/  <meta name="ai:product_\d+"[^>]*>(\n)?/g, '')
-    .replace(/(  <meta name="ai:products_count" content=")\d+(">)/, '$1' + visible.length + '$2')
+    .replace(/(  <meta name="ai:products_count" content=")\d+(">)/, '$1' + aiLines.length + '$2')
+    .replace(/(  <meta name="ai:categories" content=")[^"]*(">)/, function (m, a, b) { return a + esc(catNames.join(', ')) + b; })
     .replace(/(  <meta name="ai:products_count"[^>]*>)/, '$1\n' + aiMetas)
     .replace(/(  <meta name="ai:price_range" content=")[^"]*(">)/,
       '$1₹' + Math.min.apply(null, allBulk) + ' - ₹' + Math.max.apply(null, allBulk) + ' per piece, bulk$2')
@@ -813,14 +1045,16 @@ function generateMainPage() {
 
   // Build radio inputs for CSS-only filtering
   var radios = '  <input type="radio" name="cat" id="cat-all" class="cat-radio" checked>\n';
+  if (DTF) radios += '  <input type="radio" name="cat" id="cat-' + DTF.tab.id + '" class="cat-radio">\n';
   CATALOG_DATA.categories.forEach(function (cat) {
     radios += '  <input type="radio" name="cat" id="cat-' + cat.id + '" class="cat-radio">\n';
   });
 
   // Build category tabs as labels
   var tabs = '  <div class="category-tabs" id="categoryTabs">\n';
-  var visibleCount = products.filter(function (p) { return !p.hidden; }).length;
+  var visibleCount = products.filter(function (p) { return !p.hidden; }).length + (DTF ? 1 : 0);
   tabs += '    <label for="cat-all" class="category-tab">All <span class="tab-count">' + visibleCount + '</span></label>\n';
+  if (DTF) tabs += '    <label for="cat-' + DTF.tab.id + '" class="category-tab">' + DTF.tab.icon + ' ' + esc(DTF.tab.name) + ' <span class="tab-count">1</span></label>\n';
   CATALOG_DATA.categories.forEach(function (cat) {
     var catVisible = cat.products.filter(function (p) { return !p.hidden; }).length;
     tabs += '    <label for="cat-' + cat.id + '" class="category-tab">' + cat.icon + ' ' + esc(cat.name) + ' <span class="tab-count">' + catVisible + '</span></label>\n';
@@ -830,6 +1064,7 @@ function generateMainPage() {
   // Build product grid with static <a> cards
   var grid = '  <div class="product-grid" id="productGrid">\n';
   var cardIdx = 0;
+  if (DTF) { grid += dtfCardHtml(DTF); cardIdx++; }
   products.forEach(function (p) {
     if (p.hidden) return;
     cardIdx++;
@@ -1026,6 +1261,7 @@ function generateRateAlertPage() {
   console.log('Generated: rate-alert/index.html');
 }
 
+if (DTF) generateDtfPage(DTF);
 generateMainPage();
 generateRateAlertPage();
 console.log('\nDone! Generated ' + products.length + ' product pages + main index.html + rate-alert page.');

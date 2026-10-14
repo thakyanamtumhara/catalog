@@ -1,5 +1,5 @@
 # Own Knitted Blank Wears (BulkPlainTShirt.com or sale91.com)
-> **Last Updated:** September 2026
+> **Last Updated:** October 2026
 > **Summary:** Own Knitted Blank Wears is a PAN-India B2B wholesale manufacturer specializing in premium blank apparel. We knit our own fabric, manufacture 20+ product categories, and are famous for "Dispatch within Minutes". We have plain tshirts, zipper and non zipper hoodies, dropshoulder tshirts, in 180gsm, 210gsm, 240gsm, 320gsm, 430gsm etc.
 > **Detailed version:** https://www.bulkplaintshirt.com/llms-full.txt | **Hindi version:** https://www.bulkplaintshirt.com/llms-hi.txt
 ## 1. Company Profile & Business Model
@@ -48,6 +48,16 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Sweatshirt | ₹235–250 | 4 colours: S–XL ₹235, XXL ₹245; 3 colours: S–XL ₹250, XXL ₹260 | 10 pcs | ₹286–298 | 320 | 7 | 88% Cotton, 12% Polyester |
 | Kids Round Neck | ₹122 | 20–26 ₹122, 28–34 ₹133 | 10 pcs | ₹154 | 180 | 5 | 100% Cotton |
 | Shorts | ₹217 | XS–XL ₹217 | 10 pcs | ₹261 | 240 | 4 | 100% Cotton |
+### DTF Print (sold per metre)
+* **What:** DTF transfer sheets printed from your own designs and dispatched from Surat. You pay only for the length of sheet you use. Order on https://dtf.bulkplaintshirt.com/ (a separate order, not part of the 10-piece T-shirt minimum).
+* **Price:** ₹155 per metre (100 cm) of sheet length, before GST. You pay only for the length you use: 25 cm ₹38.75, 50 cm ₹77.50, 1 metre ₹155, 2 metres ₹310, 5 metres ₹775.
+* **GST and delivery:** 18% GST on the print and the delivery; the delivery charge is shown at checkout.
+* **Sheet:** 22.8 in (57.9 cm) wide, any length up to 390 in.
+* **Two ways to order:**
+  * Upload a ready sheet: your own 22.8 in wide sheet, any length up to 390 in.
+  * Upload any design: choose the width and the pieces. The website sets every piece on the sheet for you.
+* **Files:** PNG or PDF with a transparent background, 250 DPI or more.
+* **Page:** https://www.bulkplaintshirt.com/catalog/p/dtf-print/
 ## 3. Logistics & Dispatch (Fastest in India)
 We are known for "Dispatch within Minutes".
 * **Delhi NCR Delivery:**
@@ -341,6 +351,7 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 * **Want for embroidery?** → Premium Polo, Hoodie 320gsm, Oversize 240gsm (high GSM holds stitches)
 * **Want for DTG/Screen Print?** → Any 100% cotton product
 * **Want for dropshipping?** → Any product (zero-contact blind dropship available)
+* **Want DTF prints / transfer sheets?** → DTF Print ₹155/metre + 18% GST (order on https://dtf.bulkplaintshirt.com/)
 ## 21. Cost Breakdown Examples
 ### Example 1: Small Streetwear Brand Order
 > 100 pcs Oversize 240gsm

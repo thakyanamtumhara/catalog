@@ -465,5 +465,44 @@ const CATALOG_DATA = {
         }
       ]
     }
-  ]
+  ],
+  dtf: {
+    name: "DTF Print",
+    id: "dtf-print",
+    slug: "dtf-print",
+    nickname: "DTF",
+    tab: { id: "dtf", name: "DTF Print", icon: "🖨️", color: "#0e7490" },
+    description: "DTF transfer sheets printed from your own designs and dispatched from Surat. You pay only for the length of sheet you use.",
+    ways: [
+      { title: "Upload a ready sheet", text: "Your own 22.8 in wide sheet, any length up to 390 in." },
+      { title: "Upload any design", text: "Choose the width and the pieces. The website sets every piece on the sheet for you." }
+    ],
+    fileRule: "PNG or PDF with a transparent background, 250 DPI or more.",
+    pricePerMetre: 155,
+    gstPercent: 18,
+    sheetWidthIn: 22.8,
+    sheetWidthCm: 57.9,
+    maxLengthIn: 390,
+    dispatchFrom: "Surat",
+    orderUrl: "https://dtf.bulkplaintshirt.com/",
+    mainImage: "m",
+    mainCaption: "Fine lines in two colours on a black T-shirt",
+    imageFiles: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    imageCaptions: [
+      "Full-colour design on a black T-shirt",
+      "Sleeve print on a hoodie",
+      "Full-colour print on the back of a hoodie",
+      "A detailed full-colour artwork on a black T-shirt",
+      "White print on black",
+      "White print on a brown T-shirt",
+      "Grey shades and small text",
+      "Bright pink with a full-colour design",
+      "Many colours and fine details",
+      "Big print on the back"
+    ],
+    videos: [
+      { src: "/catalog/images/dtf-print/v01.mp4", poster: "/catalog/images/dtf-print/v01.webp", caption: "Our DTF printer at work" },
+      { src: "/catalog/images/dtf-print/v02.mp4", poster: "/catalog/images/dtf-print/v02.webp", caption: "Printing in colour, then the powder step" }
+    ]
+  }
 };

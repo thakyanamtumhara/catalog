@@ -92,6 +92,44 @@ function getAllProducts(catalog) {
 
 const money = (lo, hi) => (hi > lo ? `₹${lo}–${hi}` : `₹${lo}`);
 
+const dtfMoney = (n) => '₹' + (n % 1 ? n.toFixed(2) : String(n));
+const DTF_LENGTHS = [[25, '25 cm'], [50, '50 cm'], [100, '1 metre'], [200, '2 metres'], [500, '5 metres']];
+const DTF_HEADING = '### DTF Print (sold per metre)';
+
+function dtfLines(d) {
+  const examples = DTF_LENGTHS.map(([cm, label]) => `${label} ${dtfMoney(Math.round(d.pricePerMetre * cm) / 100)}`).join(', ');
+  return [
+    DTF_HEADING,
+    `* **What:** ${d.description} Order on ${d.orderUrl} (a separate order, not part of the 10-piece T-shirt minimum).`,
+    `* **Price:** ${dtfMoney(d.pricePerMetre)} per metre (100 cm) of sheet length, before GST. You pay only for the length you use: ${examples}.`,
+    `* **GST and delivery:** ${d.gstPercent}% GST on the print and the delivery; the delivery charge is shown at checkout.`,
+    `* **Sheet:** ${d.sheetWidthIn} in (${d.sheetWidthCm} cm) wide, any length up to ${d.maxLengthIn} in.`,
+    '* **Two ways to order:**',
+    ...d.ways.map(w => `  * ${w.title}: ${w.text.charAt(0).toLowerCase()}${w.text.slice(1)}`),
+    `* **Files:** ${d.fileRule}`,
+    `* **Page:** https://www.bulkplaintshirt.com/catalog/p/${d.slug}/`,
+  ].join('\n');
+}
+
+// The DTF block sits at the end of the section that holds the T-shirt price list, and is rewritten on every run.
+function upsertDtfBlock(filePath, d) {
+  let lines = fs.readFileSync(filePath, 'utf-8').split('\n');
+  const old = lines.indexOf(DTF_HEADING);
+  if (old !== -1) {
+    let end = old + 1;
+    while (end < lines.length && !lines[end].startsWith('#')) end++;
+    lines.splice(old, end - old);
+  }
+  if (d) {
+    const list = lines.findIndex(l => l.includes('Complete Price List'));
+    let at = list + 1;
+    while (at < lines.length && !lines[at].startsWith('## ')) at++;
+    lines.splice(at, 0, ...dtfLines(d).split('\n'));
+  }
+  fs.writeFileSync(filePath, lines.join('\n'));
+  console.log(`  ${d ? 'Updated' : 'Removed'} the DTF block in ${path.basename(filePath)}`);
+}
+
 // A ₹5 or ₹10 step at the biggest sizes is normal and does not widen the quoted
 // rate; a colour tier or a real ladder does. The per-size detail column beside it
 // stays exact.
@@ -186,7 +224,7 @@ function replaceSectionBody(filePath, headingText, newBody) {
 
 // The decision list an assistant reads to pick a product. Prices come from the
 // catalogue, so they cannot go stale; only the questions are editorial.
-function generateFlowchart(products) {
+function generateFlowchart(products, dtf) {
   const by = Object.fromEntries(products.map(p => [p.name, p]));
   const rate = (name) => (by[name] ? headline(by[name]) + '/pc' : null);
   const rows = [
@@ -217,6 +255,7 @@ function generateFlowchart(products) {
   out.push('* **Want for embroidery?** → Premium Polo, Hoodie 320gsm, Oversize 240gsm (high GSM holds stitches)');
   out.push('* **Want for DTG/Screen Print?** → Any 100% cotton product');
   out.push('* **Want for dropshipping?** → Any product (zero-contact blind dropship available)');
+  if (dtf) out.push(`* **Want DTF prints / transfer sheets?** → DTF Print ${dtfMoney(dtf.pricePerMetre)}/metre + ${dtf.gstPercent}% GST (order on ${dtf.orderUrl})`);
   return out.join('\n');
 }
 
@@ -369,6 +408,28 @@ function generateProductsJson(catalog, products) {
       })),
     })),
   };
+  const d = catalog.dtf && !catalog.dtf.hidden ? catalog.dtf : null;
+  if (d) {
+    json.dtf = {
+      name: d.name,
+      slug: d.slug,
+      description: d.description,
+      pricePerMetre: d.pricePerMetre,
+      priceUnit: 'metre (100 cm) of sheet length, charged for the exact length',
+      gstRate: d.gstPercent,
+      deliveryExtra: true,
+      sheetWidthIn: d.sheetWidthIn,
+      sheetWidthCm: d.sheetWidthCm,
+      maxLengthIn: d.maxLengthIn,
+      fileRule: d.fileRule,
+      waysToOrder: d.ways.map(w => `${w.title}: ${w.text}`),
+      dispatchFrom: d.dispatchFrom,
+      orderUrl: d.orderUrl,
+      note: 'Ordered separately on the DTF website; not part of the 10-piece T-shirt minimum.',
+      catalogUrl: `https://www.bulkplaintshirt.com/catalog/p/${d.slug}/`,
+      imageBaseUrl: `https://www.bulkplaintshirt.com/catalog/images/${d.slug}/`,
+    };
+  }
 
   fs.writeFileSync(
     path.join(ROOT, 'products.json'),
@@ -383,6 +444,7 @@ function main() {
 
   const catalog = parseCatalog();
   const products = getAllProducts(catalog);
+  const dtf = catalog.dtf && !catalog.dtf.hidden ? catalog.dtf : null;
 
   console.log(`Found ${products.length} products in catalog.js\n`);
 
@@ -395,16 +457,18 @@ function main() {
   console.log('Updating llms.txt:');
   updateSection(path.join(ROOT, 'llms.txt'), 'Complete Price List', priceTable);
   updateSection(path.join(ROOT, 'llms.txt'), 'Available Colors Per Product', colorsTable);
-  replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Product Recommendation Flowchart', generateFlowchart(products));
+  replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Product Recommendation Flowchart', generateFlowchart(products, dtf));
   replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Cost Breakdown Examples', generateCostExamples(products));
+  upsertDtfBlock(path.join(ROOT, 'llms.txt'), dtf);
   updateLastUpdated(path.join(ROOT, 'llms.txt'));
 
   // Update llms-full.txt
   console.log('\nUpdating llms-full.txt:');
   updateSection(path.join(ROOT, 'llms-full.txt'), 'Complete Price List', priceTable);
   updateSection(path.join(ROOT, 'llms-full.txt'), 'Available Colors Per Product', colorsTableHex);
-  replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Product Recommendation Flowchart', generateFlowchart(products));
+  replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Product Recommendation Flowchart', generateFlowchart(products, dtf));
   replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Cost Breakdown Examples', generateCostExamples(products));
+  upsertDtfBlock(path.join(ROOT, 'llms-full.txt'), dtf);
   updateLastUpdated(path.join(ROOT, 'llms-full.txt'));
 
   // Update products.json

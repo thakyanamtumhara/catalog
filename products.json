@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09",
+  "lastUpdated": "2026-10",
   "currency": "INR",
   "gstRate": 5,
   "moq": 10,
@@ -1416,5 +1416,27 @@
         }
       ]
     }
-  ]
+  ],
+  "dtf": {
+    "name": "DTF Print",
+    "slug": "dtf-print",
+    "description": "DTF transfer sheets printed from your own designs and dispatched from Surat. You pay only for the length of sheet you use.",
+    "pricePerMetre": 155,
+    "priceUnit": "metre (100 cm) of sheet length, charged for the exact length",
+    "gstRate": 18,
+    "deliveryExtra": true,
+    "sheetWidthIn": 22.8,
+    "sheetWidthCm": 57.9,
+    "maxLengthIn": 390,
+    "fileRule": "PNG or PDF with a transparent background, 250 DPI or more.",
+    "waysToOrder": [
+      "Upload a ready sheet: Your own 22.8 in wide sheet, any length up to 390 in.",
+      "Upload any design: Choose the width and the pieces. The website sets every piece on the sheet for you."
+    ],
+    "dispatchFrom": "Surat",
+    "orderUrl": "https://dtf.bulkplaintshirt.com/",
+    "note": "Ordered separately on the DTF website; not part of the 10-piece T-shirt minimum.",
+    "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/dtf-print/",
+    "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/dtf-print/"
+  }
 }

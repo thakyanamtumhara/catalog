@@ -135,7 +135,8 @@ body.modal-open .static-product-images { display: none; }
 #cat-polo-tees:checked ~ .category-tabs [for="cat-polo-tees"],
 #cat-hoodies:checked ~ .category-tabs [for="cat-hoodies"],
 #cat-sweatshirts:checked ~ .category-tabs [for="cat-sweatshirts"],
-#cat-kids-and-more:checked ~ .category-tabs [for="cat-kids-and-more"] {
+#cat-kids-and-more:checked ~ .category-tabs [for="cat-kids-and-more"],
+#cat-dtf:checked ~ .category-tabs [for="cat-dtf"] {
   background: #2563eb;
   color: #fff;
   border-color: #2563eb;
@@ -146,7 +147,8 @@ body.modal-open .static-product-images { display: none; }
 #cat-polo-tees:checked ~ .category-tabs [for="cat-polo-tees"] .tab-count,
 #cat-hoodies:checked ~ .category-tabs [for="cat-hoodies"] .tab-count,
 #cat-sweatshirts:checked ~ .category-tabs [for="cat-sweatshirts"] .tab-count,
-#cat-kids-and-more:checked ~ .category-tabs [for="cat-kids-and-more"] .tab-count {
+#cat-kids-and-more:checked ~ .category-tabs [for="cat-kids-and-more"] .tab-count,
+#cat-dtf:checked ~ .category-tabs [for="cat-dtf"] .tab-count {
   background: rgba(255,255,255,0.25);
 }
 
@@ -156,7 +158,8 @@ body.modal-open .static-product-images { display: none; }
 #cat-polo-tees:checked ~ .main-content .product-card,
 #cat-hoodies:checked ~ .main-content .product-card,
 #cat-sweatshirts:checked ~ .main-content .product-card,
-#cat-kids-and-more:checked ~ .main-content .product-card {
+#cat-kids-and-more:checked ~ .main-content .product-card,
+#cat-dtf:checked ~ .main-content .product-card {
   display: none;
 }
 
@@ -166,9 +169,12 @@ body.modal-open .static-product-images { display: none; }
 #cat-polo-tees:checked ~ .main-content [data-category="polo-tees"],
 #cat-hoodies:checked ~ .main-content [data-category="hoodies"],
 #cat-sweatshirts:checked ~ .main-content [data-category="sweatshirts"],
-#cat-kids-and-more:checked ~ .main-content [data-category="kids-and-more"] {
+#cat-kids-and-more:checked ~ .main-content [data-category="kids-and-more"],
+#cat-dtf:checked ~ .main-content [data-category="dtf"] {
   display: block;
 }
+#cat-dtf:checked ~ .mix-strip,
+#cat-dtf:checked ~ .rate-row-wrap { display: none; }
 
 /* Static product content on individual pages */
 .static-product-images {
@@ -454,6 +460,13 @@ body.modal-open .static-product-images { display: none; }
   padding: 2px 8px;
   border-radius: 6px;
   backdrop-filter: blur(4px);
+}
+.product-card-new {
+  background: #fbbf24;
+  color: #1e293b;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  backdrop-filter: none;
 }
 .product-card-play {
   position: absolute;
@@ -1097,6 +1110,37 @@ body.modal-open .static-product-images { display: none; }
   font-size: 11.5px;
   color: #64748b;
   font-weight: 600;
+}
+
+.dtf-ways {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.dtf-way {
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: #fff;
+}
+.dtf-way b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 2px;
+}
+.dtf-way span {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.45;
+}
+.dtf-file-rule {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 16px;
 }
 
 /* ===== Spec chips ===== */
