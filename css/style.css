@@ -174,7 +174,8 @@ body.modal-open .static-product-images { display: none; }
   display: block;
 }
 #cat-dtf:checked ~ .mix-strip,
-#cat-dtf:checked ~ .rate-row-wrap { display: none; }
+#cat-dtf:checked ~ .rate-row-wrap,
+#cat-dtf:checked ~ .main-content .end-cap { display: none; }
 
 /* Static product content on individual pages */
 .static-product-images {
