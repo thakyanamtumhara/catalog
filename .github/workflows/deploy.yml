@@ -83,6 +83,8 @@ jobs:
             --exclude "css/*" \
             --exclude "js/*" \
             --exclude "data/*" \
+            --exclude "pdf/*" \
+            --exclude "out/*" \
             --cache-control "no-cache, no-store, must-revalidate"
 
       # 4. Smart Invalidation
@@ -96,6 +98,7 @@ jobs:
               "/catalog/" \
               "/catalog/index.html" \
               "/catalog/p/*" \
+              "/catalog/my-catalog/" \
               "/catalog/*.html" \
               "/catalog/*.json" \
               "/catalog/*.txt" \

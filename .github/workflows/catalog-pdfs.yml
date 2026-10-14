@@ -1,0 +1,70 @@
+name: Catalogue PDFs (no rates) to S3
+
+# One no-rate PDF per product at /catalog/pdf/<slug>.pdf (+ index.json), built from the live
+# website colours (pc.js) and HD photos (phphotos.js). The clone sends these as WhatsApp documents
+# when a buyer wants something to forward to his own customers. Rebuilt daily so new colours show up.
+# A failed build uploads nothing, so the last good PDFs stay live.
+
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_run:
+    workflows: ['Deploy to AWS S3 + CloudFront']
+    types: [completed]
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: catalog-pdfs
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install PDF tools
+        run: npm install --no-save --no-audit --no-fund --prefix "$RUNNER_TEMP/pdfdeps" pdf-lib@1.17.1 sharp@0.33.5
+
+      - name: Build PDFs
+        env:
+          NODE_PATH: ${{ runner.temp }}/pdfdeps/node_modules
+          OUT: out/pdf
+        run: node scripts/build-pdfs.js
+
+      - name: Check the output before upload
+        run: |
+          node -e '
+            const fs = require("fs");
+            const idx = JSON.parse(fs.readFileSync("out/pdf/index.json", "utf8"));
+            if (idx.products.length < 10) throw new Error("only " + idx.products.length + " PDFs");
+            for (const p of idx.products) {
+              const size = fs.statSync("out/pdf/" + p.file).size;
+              if (size < 30000) throw new Error(p.file + " is only " + size + " bytes");
+              if (!p.photos) throw new Error(p.file + " has no photos");
+            }
+            console.log(idx.products.length + " PDFs OK");
+          '
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Upload to /catalog/pdf/
+        run: |
+          aws s3 sync out/pdf s3://bulkplaintshirt.com/catalog/pdf/ \
+            --delete \
+            --cache-control "public, max-age=3600"
+          aws cloudfront create-invalidation \
+            --distribution-id E21QLU9SBUBY7Z \
+            --paths "/catalog/pdf/*"

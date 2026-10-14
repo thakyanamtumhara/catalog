@@ -35,6 +35,23 @@ function fileVer(rel) {
 var CSS_V = fileVer('css/style.css');
 var JS_V = fileVer('js/main.js');
 var DATA_V = fileVer('data/catalog.js');
+var OC_PDF_V = fileVer('js/own-catalog-pdf.js');
+var OC_V = fileVer('js/own-catalog.js');
+var PDFLIB_V = fileVer('js/vendor/pdf-lib.min.js');
+
+// The size charts live in js/main.js (the catalog's own copy); the own-catalog page and
+// scripts/build-pdfs.js read them from there so there is never a third copy to keep in sync.
+var SIZE_CHARTS = (function () {
+  var m = fs.readFileSync(path.join(__dirname, 'js/main.js'), 'utf8').match(/var SIZE_CHARTS = (\{[\s\S]*?\n\});/);
+  if (!m) { console.error('Could not find SIZE_CHARTS in js/main.js'); process.exit(1); }
+  return eval('(' + m[1] + ')');
+})();
+
+var OWN_CATALOG_ROW_HTML = '<a class="rate-row oc-row" href="/catalog/my-catalog/">' +
+  '<span class="rate-row-icon oc-row-icon" aria-hidden="true">' +
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></span>' +
+  '<span class="rate-row-text">Create your own catalog<span class="rate-row-more"> · PDF for your customers, your rates</span></span>' +
+  '<span class="rate-row-cta oc-row-cta">Create</span></a>';
 
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -1150,7 +1167,7 @@ function generateMainPage() {
     tabs + '\n' +
     '  <!-- The minimum is a TOTAL across the whole catalog -->\n' +
     '  <div class="mix-strip"><b>Min 10 pcs total</b> \u2014 mix any products, colours &amp; sizes \u00b7 1-pc samples available</div>\n' +
-    '  <div class="rate-row-wrap">' + RATE_ROW_HTML + '</div>\n\n' +
+    '  <div class="rate-row-wrap">' + RATE_ROW_HTML + OWN_CATALOG_ROW_HTML + '</div>\n\n' +
     '  <!-- Main Content: All Products -->\n' +
     '  <main class="main-content">\n' +
     grid +
@@ -1261,7 +1278,80 @@ function generateRateAlertPage() {
   console.log('Generated: rate-alert/index.html');
 }
 
+function generateMyCatalogPage() {
+  var dir = path.join(__dirname, 'my-catalog');
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+  var url = SITE_DOMAIN + '/my-catalog/';
+  var title = 'Create your own catalog — Sale91';
+  var heading = 'Create your own catalog';
+  var line = 'A PDF of our products for your customers. It has no rates and no supplier name. Add your own rates if you want.';
+
+  var html = '<!DOCTYPE html>\n' +
+    '<html lang="en">\n' +
+    '<head>\n' +
+    '  <meta charset="UTF-8">\n' +
+    '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
+    '  <meta name="theme-color" content="#2563eb">\n' +
+    '  <title>' + esc(title) + '</title>\n' +
+    '  <meta name="description" content="' + esc(line) + '">\n' +
+    '  <link rel="canonical" href="' + url + '">\n' +
+    '  <meta name="robots" content="noindex, follow">\n' +
+    '  <meta property="og:type" content="website">\n' +
+    '  <meta property="og:site_name" content="Sale91">\n' +
+    '  <meta property="og:title" content="' + esc(heading) + '">\n' +
+    '  <meta property="og:description" content="' + esc(line) + '">\n' +
+    '  <meta property="og:url" content="' + url + '">\n' +
+    '  <meta property="og:image" content="' + SITE_DOMAIN + '/images/og-home.png">\n' +
+    '  <link rel="stylesheet" href="/catalog/css/style.css?v=' + CSS_V + '">\n' +
+    '</head>\n' +
+    '<body class="oc-body">\n' +
+    '  <header class="site-header">\n' +
+    '    <div class="header-content">\n' +
+    '      <a href="/catalog/" class="header-brand">\n' +
+    '        <div class="site-logo">sale<span>91</span>.com</div>\n' +
+    '        <div class="site-tagline">Factory-direct · GST invoice · Pan-India</div>\n' +
+    '      </a>\n' +
+    '      <a href="https://www.bulkplaintshirt.com" target="_blank" rel="noopener" class="header-order-btn">Order Now &rarr;</a>\n' +
+    '    </div>\n' +
+    '  </header>\n\n' +
+    '  <main class="oc-main" id="ocApp" data-pdflib="/catalog/js/vendor/pdf-lib.min.js?v=' + PDFLIB_V + '">\n' +
+    '    <h1 class="oc-title">' + esc(heading) + '</h1>\n' +
+    '    <p class="oc-sub">' + esc(line) + '</p>\n' +
+    '    <section class="oc-card">\n' +
+    '      <div class="oc-step"><span class="oc-num">1</span>Tick the products you sell</div>\n' +
+    '      <div class="oc-list" id="ocList"><noscript><p class="oc-err">Please turn on JavaScript to make your catalog.</p></noscript></div>\n' +
+    '    </section>\n' +
+    '    <section class="oc-card">\n' +
+    '      <div class="oc-step"><span class="oc-num">2</span>Your shop details <span class="oc-opt">(optional)</span></div>\n' +
+    '      <label class="oc-field"><span>Shop name</span><input id="ocShop" type="text" maxlength="40" autocomplete="organization"></label>\n' +
+    '      <label class="oc-field"><span>WhatsApp number</span><input id="ocPhone" type="tel" maxlength="20" autocomplete="tel"></label>\n' +
+    '      <div class="oc-err" id="ocShopErr" hidden></div>\n' +
+    '      <p class="oc-hint">They print on every page of your PDF.</p>\n' +
+    '    </section>\n' +
+    '    <p class="oc-note">Your rates and shop details stay on your phone. Nothing is sent to us.</p>\n' +
+    '  </main>\n\n' +
+    '  <div class="oc-bar">\n' +
+    '    <div class="oc-progress" id="ocProgress" hidden><div class="oc-progress-fill" id="ocProgressFill"></div></div>\n' +
+    '    <div class="oc-status" id="ocStatus" aria-live="polite">Tick the products you sell</div>\n' +
+    '    <div class="oc-btns">\n' +
+    '      <button type="button" class="oc-btn" id="ocMake" disabled>Make PDF</button>\n' +
+    '      <button type="button" class="oc-btn oc-btn-share" id="ocShare" hidden>Share PDF</button>\n' +
+    '      <button type="button" class="oc-btn oc-btn-down" id="ocDownload" hidden>Download</button>\n' +
+    '    </div>\n' +
+    '  </div>\n\n' +
+    '  <script>window.OC_SIZE_CHARTS = ' + JSON.stringify(SIZE_CHARTS) + ';</script>\n' +
+    '  <script src="/catalog/data/catalog.js?v=' + DATA_V + '"></script>\n' +
+    '  <script src="/catalog/js/own-catalog-pdf.js?v=' + OC_PDF_V + '"></script>\n' +
+    '  <script src="/catalog/js/own-catalog.js?v=' + OC_V + '"></script>\n' +
+    '</body>\n' +
+    '</html>\n';
+
+  fs.writeFileSync(path.join(dir, 'index.html'), html);
+  console.log('Generated: my-catalog/index.html');
+}
+
 if (DTF) generateDtfPage(DTF);
 generateMainPage();
 generateRateAlertPage();
+generateMyCatalogPage();
 console.log('\nDone! Generated ' + products.length + ' product pages + main index.html + rate-alert page.');
