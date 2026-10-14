@@ -50,7 +50,7 @@ var SIZE_CHARTS = (function () {
 var OWN_CATALOG_ROW_HTML = '<a class="rate-row oc-row" href="/catalog/my-catalog/">' +
   '<span class="rate-row-icon oc-row-icon" aria-hidden="true">' +
   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg></span>' +
-  '<span class="rate-row-text">Create your own catalog<span class="rate-row-more"> · PDF for your customers, your rates</span></span>' +
+  '<span class="rate-row-text">Create your own catalog for your buyers<span class="rate-row-more"> · PDF, your rates</span></span>' +
   '<span class="rate-row-cta oc-row-cta">Create</span></a>';
 
 function slugify(text) {
@@ -1282,9 +1282,9 @@ function generateMyCatalogPage() {
   var dir = path.join(__dirname, 'my-catalog');
   if (!fs.existsSync(dir)) fs.mkdirSync(dir);
   var url = SITE_DOMAIN + '/my-catalog/';
-  var title = 'Create your own catalog — Sale91';
-  var heading = 'Create your own catalog';
-  var line = 'A PDF of our products for your customers. It has no rates and no supplier name. Add your own rates if you want.';
+  var title = 'Create your own catalog for your buyers — Sale91';
+  var heading = 'Create your own catalog for your buyers';
+  var line = 'A PDF of our products to send to your buyers. It has no rates and no supplier name. Add your own rates if you want.';
 
   var html = '<!DOCTYPE html>\n' +
     '<html lang="en">\n' +
