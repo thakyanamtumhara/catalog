@@ -1358,19 +1358,27 @@ function generateMyCatalogPage() {
 // deploy and can never drift again. One item per product, priced per piece BEFORE GST - exactly what the landing page
 // says ("Rs 200/pc bulk ... GST 5% extra"), because Google requires the feed price to match the page.
 // Left out on purpose: hidden products (Boxy Fit until it launches) and DTF (a per-metre print service, not a garment).
-var MERCHANT_NOUNS = {
-  'oversized-tees': 'Blank Oversized Drop Shoulder T-Shirt',
-  'roundneck-tees': 'Blank Round Neck T-Shirt',
-  'polo-tees': 'Blank Polo T-Shirt',
-  'hoodies': 'Blank Hoodie',
-  'sweatshirts': 'Blank Sweatshirt'
+var MERCHANT_TITLES = {
+  'oversize-210gsm': 'Oversized Drop Shoulder T-Shirt 210 GSM Terry Cotton',
+  'oversize-180gsm': 'Oversized Drop Shoulder T-Shirt 180 GSM Supercombed Cotton',
+  'oversize-240gsm': 'Oversized Drop Shoulder T-Shirt 240 GSM 100% Cotton',
+  'oversize-260gsm': 'Oversized Drop Shoulder T-Shirt 260 GSM Terry Loopknit',
+  'acidwash-oversize': 'Acid Wash Oversized T-Shirt 240 GSM French Terry Cotton',
+  'true-biowash-round-neck': 'True Biowash Round Neck T-Shirt 180 GSM Supercombed Cotton',
+  'biowash-round-neck': 'Plain Round Neck T-Shirt 180 GSM Biowash 100% Cotton',
+  'sublimation-t-shirt': 'Sublimation T-Shirt 200 GSM Cotton Feel Polyester',
+  'non-bio-round-neck': 'Non Bio Round Neck T-Shirt 180 GSM Cotton Blend',
+  'premium-polo': 'Polo T-Shirt 220 GSM Honeycomb 100% Cotton',
+  'cotton-polo': 'Cotton Matty Polo T-Shirt 220 GSM Collar Neck',
+  'zip-hoodie': 'Zip Hoodie 320 GSM Cotton Brushed Loopknit',
+  'hoodie-320gsm': 'Hoodie 320 GSM Cotton Brushed Loopknit Non Zipper',
+  'hoodie-430gsm': 'Dropshoulder Hoodie 430 GSM Cotton Brushed Loopknit',
+  'sweatshirt': 'Sweatshirt 320 GSM Cotton Brushed Loopknit Round Neck',
+  'kids-round-neck': 'Kids Round Neck T-Shirt 180 GSM Biowash Cotton',
+  'shorts': 'Cotton Shorts 240 GSM Terry Loopknit with Zipper Pocket'
 };
-var MERCHANT_NOUNS_BY_SLUG = { 'kids-round-neck': 'Blank Kids Round Neck T-Shirt', 'shorts': 'Cotton Shorts' };
 var MERCHANT_GOOGLE_CAT = { 'shorts': 'Apparel & Accessories > Clothing > Shorts' };
 var MERCHANT_GST_PCT = 5;   // garments; DTF (18%) is not in this feed
-function merchantNoun(p) {
-  return MERCHANT_NOUNS_BY_SLUG[p.slug] || MERCHANT_NOUNS[p.categoryId] || 'Blank T-Shirt';
-}
 function generateMerchantFeed() {
   var items = products.filter(function (p) { return !p.hidden; }).map(function (p) {
     var url = SITE_DOMAIN + '/p/' + p.slug + '/';
@@ -1386,7 +1394,7 @@ function generateMerchantFeed() {
       + ' Ready stock in Delhi, dispatch the same day, GST invoice with every order.';
     return '  <item>\n'
       + '    <g:id>' + esc(p.slug) + '</g:id>\n'
-      + '    <g:title>' + esc(p.name + ' ' + merchantNoun(p)) + '</g:title>\n'
+      + '    <g:title>' + esc(MERCHANT_TITLES[p.slug] || p.name) + '</g:title>\n'
       + '    <g:description>' + esc(desc) + '</g:description>\n'
       + '    <g:link>' + esc(url) + '</g:link>\n'
       + '    <g:image_link>' + esc(main) + '</g:image_link>\n'
