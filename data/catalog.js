@@ -472,7 +472,7 @@ const CATALOG_DATA = {
     slug: "dtf-print",
     nickname: "DTF",
     tab: { id: "dtf", name: "DTF Print", icon: "🖨️", color: "#0e7490" },
-    description: "DTF transfer sheets printed from your own designs and dispatched from Surat. You pay only for the length of sheet you use.",
+    description: "DTF transfer sheets printed from your own designs, sent as a separate parcel from the T-shirts. You pay only for the length of sheet you use.",
     ways: [
       { title: "Upload a ready sheet", text: "Your own 22.8 in wide sheet, any length up to 390 in." },
       { title: "Upload any design", text: "Choose the width and the pieces. The website sets every piece on the sheet for you." }
@@ -483,7 +483,7 @@ const CATALOG_DATA = {
     sheetWidthIn: 22.8,
     sheetWidthCm: 57.9,
     maxLengthIn: 390,
-    dispatchFrom: "Surat",
+    dispatchFrom: "Separate parcel from T-shirts",
     orderUrl: "https://dtf.bulkplaintshirt.com/",
     mainImage: "m",
     mainCaption: "Fine lines in two colours on a black T-shirt",

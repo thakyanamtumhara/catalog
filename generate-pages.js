@@ -761,7 +761,7 @@ function dtfFAQ(d) {
     { q: 'What file do I need to upload?', a: d.fileRule + ' Upload a ready ' + d.sheetWidthIn + ' in wide sheet, or upload single designs and choose their width and pieces: the website sets every piece on the sheet for you.' },
     { q: 'Is there a minimum order?', a: 'There is no minimum length: a sheet can be as short as 1 in. To check the print quality first, order 1 metre for ' + dtfMoney(d.pricePerMetre) + ' plus GST and delivery.' },
     { q: 'How do I order DTF prints?', a: 'Order on ' + d.orderUrl.replace(/^https?:\/\//, '').replace(/\/$/, '') + ': upload your sheet or designs, enter the pieces, choose delivery and pay online.' },
-    { q: 'Where are DTF prints dispatched from?', a: 'From ' + d.dispatchFrom + ', by courier across India. Inside ' + d.dispatchFrom + ', same-day bike delivery is available.' },
+    { q: 'How are DTF prints delivered?', a: 'By courier across India, as a separate parcel from the T-shirts. In some cities same-day bike delivery is available; the website shows it when your pincode is covered.' },
     { q: 'Is GST included in the price?', a: 'No. ' + dtfMoney(d.pricePerMetre) + ' per metre is before GST. ' + d.gstPercent + '% GST is added on the print and the delivery, and you get a GST bill.' }
   ];
 }
@@ -774,7 +774,7 @@ function generateDtfPage(d) {
   var mainUrl = SITE_DOMAIN + '/images/' + d.slug + '/' + (d.mainImage || 'm') + '.webp';
   var imageUrls = [mainUrl].concat(d.imageFiles.map(function (n) { return SITE_DOMAIN + '/images/' + d.slug + '/' + n + '.webp'; }));
   var title = d.name + ' — ' + dtfMoney(price) + ' per metre, ' + d.sheetWidthIn + ' in sheets | Sale91';
-  var desc = 'DTF transfer sheets printed from your designs: ' + dtfMoney(price) + ' per metre + ' + d.gstPercent + '% GST, ' + d.sheetWidthIn + ' in wide, any length up to ' + d.maxLengthIn + ' in. Dispatched from ' + d.dispatchFrom + '.';
+  var desc = 'DTF transfer sheets printed from your designs: ' + dtfMoney(price) + ' per metre + ' + d.gstPercent + '% GST, ' + d.sheetWidthIn + ' in wide, any length up to ' + d.maxLengthIn + ' in. Sent as a separate parcel from the T-shirts.';
   var metaDesc = desc.length > 160 ? desc.substring(0, 157) + '...' : desc;
   var faqItems = dtfFAQ(d);
 
@@ -849,7 +849,7 @@ function generateDtfPage(d) {
     '<tr style="background:#f1f5f9;"><td><strong>Sheet length</strong></td><td>Any length up to ' + d.maxLengthIn + ' in</td></tr>' +
     '<tr><td><strong>Price</strong></td><td>' + dtfMoney(price) + ' per metre + ' + d.gstPercent + '% GST</td></tr>' +
     '<tr style="background:#f1f5f9;"><td><strong>Files</strong></td><td>' + esc(d.fileRule) + '</td></tr>' +
-    '<tr><td><strong>Dispatch</strong></td><td>' + esc(d.dispatchFrom) + '</td></tr>' +
+    '<tr><td><strong>Delivery</strong></td><td>Courier across India, as a separate parcel from the T-shirts</td></tr>' +
     '</table>' +
     '<h2>Frequently Asked Questions</h2>' +
     faqItems.map(function (f) { return '<h3>' + esc(f.q) + '</h3><p>' + esc(f.a) + '</p>'; }).join('') +
