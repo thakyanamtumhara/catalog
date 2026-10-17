@@ -1350,8 +1350,72 @@ function generateMyCatalogPage() {
   console.log('Generated: my-catalog/index.html');
 }
 
+
+// Google Merchant Center feed (17-Oct-2026). Before this the account carried 16 hand-added products whose prices had
+// gone stale and which still listed Varsity (closed 23-Sep-2026), a gym vest and a pant we do not sell. The feed is
+// generated from the same catalog.js as every page, so a rate change or a closed product reaches Google with the next
+// deploy and can never drift again. One item per product, priced per piece BEFORE GST - exactly what the landing page
+// says ("Rs 200/pc bulk ... GST 5% extra"), because Google requires the feed price to match the page.
+// Left out on purpose: hidden products (Boxy Fit until it launches) and DTF (a per-metre print service, not a garment).
+var MERCHANT_NOUNS = {
+  'oversized-tees': 'Blank Oversized Drop Shoulder T-Shirt',
+  'roundneck-tees': 'Blank Round Neck T-Shirt',
+  'polo-tees': 'Blank Polo T-Shirt',
+  'hoodies': 'Blank Hoodie',
+  'sweatshirts': 'Blank Sweatshirt'
+};
+var MERCHANT_NOUNS_BY_SLUG = { 'kids-round-neck': 'Blank Kids Round Neck T-Shirt', 'shorts': 'Cotton Shorts' };
+var MERCHANT_GOOGLE_CAT = { 'shorts': 'Apparel & Accessories > Clothing > Shorts' };
+var MERCHANT_GST_PCT = 5;   // garments; DTF (18%) is not in this feed
+function merchantNoun(p) {
+  return MERCHANT_NOUNS_BY_SLUG[p.slug] || MERCHANT_NOUNS[p.categoryId] || 'Blank T-Shirt';
+}
+function generateMerchantFeed() {
+  var items = products.filter(function (p) { return !p.hidden; }).map(function (p) {
+    var url = SITE_DOMAIN + '/p/' + p.slug + '/';
+    var main = SITE_DOMAIN + '/images/' + p.slug + '/' + p.mainImage + '.webp';
+    var extra = p.imageRefs.slice(0, 10).map(function (r) {
+      return SITE_DOMAIN + '/images/' + r.dir + '/' + r.file + '.webp';
+    }).filter(function (u) { return u !== main; });
+    var priceLine = p.rate === p.rateMax ? 'Rs ' + p.rate + ' per piece' : 'Rs ' + p.rate + ' to Rs ' + p.rateMax + ' per piece by size';
+    var desc = p.description.replace(/\s*$/, '').replace(/([^.])$/, '$1.')
+      + ' Sizes ' + p.sizes.join(', ') + '. ' + p.colors.length + ' colours: ' + p.colors.join(', ') + '.'
+      + ' Minimum order ' + (p.moq || 10) + ' pieces, mix any colours and sizes.'
+      + ' Bulk rate ' + priceLine + ', GST ' + MERCHANT_GST_PCT + '% extra.'
+      + ' Ready stock in Delhi, dispatch the same day, GST invoice with every order.';
+    return '  <item>\n'
+      + '    <g:id>' + esc(p.slug) + '</g:id>\n'
+      + '    <g:title>' + esc(p.name + ' ' + merchantNoun(p)) + '</g:title>\n'
+      + '    <g:description>' + esc(desc) + '</g:description>\n'
+      + '    <g:link>' + esc(url) + '</g:link>\n'
+      + '    <g:image_link>' + esc(main) + '</g:image_link>\n'
+      + extra.map(function (u) { return '    <g:additional_image_link>' + esc(u) + '</g:additional_image_link>\n'; }).join('')
+      + '    <g:availability>in_stock</g:availability>\n'
+      + '    <g:price>' + p.rate + '.00 INR</g:price>\n'
+      + '    <g:brand>Sale91</g:brand>\n'
+      + '    <g:condition>new</g:condition>\n'
+      + '    <g:identifier_exists>no</g:identifier_exists>\n'
+      + '    <g:google_product_category>' + esc(MERCHANT_GOOGLE_CAT[p.slug] || 'Apparel & Accessories > Clothing > Shirts & Tops') + '</g:google_product_category>\n'
+      + '    <g:product_type>' + esc(p.categoryName) + '</g:product_type>\n'
+      + '    <g:minimum_order_quantity>' + (p.moq || 10) + '</g:minimum_order_quantity>\n'
+      + '  </item>\n';
+  });
+  var xml = '<?xml version="1.0" encoding="UTF-8"?>\n'
+    + '<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">\n'
+    + '<channel>\n'
+    + '  <title>Sale91 blank apparel</title>\n'
+    + '  <link>' + SITE_DOMAIN + '/</link>\n'
+    + '  <description>Wholesale blank T-shirts, polos, hoodies and sweatshirts from OWN KNITTED BLANK WEARS, Delhi.</description>\n'
+    + items.join('')
+    + '</channel>\n'
+    + '</rss>\n';
+  fs.writeFileSync(path.join(__dirname, 'google-merchant.xml'), xml);
+  console.log('Generated: google-merchant.xml (' + items.length + ' products)');
+}
+
 if (DTF) generateDtfPage(DTF);
 generateMainPage();
+generateMerchantFeed();
 generateRateAlertPage();
 generateMyCatalogPage();
 console.log('\nDone! Generated ' + products.length + ' product pages + main index.html + rate-alert page.');
