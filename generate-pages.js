@@ -181,6 +181,7 @@ CATALOG_DATA.categories.forEach(function (cat) {
       samplePrice: Math.min.apply(null, tiers.map(function (t) { return t.samplePrice; })),
       samplePriceMax: Math.max.apply(null, tiers.map(function (t) { return t.samplePrice; })),
       moq: product.moq,
+      shipKg: product.shipKg,
       tiers: tiers,
       colors: colors,
       colorCodes: colorCodes,
@@ -1397,7 +1398,7 @@ function generateMerchantFeed() {
       + '    <g:identifier_exists>no</g:identifier_exists>\n'
       + '    <g:google_product_category>' + esc(MERCHANT_GOOGLE_CAT[p.slug] || 'Apparel & Accessories > Clothing > Shirts & Tops') + '</g:google_product_category>\n'
       + '    <g:product_type>' + esc(p.categoryName) + '</g:product_type>\n'
-      + '    <g:minimum_order_quantity>' + (p.moq || 10) + '</g:minimum_order_quantity>\n'
+      + (p.shipKg ? '    <g:shipping_weight>' + p.shipKg + ' kg</g:shipping_weight>\n' : '')
       + '  </item>\n';
   });
   var xml = '<?xml version="1.0" encoding="UTF-8"?>\n'

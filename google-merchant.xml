@@ -27,7 +27,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Oversized Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.27 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>oversize-180gsm</g:id>
@@ -43,7 +43,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Oversized Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.26 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>oversize-240gsm</g:id>
@@ -68,7 +68,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Oversized Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.32 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>oversize-260gsm</g:id>
@@ -92,7 +92,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Oversized Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.35 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>acidwash-oversize</g:id>
@@ -110,7 +110,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Oversized Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.27 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>true-biowash-round-neck</g:id>
@@ -135,7 +135,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Round Neck Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.21 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>biowash-round-neck</g:id>
@@ -160,7 +160,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Round Neck Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.21 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>sublimation-t-shirt</g:id>
@@ -181,7 +181,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Round Neck Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.21 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>non-bio-round-neck</g:id>
@@ -202,7 +202,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Round Neck Tees</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.21 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>premium-polo</g:id>
@@ -227,7 +227,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Polo T-Shirts</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.26 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>cotton-polo</g:id>
@@ -252,7 +252,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Polo T-Shirts</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.26 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>zip-hoodie</g:id>
@@ -272,7 +272,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Hoodies</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.56 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>hoodie-320gsm</g:id>
@@ -297,7 +297,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Hoodies</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.56 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>hoodie-430gsm</g:id>
@@ -322,7 +322,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Hoodies</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.75 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>sweatshirt</g:id>
@@ -347,7 +347,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Sweatshirts &amp; Jackets</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.46 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>kids-round-neck</g:id>
@@ -366,7 +366,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shirts &amp; Tops</g:google_product_category>
     <g:product_type>Kids &amp; Bottomwear</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.16 kg</g:shipping_weight>
   </item>
   <item>
     <g:id>shorts</g:id>
@@ -389,7 +389,7 @@
     <g:identifier_exists>no</g:identifier_exists>
     <g:google_product_category>Apparel &amp; Accessories &gt; Clothing &gt; Shorts</g:google_product_category>
     <g:product_type>Kids &amp; Bottomwear</g:product_type>
-    <g:minimum_order_quantity>10</g:minimum_order_quantity>
+    <g:shipping_weight>0.25 kg</g:shipping_weight>
   </item>
 </channel>
 </rss>

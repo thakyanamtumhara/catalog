@@ -20,7 +20,7 @@ const CATALOG_DATA = {
       color: "#2563eb",
       products: [
         {
-          name: "Oversize 210gsm",
+          name: "Oversize 210gsm", shipKg: 0.27,
           videos: [
             { src: "/ph/vid/oversize-210gsm-red.mp4", poster: "/ph/vid/oversize-210gsm-red.jpg", color: "Red" }
           ],
@@ -40,7 +40,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1-GEQ5CGKgngbeximSerhnkD_2xyOj-FuvyQZhlPG3Dk/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Oversize 180gsm",
+          name: "Oversize 180gsm", shipKg: 0.26,
           mainImage: "m2",
           id: "oversized-tees-2",
           nickname: "OS180",
@@ -57,7 +57,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1ZSWvKG4ZbGk2KtTKdunLvVfCDB3l_EwYXDVAZcKKIXs/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Oversize 240gsm",
+          name: "Oversize 240gsm", shipKg: 0.32,
           videos: [
             { src: "/ph/vid/oversize-240gsm-royalblue-navy.mp4", poster: "/ph/vid/oversize-240gsm-royalblue-navy.jpg", color: "Royal Blue" },
             { src: "/ph/vid/oversize-240gsm-charcoal.mp4", poster: "/ph/vid/oversize-240gsm-charcoal.jpg", color: "Charcoal" }
@@ -78,7 +78,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTwoQtM14uhd4-3HM7q6lmbFGDD8IJrbxfMSGHAdcT3yR8Yv3XZBBgedc0TKMLaFpQot9kUt8u2KYFB/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Oversize 260gsm",
+          name: "Oversize 260gsm", shipKg: 0.35,
           videos: [
             { src: "/ph/vid/oversize-260gsm-white.mp4", poster: "/ph/vid/oversize-260gsm-white.jpg", color: "White" }
           ],
@@ -97,7 +97,7 @@ const CATALOG_DATA = {
           bulkPrices: [190, 195, 205, 220, 225, 230, 240, 255]
         },
         {
-          name: "AcidWash Oversize",
+          name: "AcidWash Oversize", shipKg: 0.27,
           videos: [
             { src: "/ph/vid/acidwash-os-multi-v2.mp4", poster: "/ph/vid/acidwash-os-multi-v2.jpg" },
             { src: "/ph/vid/acidwash-os.mp4", poster: "/ph/vid/acidwash-os.jpg", color: "Black" },
@@ -123,7 +123,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTkrBu6AtzfU5w-qu84ySWFrIOaVQNGR7-laG9PQfUV0P6Y9ate-SU7s6QSz7Qy9lJbos2S0a8ffn4L/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Boxy Fit",
+          name: "Boxy Fit", shipKg: 0.26,
           id: "oversized-tees-3",
           hidden: true,
           nickname: "Boxy",
@@ -148,7 +148,7 @@ const CATALOG_DATA = {
       color: "#16a34a",
       products: [
         {
-          name: "True Biowash Round Neck",
+          name: "True Biowash Round Neck", shipKg: 0.21,
           videos: [
             { src: "/ph/vid/true-bio-rneck-navy.mp4", poster: "/ph/vid/true-bio-rneck-navy.jpg", color: "Navy" },
             { src: "/ph/vid/true-bio-rneck-mustardyellow.mp4", poster: "/ph/vid/true-bio-rneck-mustardyellow.jpg", color: "Mustard Yellow" },
@@ -170,7 +170,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1MCJxT2_EhphgNGgXjygNS9n58P3tJgavzDzmKfUNQB0/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Biowash Round Neck",
+          name: "Biowash Round Neck", shipKg: 0.21,
           mainImage: "m2",
           id: "roundneck-tees-1",
           nickname: "YL Bio",
@@ -187,7 +187,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vS-IYqDUp9Xtyls2ks1pLkE4JT9LgS2SX8IgomwpkK-xK23XoKC7lykAK1yRnJ7orjQ_Lw0laWU0d5M/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Sublimation T-Shirt",
+          name: "Sublimation T-Shirt", shipKg: 0.21,
           videos: [
             { src: "/ph/vid/sublimation.mp4", poster: "/ph/vid/sublimation.jpg" }
           ],
@@ -207,7 +207,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1flL8p0VuI5twjdg7qM54wlJqAJkJzPlNKu1PERSbOtE/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Non Bio Round Neck",
+          name: "Non Bio Round Neck", shipKg: 0.21,
           id: "roundneck-tees-2",
           nickname: "NBio",
           description: "Non Bio Round neck, 180gsm, 88% Cotton, 12% Polyester",
@@ -231,7 +231,7 @@ const CATALOG_DATA = {
       color: "#7c3aed",
       products: [
         {
-          name: "Premium Polo",
+          name: "Premium Polo", shipKg: 0.26,
           videos: [
             { src: "/ph/vid/premium-polo-white.mp4", poster: "/ph/vid/premium-polo-white.jpg", color: "White" }
           ],
@@ -251,7 +251,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1iTL0Hh77Eo_XlrKsIkPOcM2VpBegXbLpextEKLQhVs4/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Cotton Polo",
+          name: "Cotton Polo", shipKg: 0.26,
           videos: [
             { src: "/ph/vid/cotton-polo.mp4", poster: "/ph/vid/cotton-polo.jpg" }
           ],
@@ -279,7 +279,7 @@ const CATALOG_DATA = {
       color: "#dc2626",
       products: [
         {
-          name: "Zip Hoodie",
+          name: "Zip Hoodie", shipKg: 0.56,
           videos: [
             { src: "/ph/vid/zip-hoodie-black.mp4", poster: "/ph/vid/zip-hoodie-black.jpg", color: "Black" }
           ],
@@ -299,7 +299,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vT1IROWs8tfoWyefLuIjrmoG_tY37dG5o37w0M93qVtwT0-3izDpbG-hmJTdFXDvs0Aqa0rWedLeNUo/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Hoodie 320gsm",
+          name: "Hoodie 320gsm", shipKg: 0.56,
           videos: [
             { src: "/ph/vid/hoodie-320gsm-black-v2.mp4", poster: "/ph/vid/hoodie-320gsm-black-v2.jpg", color: "Black" },
             { src: "/ph/vid/hoodie-320gsm-white.mp4", poster: "/ph/vid/hoodie-320gsm-white.jpg", color: "White" },
@@ -340,7 +340,7 @@ const CATALOG_DATA = {
           // position 2.0 for "430 gsm hoodie" while dropshoulder-hoodie-430gsm
           // ranks 49.5 for nothing. The display name is free to change; the URL
           // is not.
-          name: "Dropshoulder Hoodie 430gsm",
+          name: "Dropshoulder Hoodie 430gsm", shipKg: 0.75,
           videos: [
             { src: "/ph/vid/hoodie-430gsm-black-v2.mp4", poster: "/ph/vid/hoodie-430gsm-black-v2.jpg", color: "Black" }
           ],
@@ -384,7 +384,7 @@ const CATALOG_DATA = {
       color: "#ea580c",
       products: [
         {
-          name: "Sweatshirt",
+          name: "Sweatshirt", shipKg: 0.46,
           videos: [
             { src: "/ph/vid/sweatshirt-grey.mp4", poster: "/ph/vid/sweatshirt-grey.jpg", color: "Grey" },
             { src: "/ph/vid/sweatshirt-offwhite.mp4", poster: "/ph/vid/sweatshirt-offwhite.jpg", color: "Off-white" },
@@ -431,7 +431,7 @@ const CATALOG_DATA = {
       color: "#f59e0b",
       products: [
         {
-          name: "Kids Round Neck",
+          name: "Kids Round Neck", shipKg: 0.16,
           id: "kids-and-more-0",
           nickname: "Kids",
           description: "True Biowash Kids Round neck, 180gsm, 100% Cotton Supercombed Premium Quality Red Lable Fabric",
@@ -447,7 +447,7 @@ const CATALOG_DATA = {
           catalogUrl: "https://docs.google.com/presentation/d/1fHmAJuC1mUIVDlJUGfsJATUYrtFFRsZSHuj3qynupmc/pub?start=false&loop=false&delayms=3000"
         },
         {
-          name: "Shorts",
+          name: "Shorts", shipKg: 0.25,
           mainImage: "m2",
           id: "kids-and-more-1",
           nickname: "Shorts",
