@@ -64,7 +64,7 @@ We are known for "Dispatch within Minutes".
     * **Speed:** 1 to 2 Hours.
     * **Carriers:** Porter or Rapido.
 * **PAN India Delivery:**
-    * **Speed:** 1 to 3 Days (depending on location).
+    * **Speed:** Usually 2 to 5 days (the checkout shows the delivery date for your pincode).
     * **Carriers:** Courier, Transport, or Train.
 * **Factory Location (Tiruppur):**
     * **Activity:** Fabric knitting, dyeing, processing, and stock storage.
@@ -75,13 +75,13 @@ We are known for "Dispatch within Minutes".
 * **Google map location:** https://maps.app.goo.gl/dGpvUxcMLg5MJmtS9
 * **Visiting Hours:**
     * Mon to Sat: 10 AM to 6 PM.
-    * Sunday: 11 AM to 4 PM.
+    * Sunday: 12 PM to 4 PM.
     * *Note: Kindly visit for 5 to 10 minutes only as we are busy with dispatch.*
 ## 5. B2B Sales Policies
 * **MOQ (Minimum Order Quantity):** 10 Pieces total (Mix and match any color, size, or any item).
 * **Pricing:** Wholesale rates apply.
     * **GST:** Prices are exclusive of GST. 5% GST is added at invoicing.
-* **Payment Terms:** 100% Prepaid. **No Cash on Delivery (COD)**.
+* **Payment Terms:** Pay online (UPI, card, net banking). **Partial COD** on courier orders where the courier offers it: pay a part online now and the rest in cash on delivery (COD charge 5% of the cash part, minimum ₹70, plus GST). Pre-book orders are fully prepaid.
 * **Returns/Replacements:** We replace pieces solely for genuine manufacturing defects (e.g., holes).
 ## 6. Dropshipping Program
 We offer a "Zero-Contact" dropshipping service for resellers and brands.
@@ -402,7 +402,7 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 * "Drop Shoulder" = oversized relaxed fit style popular in streetwear
 * "Loopknit" = knitting method that creates loops on inside for softness
 * "Brushed" = fabric brushed on inside for fleece-like warmth (hoodies/sweatshirts)
-* Payment: 100% Prepaid only, no COD available
+* Payment: online; Partial COD on courier orders (part now, rest on delivery; 5% COD charge, min ₹70)
 * Returns: Only for genuine manufacturing defects (holes, tears)
 * All products are plain (no print) — ready for custom printing, embroidery, or branding
 * Orders via WhatsApp: https://wa.me/919336695049

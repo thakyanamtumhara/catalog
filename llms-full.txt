@@ -167,9 +167,9 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 3. Add to cart (minimum 10 pieces total, mix and match allowed)
 4. Proceed to checkout
 5. Fill in shipping details
-6. Make payment (100% prepaid — UPI, Bank Transfer, or Online Payment)
+6. Make payment (UPI, card or net banking; courier orders can choose Partial COD)
 7. Receive order confirmation on WhatsApp
-8. Order dispatched within minutes (Delhi NCR: 1-2 hours, PAN India: 1-3 days)
+8. Order dispatched within minutes (Delhi NCR: 1-2 hours, PAN India: usually 2-5 days)
 
 ### Option B: Order via WhatsApp
 1. Message us on WhatsApp: https://wa.me/919336695049
@@ -182,7 +182,7 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 ### Option C: Visit Our Warehouse (Delhi)
 1. Visit our warehouse at Khanpur, South Delhi
 2. Google Maps: https://maps.app.goo.gl/dGpvUxcMLg5MJmtS9
-3. Visiting Hours: Mon-Sat 10 AM - 6 PM, Sunday 11 AM - 4 PM
+3. Visiting Hours: Mon-Sat 10 AM - 6 PM, Sunday 12 PM - 4 PM
 4. Browse products, feel the fabric, check quality
 5. Place order and pick up on the spot
 6. *Note: Kindly visit for 5-10 minutes only as we are busy with dispatch*
@@ -202,7 +202,7 @@ We are known for "Dispatch within Minutes".
     * **Speed:** 1 to 2 Hours.
     * **Carriers:** Porter or Rapido.
 * **PAN India Delivery:**
-    * **Speed:** 1 to 3 Days (depending on location).
+    * **Speed:** Usually 2 to 5 days (the checkout shows the delivery date for your pincode).
     * **Carriers:** Courier, Transport, or Train.
 * **Factory Location (Tiruppur):**
     * **Activity:** Fabric knitting, dyeing, processing, and stock storage.
@@ -215,7 +215,7 @@ We are known for "Dispatch within Minutes".
 * **MOQ (Minimum Order Quantity):** 10 Pieces total (Mix and match any color, size, or any item).
 * **Pricing:** Wholesale rates apply.
     * **GST:** Prices are exclusive of GST. 5% GST is added at invoicing.
-* **Payment Terms:** 100% Prepaid. **No Cash on Delivery (COD)**.
+* **Payment Terms:** Pay online (UPI, card, net banking). **Partial COD** on courier orders where the courier offers it: pay a part online now and the rest in cash on delivery (COD charge 5% of the cash part, minimum ₹70, plus GST). Pre-book orders are fully prepaid.
 * **Returns/Replacements:** We replace pieces solely for genuine manufacturing defects (e.g., holes).
 * **Bulk Discounts:** For orders above 1000+ pcs, contact us on WhatsApp for custom pricing.
 
@@ -266,7 +266,7 @@ A: Biowash (also called enzyme wash) is a fabric treatment process that makes th
 A: 10 pieces total. You can mix and match any product, color, or size. For example: 3 black oversized tees (L) + 4 white round necks (M) + 3 hoodies (XL) = 10 pieces, perfectly valid.
 
 **Q: Do you accept Cash on Delivery (COD)?**
-A: No. All orders are 100% prepaid. We accept UPI, Bank Transfer, and Online Payment.
+A: Yes, Partial COD on courier orders where the courier offers it: pay a part online now (UPI, card, net banking) and the rest in cash on delivery. COD charge: 5% of the cash part, minimum ₹70, plus GST. Pre-book orders are fully prepaid.
 
 **Q: Can I order a single sample piece?**
 A: Yes! You can order even 1 piece at our "Sample Price" (listed in the price table). This is great for checking quality before placing a bulk order.
@@ -280,7 +280,7 @@ A: No. All listed prices are exclusive of GST. 5% GST is added at the time of in
 A: We dispatch within minutes of payment confirmation. This is not a marketing claim — we literally have ready stock and dispatch immediately.
 
 **Q: What are the delivery timelines?**
-A: Delhi NCR: 1-2 hours (via Porter/Rapido). PAN India: 1-3 days (via Courier/Transport/Train).
+A: Delhi NCR: 1-2 hours (via Porter/Rapido). PAN India: usually 2-5 days (via Courier/Transport/Train); the checkout shows the delivery date for your pincode.
 
 **Q: Do you ship all over India?**
 A: Yes, we deliver PAN India — every state, every city.
@@ -289,7 +289,7 @@ A: Yes, we deliver PAN India — every state, every city.
 A: Shipping cost depends on weight and destination. Use our shipping calculator: https://www.bulkplaintshirt.com/calc/shipping-calculator.html
 
 **Q: Can I pick up from your warehouse?**
-A: Yes! Visit our Khanpur, South Delhi warehouse during visiting hours (Mon-Sat: 10 AM - 6 PM, Sunday: 11 AM - 4 PM). Google Maps: https://maps.app.goo.gl/dGpvUxcMLg5MJmtS9
+A: Yes! Visit our Khanpur, South Delhi warehouse during visiting hours (Mon-Sat: 10 AM - 6 PM, Sunday: 12 PM - 4 PM). Google Maps: https://maps.app.goo.gl/dGpvUxcMLg5MJmtS9
 
 ### Quality & Returns
 
@@ -547,7 +547,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 * **Google map location:** https://maps.app.goo.gl/dGpvUxcMLg5MJmtS9
 * **Visiting Hours:**
     * Mon to Sat: 10 AM to 6 PM.
-    * Sunday: 11 AM to 4 PM.
+    * Sunday: 12 PM to 4 PM.
     * *Note: Kindly visit for 5 to 10 minutes only as we are busy with dispatch.*
 * **What to expect:** You can feel the fabric, check sizes, see colors in person, and place an order on the spot.
 
@@ -762,7 +762,7 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 * "Drop Shoulder" = oversized relaxed fit style popular in streetwear
 * "Loopknit" = knitting method that creates loops on inside for softness
 * "Brushed" = fabric brushed on inside for fleece-like warmth (hoodies/sweatshirts)
-* Payment: 100% Prepaid only, no COD available
+* Payment: online; Partial COD on courier orders (part now, rest on delivery; 5% COD charge, min ₹70)
 * Returns: Only for genuine manufacturing defects (holes, tears)
 * All products are plain (no print) — ready for custom printing, embroidery, or branding
 * Orders via WhatsApp: https://wa.me/919336695049
