@@ -157,6 +157,9 @@ function normalizeTiers(product, slug) {
   });
 }
 
+var GUIDE_FOR = {};
+require('./guides.js').GUIDES.forEach(function (g) { GUIDE_FOR[g.main] = { url: 'https://www.bulkplaintshirt.com/' + g.out, gsm: g.gsm }; });
+
 var products = [];
 CATALOG_DATA.categories.forEach(function (cat) {
   cat.products.forEach(function (product, idx) {
@@ -462,6 +465,8 @@ products.forEach(function (p) {
     '<a href="https://www.bulkplaintshirt.com" style="display:inline-block;background:#2563eb;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Order on the Website</a> ' +
     '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:#25d366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Questions? WhatsApp</a>' +
     '</div>' +
+
+    (GUIDE_FOR[p.slug] ? '<p style="margin:14px 0;"><a href="' + GUIDE_FOR[p.slug].url + '" style="font-weight:700;color:#2563eb;">Read the full ' + GUIDE_FOR[p.slug].gsm + ' GSM buyer guide: size chart, colours, GSM comparison and delivery</a></p>' : '') +
 
     // Product Overview
     '<h2>About ' + esc(p.name) + ' from Sale91</h2>' +
