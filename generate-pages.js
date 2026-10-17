@@ -186,6 +186,7 @@ CATALOG_DATA.categories.forEach(function (cat) {
       colors: colors,
       colorCodes: colorCodes,
       sizes: product.sizes,
+      sizeChart: product.sizeChart,
       imageRefs: imageRefs,
       imageFiles: imageRefs.map(function (r) { return r.file; }),
       mainImage: product.mainImage || 'm',
@@ -1427,4 +1428,5 @@ generateMainPage();
 generateMerchantFeed();
 generateRateAlertPage();
 generateMyCatalogPage();
+require('./guides.js').generateGuides({ products: products, sizeCharts: SIZE_CHARTS });
 console.log('\nDone! Generated ' + products.length + ' product pages + main index.html + rate-alert page.');

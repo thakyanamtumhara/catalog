@@ -77,6 +77,8 @@ jobs:
             --exclude ".git/*" \
             --exclude ".github/*" \
             --exclude "generate-pages.js" \
+            --exclude "guides.js" \
+            --exclude "guides/*" \
             --exclude "scripts/*" \
             --exclude ".deploy-backup/*" \
             --exclude "cloudfront/*" \
@@ -88,6 +90,23 @@ jobs:
             --exclude "pdf/*" \
             --exclude "out/*" \
             --cache-control "no-cache, no-store, must-revalidate"
+
+      # 3b. Product guide pages (guides.js): built from the same catalog data as the product pages
+      # but served from the blog path /p/, where the URL already ranks. One-hour cache so a rate
+      # change shows the same day; the invalidation below refreshes CloudFront at once.
+      - name: Upload guide pages to /p/ and invalidate them
+        run: |
+          cd guides
+          PATHS=""
+          for f in $(find p -type f -name '*.html'); do
+            aws s3 cp "$f" "s3://bulkplaintshirt.com/$f" \
+              --content-type "text/html; charset=utf-8" \
+              --cache-control "public, max-age=3600"
+            PATHS="$PATHS /$f"
+          done
+          if [ -n "$PATHS" ]; then
+            aws cloudfront create-invalidation --distribution-id E21QLU9SBUBY7Z --paths $PATHS
+          fi
 
       # 4. Smart Invalidation
       # Cover directory URLs (e.g. /catalog/, /catalog/p/<slug>/) which don't end in .html,
