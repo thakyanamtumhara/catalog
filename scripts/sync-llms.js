@@ -372,7 +372,7 @@ function generateProductsJson(catalog, products) {
     paymentTerms: '100% Prepaid',
     contact: {
       whatsapp: 'https://wa.me/919336695049',
-      phone: '+91-9336695049',
+      phone: '+91-8527004773',
       website: 'https://www.bulkplaintshirt.com/',
       catalog: 'https://www.bulkplaintshirt.com/catalog',
     },
