@@ -61,10 +61,16 @@ function esc(str) {
   return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
+function materialOf(d) {
+  if (/100% cotton/i.test(d)) return '100% Cotton';
+  if (/polyester/i.test(d) && !/\d+%\s*cotton/i.test(d)) return /cotton feel/i.test(d) ? 'Cotton-feel Polyester' : 'Polyester';
+  return '88% Cotton, 12% Polyester';
+}
+
 // Generate FAQ for a product
 function generateFAQ(p) {
   var gsm = (p.description.match(/(\d+)\s*gsm/i) || ['', ''])[1];
-  var material = p.description.includes('100% Cotton') ? '100% Cotton' : '88% Cotton, 12% Polyester';
+  var material = materialOf(p.description);
 
   return [
     { q: 'What is ' + p.name + ' from Sale91?', a: p.name + ' is a premium quality blank ' + p.categoryName.toLowerCase() + ' from Sale91. ' + p.description + '. Available in ' + p.colors.length + ' colors and sizes ' + p.sizes.join(', ') + '. Ideal for custom printing, embroidery, and branding.' },
@@ -158,7 +164,7 @@ function normalizeTiers(product, slug) {
 }
 
 var GUIDE_FOR = {};
-require('./guides.js').GUIDES.forEach(function (g) { GUIDE_FOR[g.main] = { url: 'https://www.bulkplaintshirt.com/' + g.out, gsm: g.gsm }; });
+require('./guides.js').GUIDES.forEach(function (g) { GUIDE_FOR[g.main] = { url: 'https://www.bulkplaintshirt.com/' + g.out, text: g.linkText || ('Read the full ' + g.gsm + ' GSM buyer guide: size chart, colours, GSM comparison and delivery') }; });
 
 var products = [];
 CATALOG_DATA.categories.forEach(function (cat) {
@@ -209,7 +215,7 @@ products.forEach(function (p) {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
 
   var gsm = (p.description.match(/(\d+)\s*gsm/i) || ['', ''])[1];
-  var material = p.description.includes('100% Cotton') ? '100% Cotton' : '88% Cotton, 12% Polyester';
+  var material = materialOf(p.description);
   var title = p.name + ' (' + p.nickname + ') — Blank ' + p.categoryName + ' Wholesale | Sale91';
   var desc = p.description + '. ₹' + p.rate + '/pc bulk, ₹' + p.samplePrice + ' sample. ' +
     p.colors.length + ' colors. Sizes: ' + p.sizes.join(', ') +
@@ -397,7 +403,7 @@ products.forEach(function (p) {
     '- Screen Printing: Excellent ink adhesion on ' + material + ' surface\n' +
     '- DTG (Direct-to-Garment): Pre-treated fabric ensures vibrant digital prints\n' +
     '- Heat Transfer Vinyl (HTV): Smooth surface for clean heat press application\n' +
-    '- Sublimation: ' + (material.includes('Polyester') || material.includes('polyester') ? 'Cotton-polyester blend allows for partial sublimation results' : 'Best paired with sublimation-compatible surfaces') + '\n' +
+    '- Sublimation: ' + (/^(Cotton-feel )?Polyester$/.test(material) ? 'Made for sublimation: the polyester fabric takes sublimation ink for full-colour prints' : material.includes('Polyester') || material.includes('polyester') ? 'Cotton-polyester blend allows for partial sublimation results' : 'Best paired with sublimation-compatible surfaces') + '\n' +
     '- Embroidery: ' + (gsm && parseInt(gsm) >= 200 ? 'Heavy GSM fabric holds embroidery stitches firmly without puckering' : 'Fabric holds standard embroidery well with proper stabilizer') + '\n\n' +
     'TARGET CUSTOMERS:\n' +
     '- Custom t-shirt printing businesses looking for reliable blank stock\n' +
@@ -466,7 +472,7 @@ products.forEach(function (p) {
     '<a href="https://whatsapp.sale91.com" style="display:inline-block;background:#25d366;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:700;margin-top:8px;">Questions? WhatsApp</a>' +
     '</div>' +
 
-    (GUIDE_FOR[p.slug] ? '<p style="margin:14px 0;"><a href="' + GUIDE_FOR[p.slug].url + '" style="font-weight:700;color:#2563eb;">Read the full ' + GUIDE_FOR[p.slug].gsm + ' GSM buyer guide: size chart, colours, GSM comparison and delivery</a></p>' : '') +
+    (GUIDE_FOR[p.slug] ? '<p style="margin:14px 0;"><a href="' + GUIDE_FOR[p.slug].url + '" style="font-weight:700;color:#2563eb;">' + esc(GUIDE_FOR[p.slug].text) + '</a></p>' : '') +
 
     // Product Overview
     '<h2>About ' + esc(p.name) + ' from Sale91</h2>' +

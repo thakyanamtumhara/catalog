@@ -28,6 +28,21 @@ var GUIDES = [
       ['/p/dtf-vs-screen-print-vs-embroidery-real-cost-breakdown-on.html', 'DTF vs screen print vs embroidery: real cost on a ₹500 T-shirt'],
       ['/p/index.html', 'All buyer guides']
     ]
+  },
+  {
+    kind: 'sublimation',
+    out: 'p/sublimation-t-shirts-wholesale.html',
+    updated: '2026-10-23',
+    main: 'sublimation-t-shirt',
+    crumb: 'Sublimation T-shirts',
+    linkText: 'Read the full sublimation T-shirt buyer guide: how sublimation works, size chart, prices and delivery',
+    compare: ['sublimation-t-shirt', 'true-biowash-round-neck', 'biowash-round-neck'],
+    photos: [[1, 'White, front'], [2, 'White, side'], [3, 'Back and shoulder'], [4, 'Sleeve'], [5, 'Fabric close-up'], [6, 'After sublimation printing']],
+    video: { src: '/ph/vid/sublimation.mp4', poster: '/ph/vid/sublimation.jpg', label: 'The sublimation T-shirt' },
+    related: [
+      ['/p/Dropshoulders.html', '240 GSM drop-shoulder T-shirts: buyer guide'],
+      ['/p/index.html', 'All buyer guides']
+    ]
   }
 ];
 
@@ -49,13 +64,13 @@ function priceLine(p) {
   return sameAllSizes(p) ? rs(p.rate) + '/pc' : range(p.rate, p.rateMax) + '/pc by size';
 }
 
-function sizeChartTable(chart) {
+function sizeChartTable(chart, sep) {
   if (!chart) return '';
   var head = '<tr><th>Size</th>' + chart.sizes.map(function (s) { return '<th>' + esc(s) + '</th>'; }).join('') + '</tr>';
   var rows = chart.rows.map(function (r) {
     return '<tr><th>' + esc(r.label) + '</th>' + r.values.map(function (v) { return '<td>' + v + '</td>'; }).join('') + '</tr>';
   }).join('');
-  return '<div class="tbl"><table class="sz"><caption>' + esc(chart.title) + ' — measurements in inches</caption>' + head + rows + '</table></div>';
+  return '<div class="tbl"><table class="sz"><caption>' + esc(chart.title) + (sep || ' — ') + 'measurements in inches</caption>' + head + rows + '</table></div>';
 }
 
 function compareTable(list, mainSlug) {
@@ -96,12 +111,71 @@ function faqList(g, p, bySlug) {
      (acid ? 'Yes: ' + acid.name + ' (240 GSM, ' + acid.colors.length + ' colours, ' + priceLine(acid) + ')' : '') +
      (acid && shorts ? ' and ' : '') +
      (shorts ? shorts.name + ' in 240 GSM terry cotton (' + shorts.colors.length + ' colours, ' + priceLine(shorts) + ')' : '') + '.'],
-    ['How do you deliver?',
-     'By courier to any pincode in India; the website shows the delivery date for your pincode at checkout. Within about 60 km of our Delhi godown we can send same-day by Porter bike. Bulk orders can also go by train parcel to main railway cities, or by bus transport to ' + BUS_STATES + '. Or collect from the godown.'],
-    ['Can I visit the godown?',
-     'Yes. ' + GODOWN + '. Open ' + HOURS + '.']
+    ['How do you deliver?', DELIVERY_FAQ],
+    ['Can I visit the godown?', GODOWN_FAQ]
   ];
   return f.filter(function (x) { return x[1]; });
+}
+
+var CSS = '<style>' +
+  ':root{--ink:#111827;--muted:#4b5563;--line:#e5e7eb;--bg:#ffffff;--soft:#f3f4f6;--brand:#1d4ed8;--ok:#047857}' +
+  '*{box-sizing:border-box}body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}' +
+  'a{color:var(--brand)}header.top,footer.end{background:var(--soft);border-bottom:1px solid var(--line)}footer.end{border-top:1px solid var(--line);border-bottom:0;margin-top:40px}' +
+  '.wrap{max-width:980px;margin:0 auto;padding:0 16px}.top .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:12px 16px}' +
+  '.top .brand{font-weight:800;text-decoration:none;color:var(--ink)}.top nav a{margin-right:14px;font-size:15px}' +
+  '.crumbs{font-size:14px;color:var(--muted);margin:14px 0 0}h1{font-size:30px;line-height:1.2;margin:10px 0 8px}' +
+  'h2{font-size:23px;margin:34px 0 10px}h3{font-size:18px;margin:18px 0 6px}.lede{font-size:18px;color:var(--muted);margin:0 0 16px}' +
+  '.price{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.pill{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--soft)}' +
+  '.pill b{display:block;font-size:22px}.pill span{font-size:14px;color:var(--muted)}' +
+  '.cta{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 6px}.btn{display:inline-block;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}' +
+  '.btn.main{background:var(--brand);color:#fff}.btn.alt{border:2px solid var(--brand);color:var(--brand);background:#fff}' +
+  '.note{font-size:14px;color:var(--muted)}.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0}' +
+  '.gal figure{margin:0}.gal img{width:100%;height:auto;border-radius:10px;display:block;background:var(--soft)}.gal figcaption{font-size:13px;color:var(--muted);text-align:center}' +
+  '.tbl{overflow-x:auto;margin:10px 0}table{border-collapse:collapse;width:100%;font-size:15px}th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}' +
+  'th{background:var(--soft)}caption{text-align:left;font-size:14px;color:var(--muted);padding:4px 0}tr.here td{background:#eef2ff;font-weight:600}' +
+  '.specs th{width:38%}.colors{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px 16px}.colors li{display:flex;align-items:center;gap:6px;font-size:15px}' +
+  '.sw{width:18px;height:18px;border-radius:50%;border:1px solid #9ca3af;display:inline-block}' +
+  'details{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0}summary{font-weight:700;cursor:pointer}' +
+  'video{width:100%;max-width:420px;border-radius:12px;display:block;margin:8px 0}' +
+  '.end .wrap{padding:18px 16px;font-size:14px;color:var(--muted)}' +
+  '@media(max-width:600px){h1{font-size:25px}h2{font-size:20px}}' +
+  '</style>\n';
+
+var DELIVERY_FAQ = 'By courier to any pincode in India; the website shows the delivery date for your pincode at checkout. Within about 60 km of our Delhi godown we can send same-day by Porter bike. Bulk orders can also go by train parcel to main railway cities, or by bus transport to ' + BUS_STATES + '. Or collect from the godown.';
+var GODOWN_FAQ = 'Yes. ' + GODOWN + '. Open ' + HOURS + '.';
+
+function headHtml(title, desc, url, image, ld) {
+  return '<!DOCTYPE html>\n<html lang="en-IN">\n<head>\n' +
+    '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
+    '<title>' + esc(title) + '</title>\n' +
+    '<meta name="description" content="' + esc(desc) + '">\n' +
+    '<link rel="canonical" href="' + url + '">\n' +
+    '<meta property="og:type" content="product">\n<meta property="og:title" content="' + esc(title) + '">\n' +
+    '<meta property="og:description" content="' + esc(desc) + '">\n<meta property="og:url" content="' + url + '">\n' +
+    '<meta property="og:image" content="' + image + '">\n<meta name="twitter:card" content="summary_large_image">\n' +
+    ld.map(function (o) { return '<script type="application/ld+json">' + JSON.stringify(o) + '</script>'; }).join('\n') + '\n' +
+    CSS + '</head>\n<body>\n';
+}
+
+function topHeader(waText) {
+  return '<header class="top"><div class="wrap"><a class="brand" href="/">BulkPlainTshirt.com</a><nav>' +
+    '<a href="/catalog/">Catalogue &amp; rates</a><a href="/delhi-stock.html">Live stock</a><a href="https://dtf.bulkplaintshirt.com/">DTF printing</a>' +
+    '<a href="' + WA + waText + '">WhatsApp</a></nav></div></header>\n';
+}
+
+function deliveryHtml() {
+  return '<h2>Delivery</h2>\n<ul>' +
+    '<li><b>Courier</b> to any pincode in India.</li>' +
+    '<li><b>Same-day bike (Porter)</b> within about 60 km of our Delhi godown.</li>' +
+    '<li><b>Train parcel</b> to main railway cities, and <b>bus transport</b> to ' + BUS_STATES + ', for bulk orders.</li>' +
+    '<li><b>Pick up</b> from the godown: ' + esc(GODOWN) + ' · ' + HOURS + '.</li>' +
+    '</ul>\n';
+}
+
+function footerHtml() {
+  return '<footer class="end"><div class="wrap"><b>OWN KNITTED BLANK WEARS</b> · ' + esc(GODOWN) + ' · GSTIN ' + GSTIN + '<br>' +
+    'Godown: ' + HOURS + ' · Call or WhatsApp ' + PHONE_DISPLAY + ' · <a href="/">bulkplaintshirt.com</a> · <a href="/catalog/">Catalogue</a></div></footer>\n' +
+    '</body>\n</html>\n';
 }
 
 function render(g, p, list, bySlug, sizeCharts) {
@@ -164,41 +238,8 @@ function render(g, p, list, bySlug, sizeCharts) {
   var related = g.related.map(function (r) { return '<li><a href="' + r[0] + '">' + esc(r[1]) + '</a></li>'; }).join('');
   var heavy = bySlug['oversize-260gsm'], light = bySlug['oversize-180gsm'], mid = bySlug['oversize-210gsm'];
 
-  return '<!DOCTYPE html>\n<html lang="en-IN">\n<head>\n' +
-    '<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
-    '<title>' + esc(title) + '</title>\n' +
-    '<meta name="description" content="' + esc(desc) + '">\n' +
-    '<link rel="canonical" href="' + url + '">\n' +
-    '<meta property="og:type" content="product">\n<meta property="og:title" content="' + esc(title) + '">\n' +
-    '<meta property="og:description" content="' + esc(desc) + '">\n<meta property="og:url" content="' + url + '">\n' +
-    '<meta property="og:image" content="' + images[0] + '">\n<meta name="twitter:card" content="summary_large_image">\n' +
-    ld.map(function (o) { return '<script type="application/ld+json">' + JSON.stringify(o) + '</script>'; }).join('\n') + '\n' +
-    '<style>' +
-    ':root{--ink:#111827;--muted:#4b5563;--line:#e5e7eb;--bg:#ffffff;--soft:#f3f4f6;--brand:#1d4ed8;--ok:#047857}' +
-    '*{box-sizing:border-box}body{margin:0;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:var(--bg)}' +
-    'a{color:var(--brand)}header.top,footer.end{background:var(--soft);border-bottom:1px solid var(--line)}footer.end{border-top:1px solid var(--line);border-bottom:0;margin-top:40px}' +
-    '.wrap{max-width:980px;margin:0 auto;padding:0 16px}.top .wrap{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:12px 16px}' +
-    '.top .brand{font-weight:800;text-decoration:none;color:var(--ink)}.top nav a{margin-right:14px;font-size:15px}' +
-    '.crumbs{font-size:14px;color:var(--muted);margin:14px 0 0}h1{font-size:30px;line-height:1.2;margin:10px 0 8px}' +
-    'h2{font-size:23px;margin:34px 0 10px}h3{font-size:18px;margin:18px 0 6px}.lede{font-size:18px;color:var(--muted);margin:0 0 16px}' +
-    '.price{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}.pill{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--soft)}' +
-    '.pill b{display:block;font-size:22px}.pill span{font-size:14px;color:var(--muted)}' +
-    '.cta{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0 6px}.btn{display:inline-block;padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none}' +
-    '.btn.main{background:var(--brand);color:#fff}.btn.alt{border:2px solid var(--brand);color:var(--brand);background:#fff}' +
-    '.note{font-size:14px;color:var(--muted)}.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:14px 0}' +
-    '.gal figure{margin:0}.gal img{width:100%;height:auto;border-radius:10px;display:block;background:var(--soft)}.gal figcaption{font-size:13px;color:var(--muted);text-align:center}' +
-    '.tbl{overflow-x:auto;margin:10px 0}table{border-collapse:collapse;width:100%;font-size:15px}th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}' +
-    'th{background:var(--soft)}caption{text-align:left;font-size:14px;color:var(--muted);padding:4px 0}tr.here td{background:#eef2ff;font-weight:600}' +
-    '.specs th{width:38%}.colors{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px 16px}.colors li{display:flex;align-items:center;gap:6px;font-size:15px}' +
-    '.sw{width:18px;height:18px;border-radius:50%;border:1px solid #9ca3af;display:inline-block}' +
-    'details{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:8px 0}summary{font-weight:700;cursor:pointer}' +
-    'video{width:100%;max-width:420px;border-radius:12px;display:block;margin:8px 0}' +
-    '.end .wrap{padding:18px 16px;font-size:14px;color:var(--muted)}' +
-    '@media(max-width:600px){h1{font-size:25px}h2{font-size:20px}}' +
-    '</style>\n</head>\n<body>\n' +
-    '<header class="top"><div class="wrap"><a class="brand" href="/">BulkPlainTshirt.com</a><nav>' +
-    '<a href="/catalog/">Catalogue &amp; rates</a><a href="/delhi-stock.html">Live stock</a><a href="https://dtf.bulkplaintshirt.com/">DTF printing</a>' +
-    '<a href="' + WA + waText + '">WhatsApp</a></nav></div></header>\n' +
+  return headHtml(title, desc, url, images[0], ld) +
+    topHeader(waText) +
     '<main class="wrap">\n' +
     '<p class="crumbs"><a href="/">Home</a> › <a href="/p/index.html">Buyer guides</a> › ' + g.gsm + ' GSM drop-shoulder T-shirts</p>\n' +
     '<h1>' + g.gsm + ' GSM Drop-Shoulder T-Shirts — Wholesale in India</h1>\n' +
@@ -252,12 +293,7 @@ function render(g, p, list, bySlug, sizeCharts) {
     '<li>Enter your pincode: the website shows the delivery options and the delivery date for it.</li>' +
     '<li>Pay at checkout. Every order gets a GST bill.</li>' +
     '</ol>\n' +
-    '<h2>Delivery</h2>\n<ul>' +
-    '<li><b>Courier</b> to any pincode in India.</li>' +
-    '<li><b>Same-day bike (Porter)</b> within about 60 km of our Delhi godown.</li>' +
-    '<li><b>Train parcel</b> to main railway cities, and <b>bus transport</b> to ' + BUS_STATES + ', for bulk orders.</li>' +
-    '<li><b>Pick up</b> from the godown: ' + esc(GODOWN) + ' · ' + HOURS + '.</li>' +
-    '</ul>\n' +
+    deliveryHtml() +
     '<h2>Also in 240 GSM</h2>\n<ul>' +
     ['acidwash-oversize', 'shorts'].filter(function (s) { return bySlug[s]; }).map(function (s) {
       var q = bySlug[s];
@@ -267,9 +303,194 @@ function render(g, p, list, bySlug, sizeCharts) {
     '<h2>Questions buyers ask</h2>\n' + faqHtml + '\n' +
     '<h2>More guides</h2>\n<ul>' + related + '<li><a href="/catalog/">Full catalogue with live rates</a></li></ul>\n' +
     '</main>\n' +
-    '<footer class="end"><div class="wrap"><b>OWN KNITTED BLANK WEARS</b> · ' + esc(GODOWN) + ' · GSTIN ' + GSTIN + '<br>' +
-    'Godown: ' + HOURS + ' · Call or WhatsApp ' + PHONE_DISPLAY + ' · <a href="/">bulkplaintshirt.com</a> · <a href="/catalog/">Catalogue</a></div></footer>\n' +
-    '</body>\n</html>\n';
+    footerHtml();
+}
+
+function fabricOf(p) {
+  var d = p.description;
+  if (/100% cotton/i.test(d)) return '100% cotton';
+  var m = d.match(/(\d+)%\s*cotton,?\s*(\d+)%\s*polyester/i);
+  if (m) return m[1] + '% cotton, ' + m[2] + '% polyester';
+  if (/polyester/i.test(d)) return /cotton feel/i.test(d) ? 'cotton-feel polyester' : 'polyester';
+  return '';
+}
+
+function fitOf(p) {
+  var d = p.description;
+  var fit = /regular fit/i.test(d) ? 'Regular fit' : /oversize/i.test(d) ? 'Oversized' : '';
+  var neck = /round neck/i.test(d) ? 'round neck' : /polo/i.test(d) ? 'polo collar' : '';
+  return [fit, neck].filter(Boolean).join(', ');
+}
+
+function priceBySize(p) {
+  if (sameAllSizes(p)) return rs(p.rate) + ' for every size';
+  var groups = p.tiers.length === 1 ? p.tiers[0].priceGroups : null;
+  if (!groups) return priceLine(p);
+  return groups.map(function (gr) { return rs(gr.price) + ' for sizes ' + gr.label; }).join(' and ');
+}
+
+function compareTableRegular(list, mainSlug) {
+  var rows = list.map(function (p) {
+    var cls = p.slug === mainSlug ? ' class="here"' : '';
+    return '<tr' + cls + '><td><a href="/catalog/p/' + p.slug + '/">' + esc(p.name) + '</a></td><td>' + (gsmOf(p) || '') + '</td><td>' + esc(fabricOf(p)) +
+      '</td><td>' + esc(priceLine(p)) + '</td><td>' + esc(range(p.samplePrice, p.samplePriceMax)) + '</td><td>' + p.colors.length +
+      '</td><td>' + esc(sizeSpan(p.sizes)) + '</td></tr>';
+  }).join('');
+  return '<div class="tbl"><table class="cmp"><tr><th>Product</th><th>GSM</th><th>Fabric</th><th>Bulk price</th><th>1 sample</th><th>Colours</th><th>Sizes</th></tr>' + rows + '</table></div>';
+}
+
+function renderSublimation(g, p, list, bySlug, sizeCharts) {
+  var url = HOST + '/' + g.out;
+  var chart = sizeCharts[p.sizeChart];
+  var chestRow = chart && chart.rows.filter(function (r) { return /chest/i.test(r.label); })[0];
+  var lenRow = chart && chart.rows.filter(function (r) { return /length/i.test(r.label) && !/sleeve/i.test(r.label); })[0];
+  var chest = chestRow ? [chestRow.values[0], chestRow.values[chestRow.values.length - 1]] : null;
+  var len = lenRow ? [lenRow.values[0], lenRow.values[lenRow.values.length - 1]] : null;
+  var sizeIsChest = chestRow && chestRow.values.join() === p.sizes.join();
+  var gsm = gsmOf(p);
+  var fabric = fabricOf(p);
+  var fit = fitOf(p);
+  var moq = p.moq || 10;
+  var oneColour = p.colors.length === 1;
+  var colourWord = oneColour ? p.colors[0] : p.colors.length + ' colours';
+  var whiteOnly = oneColour && /white/i.test(p.colors[0]);
+  var sample = range(p.samplePrice, p.samplePriceMax);
+
+  var title = 'Sublimation T-Shirts Wholesale India: from ' + rs(p.rate) + '/pc, ' + gsm + ' GSM ' + (oneColour ? p.colors[0] + ' ' : '') + 'Polyester | BulkPlainTshirt.com';
+  var desc = 'Blank sublimation T-shirts wholesale: ' + gsm + ' GSM ' + fabric + ', ' + colourWord.toLowerCase() + ', ' + fit.toLowerCase() + ', sizes ' + sizeSpan(p.sizes) + '. ' +
+    priceLine(p) + ' + GST for ' + moq + '+ pcs, sample ' + sample + '. Ships from our Delhi godown.';
+  var imgBase = '/catalog/images/' + p.slug + '/';
+  var images = g.photos.map(function (ph) { return HOST + imgBase + ph[0] + '.webp'; });
+  var waText = encodeURIComponent('Hi, I want sublimation T-shirts');
+
+  var faqs = [
+    ['What is the wholesale price of a sublimation T-shirt?',
+     'Our ' + p.name + ' is ' + priceBySize(p) + ', per piece for ' + moq + ' pieces or more. GST 5% is extra and you get a GST bill.'],
+    ['What is the minimum order?',
+     moq + ' pieces. You can mix any products, colours and sizes to reach it.'],
+    ['Can I buy one piece as a sample first?',
+     'Yes. A single sample piece costs ' + sample + ' plus GST, so you can test your print before a bulk order.'],
+    ['Which colours are available?',
+     oneColour ? 'Only ' + p.colors[0] + '.' + (whiteOnly ? ' Sublimation needs a white or very light fabric, because the inks are see-through and there is no white ink.' : '')
+       : p.colors.length + ' colours: ' + p.colors.join(', ') + '.'],
+    ['Which sizes do you have?',
+     'Sizes ' + p.sizes.join(', ') + (sizeIsChest ? ' (the size is the chest in inches)' : '') + '.' +
+     (chest && len ? ' Chest goes from ' + chest[0] + ' to ' + chest[1] + ' inches and length from ' + len[0] + ' to ' + len[1] + ' inches. See the size chart on this page.' : '')],
+    ['What fabric is it?',
+     gsm + ' GSM ' + fabric + (fit ? ', ' + fit.toLowerCase() : '') + '. It is made for sublimation printing.'],
+    ['Can I do sublimation on a cotton T-shirt?',
+     'No. Sublimation ink bonds with polyester, so on cotton the print fades or washes out. For cotton T-shirts use DTF, screen printing or DTG.'],
+    ['Can I use sublimation on a black or dark T-shirt?',
+     'No. Sublimation inks are see-through and there is no white ink, so a design only shows its real colours on white or very light fabric.'],
+    ['How do you deliver?', DELIVERY_FAQ],
+    ['Can I visit the godown?', GODOWN_FAQ]
+  ];
+
+  var offers = {
+    '@type': sameAllSizes(p) ? 'Offer' : 'AggregateOffer', url: url, priceCurrency: 'INR',
+    availability: 'https://schema.org/InStock', itemCondition: 'https://schema.org/NewCondition',
+    eligibleQuantity: { '@type': 'QuantitativeValue', minValue: moq, unitCode: 'C62' },
+    seller: { '@id': HOST + '/#business' }
+  };
+  if (sameAllSizes(p)) offers.price = p.rate.toFixed(2);
+  else { offers.lowPrice = p.rate.toFixed(2); offers.highPrice = p.rateMax.toFixed(2); offers.offerCount = p.sizes.length; }
+
+  var ld = [
+    {
+      '@context': 'https://schema.org', '@type': 'Product',
+      name: p.name + ' (blank' + (oneColour ? ', ' + p.colors[0].toLowerCase() : '') + ')', sku: p.nickname || p.slug,
+      description: p.description, material: 'Polyester',
+      brand: { '@type': 'Brand', name: 'Sale91' },
+      image: images,
+      offers: offers
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'FAQPage',
+      mainEntity: faqs.map(function (x) { return { '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }; })
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: HOST + '/' },
+        { '@type': 'ListItem', position: 2, name: 'Buyer guides', item: HOST + '/p/index.html' },
+        { '@type': 'ListItem', position: 3, name: g.crumb, item: url }
+      ]
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'WebPage', '@id': url, url: url, name: title, description: desc,
+      dateModified: g.updated, isPartOf: { '@id': HOST + '/#website' }, about: { '@id': HOST + '/#business' }
+    }
+  ];
+
+  var gallery = g.photos.map(function (ph, i) {
+    return '<figure><img src="' + imgBase + ph[0] + '.webp" width="600" height="600" alt="' + esc('Blank sublimation T-shirt: ' + ph[1].toLowerCase()) + '"' +
+      (i < 2 ? '' : ' loading="lazy"') + ' decoding="async"><figcaption>' + esc(ph[1]) + '</figcaption></figure>';
+  }).join('');
+  var faqHtml = faqs.map(function (x) { return '<details><summary>' + esc(x[0]) + '</summary><p>' + esc(x[1]) + '</p></details>'; }).join('');
+  var related = g.related.map(function (r) { return '<li><a href="' + r[0] + '">' + esc(r[1]) + '</a></li>'; }).join('');
+  var others = list.filter(function (q) { return q.slug !== p.slug; });
+
+  return headHtml(title, desc, url, images[0], ld) +
+    topHeader(waText) +
+    '<main class="wrap">\n' +
+    '<p class="crumbs"><a href="/">Home</a> › <a href="/p/index.html">Buyer guides</a> › ' + esc(g.crumb) + '</p>\n' +
+    '<h1>Sublimation T-Shirts Wholesale in India</h1>\n' +
+    '<p class="lede">Blank ' + (oneColour ? p.colors[0].toLowerCase() + ' ' : '') + 'sublimation T-shirts in ' + gsm + ' GSM ' + fabric + (fit ? ', ' + fit.toLowerCase() : '') +
+    ', shipped from our Delhi godown. Buy from ' + moq + ' pieces, or one sample piece first. The website shows live stock.</p>\n' +
+    '<div class="price"><div class="pill"><b>' + esc(priceLine(p)) + '</b><span>bulk, ' + moq + '+ pcs · GST 5% extra</span></div>' +
+    '<div class="pill"><b>' + esc(sample) + '</b><span>one sample piece</span></div>' +
+    '<div class="pill"><b>' + esc(oneColour ? p.colors[0] + ' only' : colourWord) + '</b><span>sizes ' + esc(sizeSpan(p.sizes)) + '</span></div></div>\n' +
+    '<div class="cta"><a class="btn main" href="/">Order on the website</a><a class="btn alt" href="/delhi-stock.html">See live stock</a>' +
+    '<a class="btn alt" href="' + WA + waText + '">WhatsApp ' + PHONE_DISPLAY + '</a></div>\n' +
+    '<p class="note">Prices and colours on this page come from our live catalogue. Guide updated ' + prettyDate(g.updated) + '.</p>\n' +
+    '<div class="gal">' + gallery + '</div>\n' +
+    '<h2>Specifications</h2>\n<div class="tbl"><table class="specs">' +
+    '<tr><th>Product</th><td>' + esc(p.name) + (p.nickname ? ' (' + esc(p.nickname) + ')' : '') + '</td></tr>' +
+    '<tr><th>Fabric</th><td>' + esc(p.description) + '</td></tr>' +
+    '<tr><th>Weight</th><td>' + gsm + ' GSM (grams per square metre)</td></tr>' +
+    (fit ? '<tr><th>Fit</th><td>' + esc(fit) + '</td></tr>' : '') +
+    '<tr><th>' + (oneColour ? 'Colour' : 'Colours') + '</th><td>' + esc(p.colors.join(', ')) + '</td></tr>' +
+    '<tr><th>Sizes</th><td>' + esc(p.sizes.join(', ')) + (sizeIsChest ? ' (chest in inches)' : '') + '</td></tr>' +
+    '<tr><th>Bulk price</th><td>' + esc(priceBySize(p)) + ' · GST 5% extra</td></tr>' +
+    '<tr><th>Minimum order</th><td>' + moq + ' pieces, mix any products, colours and sizes</td></tr>' +
+    '<tr><th>Sample</th><td>1 piece for ' + esc(sample) + ' + GST</td></tr>' +
+    '<tr><th>Ships from</th><td>Our godown in Khanpur, New Delhi · GST bill with every order</td></tr>' +
+    '</table></div>\n' +
+    (g.video ? '<p>' + esc(g.video.label) + ' on video:</p><video controls preload="none" playsinline poster="' + g.video.poster + '"><source src="' + g.video.src + '" type="video/mp4"></video>\n' : '') +
+    '<h2>Size chart</h2>\n' + sizeChartTable(chart, ': ') +
+    '<p class="note">' + (fit ? fit + '. ' : '') + 'Measure a T-shirt you like and compare it with this chart.</p>\n' +
+    '<h2>What is sublimation printing?</h2>\n' +
+    '<p>Sublimation is a heat-press printing method. The design is printed on sublimation paper with sublimation ink and then pressed onto the T-shirt. ' +
+    'The heat turns the ink into a gas that bonds with the polyester fibres, so the print becomes part of the fabric instead of a layer on top.</p>\n' +
+    '<p>Because there is no layer on top, the print does not crack or peel, and the printed area feels the same as the rest of the T-shirt. ' +
+    'Sublimation suits full-colour designs and photos, sports and team jerseys, school and event T-shirts, and all-over prints.</p>\n' +
+    '<h2>Before you print</h2>\n<ul>' +
+    '<li><b>Polyester only.</b> Sublimation ink bonds with polyester. On cotton it has nothing to hold on to, so the print fades or washes out. This T-shirt is ' + fabric + '.</li>' +
+    '<li><b>White or very light fabric.</b> Sublimation inks are see-through and there is no white ink, so colours only come out true on a white or very light base.' + (whiteOnly ? ' This T-shirt is white.' : '') + '</li>' +
+    '<li><b>Heat press settings.</b> Use the time, temperature and pressure your sublimation paper and ink maker recommends. Pre-press the T-shirt for a few seconds first to remove moisture and creases.</li>' +
+    '<li><b>Test first.</b> Print your design on one sample piece before a bulk run.</li>' +
+    '</ul>\n' +
+    '<h2>Sublimation vs cotton T-shirts</h2>\n' +
+    '<p>Our round-neck T-shirts in one table. Bulk prices are per piece for ' + moq + '+ pieces, before 5% GST.</p>\n' +
+    compareTableRegular(list, p.slug) +
+    '<h3>Which one should you pick?</h3>\n<ul>' +
+    '<li><b>' + esc(p.name) + '</b>: for sublimation printing, ' + esc(priceLine(p)) + ', in ' + esc(p.colors.join(', ')) + '.</li>' +
+    others.map(function (q) {
+      return '<li><b>' + esc(q.name) + '</b>: ' + esc(fabricOf(q)) + ' in ' + q.colors.length + ' colours at ' + esc(priceLine(q)) + ', for DTF, screen printing, DTG and embroidery.</li>';
+    }).join('') +
+    '</ul>\n' +
+    '<p>For cotton T-shirts we also print DTF sheets: <a href="https://dtf.bulkplaintshirt.com/">order DTF prints</a>. They come as a separate parcel from the T-shirts.</p>\n' +
+    '<h2>How to order</h2>\n<ol>' +
+    '<li>Open <a href="/">bulkplaintshirt.com</a> (same as sale91.com), choose <b>' + esc(p.name) + '</b>, and pick your sizes.</li>' +
+    '<li>Reach ' + moq + ' pieces in total. You can mix products, colours and sizes. For one piece, choose the sample.</li>' +
+    '<li>Enter your pincode: the website shows the delivery options and the delivery date for it.</li>' +
+    '<li>Pay at checkout. Every order gets a GST bill.</li>' +
+    '</ol>\n' +
+    deliveryHtml() +
+    '<h2>Questions buyers ask</h2>\n' + faqHtml + '\n' +
+    '<h2>More guides</h2>\n<ul>' + related + '<li><a href="/catalog/">Full catalogue with live rates</a></li></ul>\n' +
+    '</main>\n' +
+    footerHtml();
 }
 
 function generateGuides(ctx) {
@@ -286,7 +507,7 @@ function generateGuides(ctx) {
       var f = path.join(__dirname, 'images', p.slug, ph[0] + '.webp');
       if (!fs.existsSync(f)) throw new Error('guides.js: photo missing ' + f);
     });
-    var html = render(g, p, list, bySlug, ctx.sizeCharts);
+    var html = (g.kind === 'sublimation' ? renderSublimation : render)(g, p, list, bySlug, ctx.sizeCharts);
     var out = path.join(__dirname, 'guides', g.out);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
