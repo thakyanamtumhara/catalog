@@ -78,7 +78,7 @@ var GUIDES = [
     titleLead: '430 GSM Drop-Shoulder Hoodies Wholesale India',
     descLead: 'Drop-shoulder hoodies wholesale',
     faqName: 'a 430 GSM drop-shoulder hoodie',
-    tab: 'Hoodie 430gsm',
+    tab: 'Dropsho Hoodie 430gsm',
     wa: 'Hi, I want 430 GSM drop-shoulder hoodies',
     linkText: 'Read the full 430 GSM drop-shoulder hoodie buyer guide: prices by colour, size chart, 430 vs 320 GSM and delivery',
     compare: ['hoodie-320gsm', 'hoodie-430gsm', 'zip-hoodie', 'sweatshirt'],
