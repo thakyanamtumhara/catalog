@@ -43,6 +43,54 @@ var GUIDES = [
       ['/p/Dropshoulders.html', '240 GSM drop-shoulder T-shirts: buyer guide'],
       ['/p/index.html', 'All buyer guides']
     ]
+  },
+  {
+    kind: 'hoodie',
+    out: 'p/plainhoodie.html',
+    updated: '2026-10-24',
+    main: 'hoodie-320gsm',
+    crumb: 'Plain hoodies wholesale',
+    h1: 'Plain Hoodies Wholesale in India',
+    titleLead: 'Plain Hoodies Wholesale India',
+    titleGsm: true,
+    descLead: 'Blank plain hoodies wholesale',
+    faqName: 'a plain hoodie',
+    tab: 'Hoodie 320gsm',
+    wa: 'Hi, I want plain hoodies',
+    linkText: 'Read the full plain hoodie buyer guide: prices by colour, size chart, 320 vs 430 GSM and delivery',
+    compare: ['hoodie-320gsm', 'hoodie-430gsm', 'zip-hoodie', 'sweatshirt'],
+    photos: [['hoodie-320gsm-black', 1, 'Black'], ['hoodie-320gsm', 20, 'White'], ['hoodie-320gsm', 17, 'Navy'], ['hoodie-320gsm', 23, 'Grey'],
+             ['hoodie-320gsm', 5, 'Off-white'], ['hoodie-320gsm', 9, 'Red'], ['hoodie-320gsm', 12, 'Army Green'], ['hoodie-320gsm', 24, 'Maroon']],
+    video: { src: '/ph/vid/hoodie-320gsm-black-v2.mp4', poster: '/ph/vid/hoodie-320gsm-black-v2.jpg', label: 'The Black hoodie' },
+    related: [
+      ['/p/430gsm-dropshoulder-hoodie.html', '430 GSM drop-shoulder hoodies: buyer guide'],
+      ['/p/Dropshoulders.html', '240 GSM drop-shoulder T-shirts: buyer guide'],
+      ['/p/index.html', 'All buyer guides']
+    ]
+  },
+  {
+    kind: 'hoodie',
+    out: 'p/430gsm-dropshoulder-hoodie.html',
+    updated: '2026-10-24',
+    main: 'hoodie-430gsm',
+    crumb: '430 GSM drop-shoulder hoodies',
+    h1: '430 GSM Drop-Shoulder Hoodies: Wholesale in India',
+    titleLead: '430 GSM Drop-Shoulder Hoodies Wholesale India',
+    descLead: 'Drop-shoulder hoodies wholesale',
+    faqName: 'a 430 GSM drop-shoulder hoodie',
+    tab: 'Hoodie 430gsm',
+    wa: 'Hi, I want 430 GSM drop-shoulder hoodies',
+    linkText: 'Read the full 430 GSM drop-shoulder hoodie buyer guide: prices by colour, size chart, 430 vs 320 GSM and delivery',
+    compare: ['hoodie-320gsm', 'hoodie-430gsm', 'zip-hoodie', 'sweatshirt'],
+    photos: [['dropshoulder-hoodie-430gsm', 1, 'Black'], ['dropshoulder-hoodie-430gsm', 10, 'Black, side'], ['dropshoulder-hoodie-430gsm', 11, 'Black, back'],
+             ['hoodie-430gsm', 6, 'Navy'], ['hoodie-430gsm', 8, 'Navy, back'], ['hoodie-430gsm', 12, 'White'], ['hoodie-430gsm', 1, 'Off-white'],
+             ['hoodie-430gsm', 4, 'Off-white, hood up']],
+    video: { src: '/ph/vid/hoodie-430gsm-black-v2.mp4', poster: '/ph/vid/hoodie-430gsm-black-v2.jpg', label: 'The Black 430 GSM hoodie' },
+    related: [
+      ['/p/plainhoodie.html', 'Plain hoodies wholesale: buyer guide'],
+      ['/p/Dropshoulders.html', '240 GSM drop-shoulder T-shirts: buyer guide'],
+      ['/p/index.html', 'All buyer guides']
+    ]
   }
 ];
 
@@ -493,6 +541,241 @@ function renderSublimation(g, p, list, bySlug, sizeCharts) {
     footerHtml();
 }
 
+function joinAnd(a) { return a.length < 2 ? (a[0] || '') : a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1]; }
+function knitOf(p) { var m = p.description.match(/cotton brushed loopknit/i); return m ? m[0].toLowerCase() : ''; }
+function isDrop(p) { return /dropshoulder|drop shoulder/i.test(p.description); }
+
+function hoodieFeatures(p) {
+  var d = p.description.replace(/non-zipper/ig, 'pullover');
+  var f = /sweatshirt/i.test(d) ? 'no hood' : /zipper/i.test(d) ? 'with a zip' : 'pullover, no zip';
+  return isDrop(p) ? f + ', drop shoulder' : f;
+}
+
+function hoodieStyle(p) {
+  var d = p.description;
+  if (/sweatshirt/i.test(d)) return 'Sweatshirt, no hood';
+  var s = /non-zipper/i.test(d) ? 'Pullover hoodie, no zip' : /zipper/i.test(d) ? 'Zip hoodie' : 'Hoodie';
+  return isDrop(p) ? s + ', drop shoulder' : s;
+}
+
+function chartSpan(chart, re) {
+  var row = chart && chart.rows.filter(function (r) { return re.test(r.label); })[0];
+  return row ? { lo: row.values[0], hi: row.values[row.values.length - 1], label: row.label.toLowerCase() } : null;
+}
+
+function tierColourWords(p, t, i) {
+  return i > 0 && t.colors.length > 3 ? 'the other ' + t.colors.length + ' colours' : joinAnd(t.colors);
+}
+
+function tierPriceSentence(p) {
+  return joinAnd(p.tiers.map(function (t, i) {
+    var gr = t.priceGroups;
+    return rs(gr[0].price) + (gr.length > 1 ? ' (' + gr.slice(1).map(function (x) { return rs(x.price) + ' for ' + x.label; }).join(', ') + ')' : '') +
+      (p.tiers.length > 1 ? ' in ' + tierColourWords(p, t, i) : '');
+  }));
+}
+
+function tierSampleSentence(p) {
+  if (p.tiers.length < 2) return rs(p.samplePrice);
+  return joinAnd(p.tiers.map(function (t, i) { return rs(t.samplePrice) + ' in ' + tierColourWords(p, t, i); }));
+}
+
+function tierTable(p) {
+  var rows = p.tiers.map(function (t) {
+    return '<tr><td>' + esc(t.colors.join(', ')) + '</td><td>' + esc(t.priceGroups.map(function (gr) { return rs(gr.price) + ' (' + gr.label + ')'; }).join(' · ')) +
+      '</td><td>' + esc(rs(t.samplePrice)) + '</td></tr>';
+  }).join('');
+  return '<div class="tbl"><table class="cmp"><tr><th>Colours</th><th>Bulk price per piece</th><th>1 sample</th></tr>' + rows + '</table></div>';
+}
+
+function hoodieCompareTable(list, mainSlug) {
+  var rows = list.map(function (q) {
+    var cls = q.slug === mainSlug ? ' class="here"' : '';
+    return '<tr' + cls + '><td><a href="/catalog/p/' + q.slug + '/">' + esc(q.name) + '</a></td><td>' + (gsmOf(q) || '') + '</td><td>' + esc(hoodieStyle(q)) +
+      '</td><td>' + esc(range(q.rate, q.rateMax)) + '/pc</td><td>' + esc(range(q.samplePrice, q.samplePriceMax)) + '</td><td>' + esc(sizeSpan(q.sizes)) + '</td></tr>';
+  }).join('');
+  return '<div class="tbl"><table class="cmp"><tr><th>Product</th><th>GSM</th><th>Style</th><th>Bulk price</th><th>1 sample</th><th>Sizes</th></tr>' + rows + '</table></div>';
+}
+
+function renderHoodie(g, p, list, bySlug, sizeCharts) {
+  var url = HOST + '/' + g.out;
+  var chart = sizeCharts[p.sizeChart];
+  var chest = chartSpan(chart, /^chest$/i);
+  var len = chartSpan(chart, /^(length|height)$/i);
+  var gsm = gsmOf(p);
+  var fabric = fabricOf(p);
+  var knit = knitOf(p);
+  var style = hoodieStyle(p);
+  var drop = isDrop(p);
+  var moq = p.moq || 10;
+  var sample = range(p.samplePrice, p.samplePriceMax);
+  var price = range(p.rate, p.rateMax) + '/pc';
+  var shop = '/?tab=' + encodeURIComponent(g.tab);
+  var others = list.filter(function (q) { return q.slug !== p.slug; });
+  var heaviest = list.every(function (q) { return (gsmOf(q) || 0) <= gsm; });
+  var hoodies = others.filter(function (q) { return /hoodie/i.test(q.description) && !/zipper hoodie/i.test(q.description.replace(/non-zipper/ig, '')); });
+  var heavier = hoodies.filter(function (q) { return gsmOf(q) > gsm; })[0];
+  var lighter = hoodies.filter(function (q) { return gsmOf(q) < gsm; })[0];
+  var zip = others.filter(function (q) { return /zipper hoodie/i.test(q.description.replace(/non-zipper/ig, '')); })[0];
+  var sweat = others.filter(function (q) { return /sweatshirt/i.test(q.description); })[0];
+  var cheapest = list.reduce(function (a, q) { return q.rate < a.rate ? q : a; }, list[0]);
+  var byColour = p.tiers.length > 1 ? 'by colour and size' : 'by size';
+  var photos = g._photos;
+
+  var title = g.titleLead + ': ' + (g.titleGsm ? gsm + ' GSM ' : '') + 'from ' + rs(p.rate) + '/pc, ' + p.colors.length + ' Colours | BulkPlainTshirt.com';
+  var desc = g.descLead + ': ' + gsm + ' GSM ' + knit + ' (' + fabric + ')' + (heaviest ? ', our heaviest hoodie' : '') + ', ' + p.colors.length +
+    ' colours, sizes ' + sizeSpan(p.sizes) + '. ' + price + ' + GST for ' + moq + '+ pcs, sample ' + sample + '. ' +
+    (heaviest ? '' : 'Also ' + joinAnd(others.map(function (q) { return q.name; })) + '. ') + 'Ships from our Delhi godown.';
+  var images = photos.map(function (ph) { return HOST + '/catalog/images/' + ph[0] + '/' + ph[1] + '.webp'; });
+  var waText = encodeURIComponent(g.wa);
+  var lede = (heaviest ? 'Our heaviest blank hoodie: ' + gsm + ' GSM ' + knit + (drop ? ' with a drop-shoulder fit' : '')
+    : 'Blank ' + (/non-zipper/i.test(p.description) ? 'pullover ' : '') + 'hoodies in ' + gsm + ' GSM ' + knit) +
+    ', in ' + p.colors.length + ' colours, sold wholesale from ' + moq + ' pieces and shipped from our Delhi godown. Or buy one sample piece first. The website shows live stock.';
+
+  var faqs = [
+    ['What is the wholesale price of ' + g.faqName + '?',
+     'Our ' + p.name + ' is ' + tierPriceSentence(p) + ', per piece for ' + moq + ' pieces or more. GST 5% is extra and you get a GST bill.'],
+    ['What is the minimum order?',
+     moq + ' pieces. You can mix any products, colours and sizes to reach it.'],
+    ['Can I buy one piece as a sample first?',
+     'Yes. A single sample piece costs ' + tierSampleSentence(p) + ', plus GST, so you can check the fabric and test your print before a bulk order.'],
+    ['Which colours are available?',
+     p.colors.length + ' colours: ' + joinAnd(p.colors) + '. The website shows which colours and sizes are in stock right now.'],
+    ['Which sizes do you have?',
+     'Sizes ' + p.sizes.join(', ') + '.' + (chest && len ? ' Chest goes from ' + chest.lo + ' to ' + chest.hi + ' inches and ' + len.label + ' from ' + len.lo + ' to ' + len.hi +
+       ' inches (' + p.sizes[0] + ' to ' + p.sizes[p.sizes.length - 1] + '). See the size chart on this page.' : '')],
+    ['What fabric is it?',
+     gsm + ' GSM ' + knit + ', ' + fabric + '. The inside is brushed, so it feels soft like fleece.'],
+    heavier ? ['Do you have a heavier hoodie?',
+     'Yes. Our ' + heavier.name + ' is ' + gsmOf(heavier) + ' GSM (' + hoodieStyle(heavier).toLowerCase() + ') at ' + range(heavier.rate, heavier.rateMax) + '/pc.'] :
+    lighter ? ['What is the difference between ' + gsm + ' GSM and ' + gsmOf(lighter) + ' GSM hoodies?',
+     (function () {
+       var lc = chartSpan(sizeCharts[lighter.sizeChart], /^chest$/i);
+       return gsm + ' GSM is heavier and warmer.' + (drop && chest ? ' Our ' + p.name + ' also has a drop-shoulder cut, chest ' + chest.lo + ' to ' + chest.hi + ' inches' +
+         (lc ? ' against ' + lc.lo + ' to ' + lc.hi + ' inches on the ' + lighter.name : '') + '.' : '') +
+         ' The ' + lighter.name + ' costs ' + range(lighter.rate, lighter.rateMax) + '/pc.';
+     })()] : null,
+    (zip || sweat) ? ['Do you have zip hoodies and sweatshirts?',
+     (zip ? 'Yes. ' + zip.name + ': ' + gsmOf(zip) + ' GSM with a zip, ' + range(zip.rate, zip.rateMax) + '/pc. ' : '') +
+     (sweat ? (zip ? '' : 'Yes. ') + sweat.name + ': ' + gsmOf(sweat) + ' GSM, no hood, ' + range(sweat.rate, sweat.rateMax) + '/pc by colour and size.' : '')] : null,
+    ['How do you deliver?', DELIVERY_FAQ],
+    ['Can I visit the godown?', GODOWN_FAQ]
+  ].filter(Boolean);
+
+  var offers = {
+    '@type': 'AggregateOffer', url: url, priceCurrency: 'INR',
+    lowPrice: p.rate.toFixed(2), highPrice: p.rateMax.toFixed(2), offerCount: p.colors.length * p.sizes.length,
+    itemCondition: 'https://schema.org/NewCondition',
+    eligibleQuantity: { '@type': 'QuantitativeValue', minValue: moq, unitCode: 'C62' },
+    seller: { '@id': HOST + '/#business' }
+  };
+  var ld = [
+    {
+      '@context': 'https://schema.org', '@type': 'Product',
+      name: p.name + ' (blank ' + (drop ? 'drop-shoulder ' : '') + (/non-zipper/i.test(p.description) ? 'pullover ' : '') + 'hoodie)', sku: p.nickname || p.slug,
+      description: p.description, material: fabric,
+      brand: { '@type': 'Brand', name: 'Sale91' },
+      image: images,
+      offers: offers
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'FAQPage',
+      mainEntity: faqs.map(function (x) { return { '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }; })
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: HOST + '/' },
+        { '@type': 'ListItem', position: 2, name: 'Buyer guides', item: HOST + '/p/index.html' },
+        { '@type': 'ListItem', position: 3, name: g.crumb, item: url }
+      ]
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'WebPage', '@id': url, url: url, name: title, description: desc,
+      dateModified: g.updated, isPartOf: { '@id': HOST + '/#website' }, about: { '@id': HOST + '/#business' }
+    }
+  ];
+
+  var swatches = p.colors.map(function (c, i) {
+    return '<li><span class="sw" style="background:' + esc(p.colorCodes[i] || '#ccc') + '"></span>' + esc(c) + '</li>';
+  }).join('');
+  var gallery = photos.map(function (ph, i) {
+    return '<figure><img src="/catalog/images/' + ph[0] + '/' + ph[1] + '.webp" width="600" height="600" alt="' + esc(p.name + ' in ' + ph[2]) + '"' +
+      (i < 2 ? '' : ' loading="lazy"') + ' decoding="async"><figcaption>' + esc(ph[2]) + '</figcaption></figure>';
+  }).join('');
+  var faqHtml = faqs.map(function (x) { return '<details><summary>' + esc(x[0]) + '</summary><p>' + esc(x[1]) + '</p></details>'; }).join('');
+  var related = g.related.map(function (r) { return '<li><a href="' + r[0] + '">' + esc(r[1]) + '</a></li>'; }).join('');
+  var guideOf = {};
+  GUIDES.forEach(function (x) { if (x.out !== g.out) guideOf[x.main] = '/' + x.out; });
+
+  return headHtml(title, desc, url, images[0], ld) +
+    topHeader(waText) +
+    '<main class="wrap">\n' +
+    '<p class="crumbs"><a href="/">Home</a> › <a href="/p/index.html">Buyer guides</a> › ' + esc(g.crumb) + '</p>\n' +
+    '<h1>' + esc(g.h1) + '</h1>\n' +
+    '<p class="lede">' + esc(lede) + '</p>\n' +
+    '<div class="price"><div class="pill"><b>' + esc(price) + '</b><span>bulk, ' + moq + '+ pcs · ' + byColour + ' · GST 5% extra</span></div>' +
+    '<div class="pill"><b>' + esc(sample) + '</b><span>one sample piece</span></div>' +
+    '<div class="pill"><b>' + p.colors.length + ' colours</b><span>sizes ' + esc(sizeSpan(p.sizes)) + '</span></div></div>\n' +
+    '<div class="cta"><a class="btn main" href="' + shop + '">Order on the website</a><a class="btn alt" href="/delhi-stock.html">See live stock</a>' +
+    '<a class="btn alt" href="' + WA + waText + '">WhatsApp ' + PHONE_DISPLAY + '</a></div>\n' +
+    '<p class="note">Prices and colours on this page come from our live catalogue. Guide updated ' + prettyDate(g.updated) + '.</p>\n' +
+    '<div class="gal">' + gallery + '</div>\n' +
+    '<h2>Price by colour</h2>\n' + tierTable(p) +
+    '<p class="note">Bulk price per piece for ' + moq + ' pieces or more in total, before 5% GST. You can mix any products, colours and sizes.</p>\n' +
+    '<h2>Specifications</h2>\n<div class="tbl"><table class="specs">' +
+    '<tr><th>Product</th><td>' + esc(p.name) + (p.nickname ? ' (' + esc(p.nickname) + ')' : '') + '</td></tr>' +
+    '<tr><th>Fabric</th><td>' + esc(p.description) + '</td></tr>' +
+    '<tr><th>Weight</th><td>' + gsm + ' GSM (grams per square metre)</td></tr>' +
+    '<tr><th>Style</th><td>' + esc(style) + '</td></tr>' +
+    '<tr><th>Sizes</th><td>' + esc(p.sizes.join(', ')) + '</td></tr>' +
+    '<tr><th>Bulk price</th><td>' + esc(tierPriceSentence(p)) + ' · GST 5% extra</td></tr>' +
+    '<tr><th>Minimum order</th><td>' + moq + ' pieces, mix any products, colours and sizes</td></tr>' +
+    '<tr><th>Sample</th><td>1 piece: ' + esc(tierSampleSentence(p)) + ', plus GST</td></tr>' +
+    '<tr><th>Ships from</th><td>Our godown in Khanpur, New Delhi · GST bill with every order</td></tr>' +
+    '</table></div>\n' +
+    '<h2>Colours</h2>\n<ul class="colors">' + swatches + '</ul>\n' +
+    '<p class="note">The website shows which colours and sizes are in stock right now.</p>\n' +
+    (g.video ? '<p>' + esc(g.video.label) + ' on video:</p><video controls preload="none" playsinline poster="' + g.video.poster + '"><source src="' + g.video.src + '" type="video/mp4"></video>\n' : '') +
+    '<h2>Size chart</h2>\n' + sizeChartTable(chart, ': ') +
+    '<p class="note">' + (drop ? 'A drop-shoulder hoodie is cut wide on purpose. ' : '') + 'Measure a hoodie you like and compare it with this chart.</p>\n' +
+    '<h2>What does ' + gsm + ' GSM brushed loopknit mean?</h2>\n' +
+    '<p>GSM is the weight of the fabric in grams per square metre. A higher number means a thicker, heavier fabric. Everyday T-shirts are usually 160–180 GSM, so a ' +
+    gsm + ' GSM hoodie is ' + (heaviest ? 'very heavy and warm.' : 'a warm winter weight.') + '</p>\n' +
+    '<p>Loopknit has small loops on the inside of the fabric. In brushed loopknit those loops are brushed up, so the inside feels soft like fleece and holds more warmth. ' +
+    'This fabric is ' + esc(fabric) + '.</p>\n' +
+    (drop ? '<p>In a drop-shoulder hoodie the shoulder seam sits lower, on the upper arm, and the body is cut wider. That gives the relaxed, boxy streetwear look, and the heavy fabric helps it keep that shape.</p>\n' : '') +
+    '<h2>Our hoodies and sweatshirts</h2>\n' +
+    '<p>All of them in one table. Bulk prices are per piece for ' + moq + '+ pieces, before 5% GST.</p>\n' +
+    hoodieCompareTable(list, p.slug) +
+    '<h3>Which one should you pick?</h3>\n<ul>' +
+    list.map(function (q) {
+      var notes = [];
+      if (list.every(function (x) { return (gsmOf(x) || 0) <= (gsmOf(q) || 0); })) notes.push('our heaviest');
+      if (q === cheapest) notes.push('lowest price');
+      var link = guideOf[q.slug] ? ' <a href="' + guideOf[q.slug] + '">Read its buyer guide</a>' : '';
+      return '<li><b>' + esc(q.name) + '</b>: ' + gsmOf(q) + ' GSM, ' + esc(hoodieFeatures(q)) + ', ' + esc(range(q.rate, q.rateMax)) + '/pc' +
+        (notes.length ? ', ' + notes.join(', ') : '') + '.' + link + '</li>';
+    }).join('') +
+    '</ul>\n' +
+    '<h2>Printing on hoodies</h2>\n<ul>' +
+    '<li><b>DTF</b>: works on cotton and cotton-polyester fabric like this one. We print DTF sheets too: <a href="https://dtf.bulkplaintshirt.com/">order DTF prints</a>. They come as a separate parcel from the hoodies.</li>' +
+    '<li><b>Screen printing</b>: the thick, smooth outside of the fabric takes front and back prints well.</li>' +
+    '<li><b>Embroidery</b>: heavy fabric holds stitches well, good for chest logos.</li>' +
+    '</ul>\n<p class="note">Always test your print on one sample piece before a bulk run.</p>\n' +
+    '<h2>How to order</h2>\n<ol>' +
+    '<li>Open <a href="' + shop + '">' + esc(p.name) + '</a> on bulkplaintshirt.com (same as sale91.com) and pick your colours and sizes.</li>' +
+    '<li>Reach ' + moq + ' pieces in total. You can mix products, colours and sizes. For one piece, choose the sample.</li>' +
+    '<li>Enter your pincode: the website shows the delivery options and the delivery date for it.</li>' +
+    '<li>Pay at checkout. Every order gets a GST bill.</li>' +
+    '</ol>\n' +
+    deliveryHtml() +
+    '<h2>Questions buyers ask</h2>\n' + faqHtml + '\n' +
+    '<h2>More guides</h2>\n<ul>' + related + '<li><a href="/catalog/">Full catalogue with live rates</a></li></ul>\n' +
+    '</main>\n' +
+    footerHtml();
+}
+
 function generateGuides(ctx) {
   var bySlug = {};
   ctx.products.forEach(function (p) { bySlug[p.slug] = p; });
@@ -504,10 +787,14 @@ function generateGuides(ctx) {
       return bySlug[s];
     }).filter(function (q) { return !q.hidden; });
     g.photos.forEach(function (ph) {
-      var f = path.join(__dirname, 'images', p.slug, ph[0] + '.webp');
+      var f = ph.length === 3 ? path.join(__dirname, 'images', ph[0], ph[1] + '.webp') : path.join(__dirname, 'images', p.slug, ph[0] + '.webp');
       if (!fs.existsSync(f)) throw new Error('guides.js: photo missing ' + f);
     });
-    var html = (g.kind === 'sublimation' ? renderSublimation : render)(g, p, list, bySlug, ctx.sizeCharts);
+    if (g.kind === 'hoodie') {
+      g._photos = g.photos.filter(function (ph) { return p.colors.indexOf(ph[2].split(',')[0].trim()) >= 0; });
+      if (!g._photos.length) throw new Error('guides.js: no photo of a listed colour for ' + g.out);
+    }
+    var html = (g.kind === 'sublimation' ? renderSublimation : g.kind === 'hoodie' ? renderHoodie : render)(g, p, list, bySlug, ctx.sizeCharts);
     var out = path.join(__dirname, 'guides', g.out);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
