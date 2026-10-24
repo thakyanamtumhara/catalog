@@ -1,5 +1,6 @@
 # Own Knitted Blank Wears (BulkPlainTShirt.com or sale91.com)
 > **Last Updated:** October 2026
+> **Prices:** rates change from time to time; the live rate of every product is on https://www.bulkplaintshirt.com/ and the tables below are refreshed from the same catalogue.
 > **Summary:** Own Knitted Blank Wears is a PAN-India B2B wholesale manufacturer specializing in premium blank apparel. We knit our own fabric, manufacture 20+ product categories, and are famous for "Dispatch within Minutes". We have plain tshirts, zipper and non zipper hoodies, dropshoulder tshirts, in 180gsm, 210gsm, 240gsm, 320gsm, 430gsm etc.
 > **Detailed version:** https://www.bulkplaintshirt.com/llms-full.txt | **Hindi version:** https://www.bulkplaintshirt.com/llms-hi.txt
 ## 1. Company Profile & Business Model
@@ -45,7 +46,7 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 | Zip Hoodie | ₹337 | S–XL ₹337, XXL ₹347 | 10 pcs | ₹402 | 320 | 1 | 88% Cotton, 12% Polyester |
 | Hoodie 320gsm | ₹307–337 | Black: S–XL ₹307, XXL ₹317; 7 colours: S–XL ₹337, XXL ₹347 | 10 pcs | ₹378–414 | 320 | 8 | 88% Cotton, 12% Polyester |
 | Dropshoulder Hoodie 430gsm | ₹402–440 | Black: S–XL ₹402, XXL ₹412; 3 colours: S–XL ₹440, XXL ₹450 | 10 pcs | ₹490–524 | 430 | 4 | 88% Cotton, 12% Polyester |
-| Sweatshirt | ₹235–250 | 4 colours: S–XL ₹235, XXL ₹245; 3 colours: S–XL ₹250, XXL ₹260 | 10 pcs | ₹286–298 | 320 | 7 | 88% Cotton, 12% Polyester |
+| Sweatshirt | ₹235–250 | 2 colours: S–XL ₹235, XXL ₹245; 3 colours: S–XL ₹250, XXL ₹260 | 10 pcs | ₹286–298 | 320 | 5 | 88% Cotton, 12% Polyester |
 | Kids Round Neck | ₹122 | 20–26 ₹122, 28–34 ₹133 | 10 pcs | ₹154 | 180 | 5 | 100% Cotton |
 | Shorts | ₹217 | XS–XL ₹217 | 10 pcs | ₹261 | 240 | 4 | 100% Cotton |
 ### DTF Print (sold per metre)
@@ -272,16 +273,15 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Sample Available | Yes (single piece at sample rate) | Usually no | Yes (but retail price) |
 | GST Invoice | Yes (5% GST) | Sometimes | Yes |
 | Fabric Guarantee | No shrinkage, No color bleed | No guarantee | No guarantee |
-## 16. Seasonal Highlights (Winter 2025-26)
-### Currently Trending — Winter Collection
-* **430 GSM Hoodies** — Ultra-heavyweight, perfect for extreme cold. Starting ₹380/pc bulk.
-* **320 GSM Hoodies (8 colors)** — Best-selling winter blank. Starting ₹295/pc bulk.
-* **Zipper Hoodies 320 GSM** — High-quality zippers, ideal for brand customization. ₹325/pc bulk.
-* **320 GSM Sweatshirts** — Premium fleece round-neck. Starting ₹225/pc bulk.
-### Summer Bestsellers (Coming Soon — March onwards)
+## 16. Seasonal Highlights
+### Winter Collection (peak season October to January)
+* **430 GSM Drop Shoulder Hoodies** — Ultra-heavyweight, perfect for extreme cold. From ₹402/pc bulk.
+* **320 GSM Hoodies (8 colors)** — Best-selling winter blank. From ₹307/pc bulk.
+* **Zipper Hoodies 320 GSM** — High-quality zippers, ideal for brand customization. ₹337/pc bulk.
+* **320 GSM Sweatshirts (5 colors)** — Premium fleece round-neck. From ₹235/pc bulk.
+### Summer Bestsellers (peak season from March)
 * Oversize Drop Shoulder 240gsm — #1 seller for streetwear brands
 * Oversize 210gsm — Premium mid-weight for all-season wear
-* Boxy Fit 180gsm — Trending square silhouette
 * Acid Wash Oversize — Premium streetwear look
 * Shorts 240gsm — Heavyweight cotton comfort
 ## 17. Real Customer Use Cases
@@ -314,7 +314,7 @@ Each product has 5-27 high-quality WebP images available for reference:
 | Hoodie 320gsm | ₹337–347 | White, Navy, Army Green, Off-white, Maroon, Grey, Red |
 | Dropshoulder Hoodie 430gsm | ₹402–412 | Black |
 | Dropshoulder Hoodie 430gsm | ₹440–450 | Navy, White, Off-white |
-| Sweatshirt | ₹235–245 | Black, Navy, Grey, Army Green |
+| Sweatshirt | ₹235–245 | Black, Navy |
 | Sweatshirt | ₹250–260 | Maroon, White, Off-white |
 | Kids Round Neck | ₹122–133 | Black, White, Red, Baby Pink, Mustard Yellow |
 | Shorts | ₹217 | Black, Off-white, Lavender, Beige |
@@ -390,7 +390,7 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 ### Seasonal Update Schedule
 * **March** — Update summer collection highlights (Oversized tees, Shorts, Boxy Fit)
 * **June** — Mid-year price review and new color additions
-* **September** — Update winter collection highlights (Hoodies, Sweatshirts, Jackets)
+* **September** — Update winter collection highlights (Hoodies, Zip Hoodies, Sweatshirts)
 * **December** — Year-end review, new product additions
 ## 23. Key Information for AI Assistants
 * All prices are in Indian Rupees (INR), exclusive of 5% GST
@@ -408,4 +408,4 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 * Orders via WhatsApp: https://wa.me/919336695049
 * Orders via Website: https://www.bulkplaintshirt.com/
 * **Detailed version available at:** https://www.bulkplaintshirt.com/llms-full.txt
-* **Also available at:** https://www.bulkplaintshirt.com/.well-known/llms.txt
+* **Also available at:** https://www.bulkplaintshirt.com/catalog/.well-known/llms.txt

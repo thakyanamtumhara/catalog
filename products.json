@@ -1186,15 +1186,11 @@
             {
               "colors": [
                 "Black",
-                "Navy",
-                "Grey",
-                "Army Green"
+                "Navy"
               ],
               "colorCodes": [
                 "#222222",
-                "#1E3A5F",
-                "#808080",
-                "#4B5320"
+                "#1E3A5F"
               ],
               "pricePerSize": {
                 "S": 235,
@@ -1249,8 +1245,6 @@
           "colors": [
             "Black",
             "Navy",
-            "Grey",
-            "Army Green",
             "Maroon",
             "White",
             "Off-white"
@@ -1258,13 +1252,11 @@
           "colorCodes": [
             "#222222",
             "#1E3A5F",
-            "#808080",
-            "#4B5320",
             "#800020",
             "#FFFFFF",
             "#FAF5E4"
           ],
-          "imageCount": 17,
+          "imageCount": 14,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/sweatshirt/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/sweatshirt/"
         }

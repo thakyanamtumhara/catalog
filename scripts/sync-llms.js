@@ -259,6 +259,66 @@ function generateFlowchart(products, dtf) {
   return out.join('\n');
 }
 
+// The winter and summer lists quote "from" rates. They were hand-written and on 24-Oct-2026 still said
+// ₹295 / ₹380 / ₹325 / ₹225 for the hoodies and sweatshirt (live ₹307 / ₹402 / ₹337 / ₹235), so they come
+// from the catalogue now. A hidden product (Boxy Fit before its relaunch) is left out.
+function generateSeasonal(products) {
+  const by = Object.fromEntries(products.map(p => [p.name, p]));
+  const rate = (p) => {
+    const lo = Math.min(...p.tiers.map(t => Math.min(...t.bulkPrices)));
+    const wide = p.tiers.length > 1 || p.rateMax - lo > NORMAL_SIZE_STEP;
+    return `${wide ? 'From ' : ''}₹${lo}/pc bulk`;
+  };
+  const winter = [
+    ['Dropshoulder Hoodie 430gsm', () => '430 GSM Drop Shoulder Hoodies', 'Ultra-heavyweight, perfect for extreme cold.'],
+    ['Hoodie 320gsm', (p) => `320 GSM Hoodies (${p.colors.length} colors)`, 'Best-selling winter blank.'],
+    ['Zip Hoodie', () => 'Zipper Hoodies 320 GSM', 'High-quality zippers, ideal for brand customization.'],
+    ['Sweatshirt', (p) => `320 GSM Sweatshirts (${p.colors.length} colors)`, 'Premium fleece round-neck.'],
+  ];
+  const summer = [
+    ['Oversize 240gsm', 'Oversize Drop Shoulder 240gsm', '#1 seller for streetwear brands'],
+    ['Oversize 210gsm', 'Oversize 210gsm', 'Premium mid-weight for all-season wear'],
+    ['Boxy Fit', 'Boxy Fit', 'Trending square silhouette'],
+    ['AcidWash Oversize', 'Acid Wash Oversize', 'Premium streetwear look'],
+    ['Shorts', 'Shorts 240gsm', 'Heavyweight cotton comfort'],
+  ];
+  const out = ['### Winter Collection (peak season October to January)'];
+  for (const [name, title, blurb] of winter) if (by[name]) out.push(`* **${title(by[name])}** — ${blurb} ${rate(by[name])}.`);
+  out.push('### Summer Bestsellers (peak season from March)');
+  for (const [name, title, blurb] of summer) if (by[name]) out.push(`* ${title} — ${blurb}`);
+  return out.join('\n');
+}
+
+// The size charts were typed by hand once and never matched the shop: the hoodie rows said chest 42–50
+// (the 320 GSM chart is 38–46), round necks were S–XXL instead of 36–46 and kids used age labels the shop
+// does not sell. They come from the same SIZE_CHARTS the product pages show (js/main.js) now.
+function readSizeCharts() {
+  const src = fs.readFileSync(path.join(ROOT, 'js', 'main.js'), 'utf-8');
+  const m = src.match(/var SIZE_CHARTS = (\{[\s\S]*?\n\});/);
+  if (!m) throw new Error('Could not find SIZE_CHARTS in js/main.js');
+  return new Function(`return ${m[1]}`)();
+}
+
+function generateSizeCharts(products, charts) {
+  const out = [];
+  const keys = [...new Set(products.map(p => p.sizeChart).filter(k => charts[k]))];
+  for (const key of keys) {
+    const c = charts[key];
+    const head = c.rows.map(r => (/age/i.test(r.label) ? r.label : `${r.label} (inches)`));
+    out.push(`### ${c.title.replace(/\s*\/\s*Jackets\b/i, '')}`);
+    out.push(`For: ${products.filter(p => p.sizeChart === key).map(p => p.name).join(', ')}`);
+    out.push(`| Size | ${head.join(' | ')} |`);
+    out.push(`|${'---|'.repeat(head.length + 1)}`);
+    c.sizes.forEach((size, i) => out.push(`| ${size} | ${c.rows.map(r => r.values[i]).join(' | ')} |`));
+    out.push('');
+  }
+  out.push('> **Note:** Sizes may have a tolerance of +/- 0.5 inches. The same charts are on https://www.bulkplaintshirt.com?q=SizeChart');
+  out.push('');
+  out.push('---');
+  out.push('');
+  return out.join('\n');
+}
+
 // Worked examples, with the arithmetic actually computed.
 function generateCostExamples(products) {
   const by = Object.fromEntries(products.map(p => [p.name, p]));
@@ -459,6 +519,7 @@ function main() {
   updateSection(path.join(ROOT, 'llms.txt'), 'Available Colors Per Product', colorsTable);
   replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Product Recommendation Flowchart', generateFlowchart(products, dtf));
   replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Cost Breakdown Examples', generateCostExamples(products));
+  replaceSectionBody(path.join(ROOT, 'llms.txt'), 'Seasonal Highlights', generateSeasonal(products));
   upsertDtfBlock(path.join(ROOT, 'llms.txt'), dtf);
   updateLastUpdated(path.join(ROOT, 'llms.txt'));
 
@@ -468,6 +529,8 @@ function main() {
   updateSection(path.join(ROOT, 'llms-full.txt'), 'Available Colors Per Product', colorsTableHex);
   replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Product Recommendation Flowchart', generateFlowchart(products, dtf));
   replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Cost Breakdown Examples', generateCostExamples(products));
+  replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Seasonal Highlights', generateSeasonal(products));
+  replaceSectionBody(path.join(ROOT, 'llms-full.txt'), 'Detailed Size Charts', generateSizeCharts(products, readSizeCharts()));
   upsertDtfBlock(path.join(ROOT, 'llms-full.txt'), dtf);
   updateLastUpdated(path.join(ROOT, 'llms-full.txt'));
 

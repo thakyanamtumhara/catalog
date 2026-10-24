@@ -386,7 +386,6 @@ const CATALOG_DATA = {
         {
           name: "Sweatshirt", shipKg: 0.46,
           videos: [
-            { src: "/ph/vid/sweatshirt-grey.mp4", poster: "/ph/vid/sweatshirt-grey.jpg", color: "Grey" },
             { src: "/ph/vid/sweatshirt-offwhite.mp4", poster: "/ph/vid/sweatshirt-offwhite.jpg", color: "Off-white" },
             { src: "/ph/vid/sweatshirt-maroon.mp4", poster: "/ph/vid/sweatshirt-maroon.jpg", color: "Maroon" }
           ],
@@ -397,15 +396,15 @@ const CATALOG_DATA = {
           sizeChart: "hoodie320",
           moq: 10,
           sizes: ["S", "M", "L", "XL", "XXL"],
-          mainImage: "m2",
+          mainImage: "7",
           tiers: [
             {
-              label: "Black, Navy, Grey, Army Green",
-              colors: ["Black", "Navy", "Grey", "Army Green"],
-              colorCodes: ["#222222", "#1E3A5F", "#808080", "#4B5320"],
+              label: "Black, Navy",
+              colors: ["Black", "Navy"],
+              colorCodes: ["#222222", "#1E3A5F"],
               // 1.webp is the watermarked twin of m.webp and 19.webp is byte-identical
               // to 7.webp — both were showing as duplicate slides.
-              imageFiles: [2,3,4,5,6,7,8,9],
+              imageFiles: [4,5,6,8,9],
               bulkPrices: [235, 235, 235, 235, 245],
               samplePrice: 286,
               catalogUrl: "https://docs.google.com/presentation/d/1UbsXeU0ykL8SVWzfuMT2-84ZFrizxoUTElEkoZ-g4A4/pub?start=false&loop=false&delayms=3000"
