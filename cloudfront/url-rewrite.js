@@ -47,6 +47,9 @@ function handler(event) {
         '/p/t-shirt-seam-ripped-after-1-wash-check-this-before-you-buy.html': '/p/t-shirt-stitching-quality-check-for-bulk-orders-how-12.html',
         '/p/whatsapp-bulk-messaging-for-t-shirt-business-without-ban.html': '/p/free-whatsapp-api-for-bulk-t-shirt-business-stop-getting.html',
         '/p/why-50-t-shirts-got-returned-washing-tag-galti.html': '/p/t-shirt-wash-care-label-size-tag-why-1000-printed-tees-got.html',
+        // 26-Oct-2026: auto-written post with made-up costs (0 clicks since Mar-2026)
+        // goes to the real hoodie + sweatshirt guide, which shows live rates.
+        '/p/rs-120-sweatshirt-vs-rs-180-hoodie-profit-breakdown-shocks.html': '/p/plainhoodie.html',
 
         // Catalog: three winter SKUs merged into one product each, because the
         // same garment at two colour rates was reading as two products. Both the
