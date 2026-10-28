@@ -1649,6 +1649,16 @@ body.modal-open .static-product-images { display: none; }
   .rate-row-wrap .oc-row { margin-top: 0; }
 }
 
+/* ===== Coming products row (launch alerts) ===== */
+.rate-row-wrap .ln-row { margin-top: 8px; }
+.ln-row[hidden] { display: none; }
+.ln-row-icon { background: #fff7ed; color: #c2410c; }
+.ln-row-cta { background: #ffedd5; color: #9a3412; }
+.ln-row:active .ln-row-cta { background: #fed7aa; }
+@media (min-width: 600px) {
+  .rate-row-wrap .ln-row { margin-top: 0; }
+}
+
 .own-catalog-btn {
   display: flex;
   align-items: center;

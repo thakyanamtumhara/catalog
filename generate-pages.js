@@ -53,6 +53,19 @@ var OWN_CATALOG_ROW_HTML = '<a class="rate-row oc-row" href="/catalog/my-catalog
   '<span class="rate-row-text">Create your own catalog for your buyers<span class="rate-row-more"> · PDF, your rates</span></span>' +
   '<span class="rate-row-cta oc-row-cta">Create</span></a>';
 
+// Coming products (WWbun launch alerts, 28-Oct-2026): the row opens the shop's Notify Me in launch mode. The names come
+// from the live launch list, so a rename or a launch shows here by itself; an empty list hides the row.
+var LAUNCH_ROW_HTML = '<a class="rate-row ln-row" id="lnRow" href="https://www.bulkplaintshirt.com/?launch=1">' +
+  '<span class="rate-row-icon ln-row-icon" aria-hidden="true">' +
+  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>' +
+  '<span class="rate-row-text"><span id="lnRowText">New products coming soon</span><span class="rate-row-more"> \u00b7 WhatsApp on launch day</span></span>' +
+  '<span class="rate-row-cta ln-row-cta">Notify me</span></a>' +
+  '<script>(function(){var r=document.getElementById("lnRow");if(!r||!window.fetch)return;' +
+  'fetch("https://mm.sale91.com/api/launch/public").then(function(x){return x.ok?x.json():null}).then(function(d){' +
+  'if(!d||!Array.isArray(d.items))return;if(!d.items.length){r.hidden=true;return}' +
+  'var n=d.items.map(function(i){return i.name});var t=document.getElementById("lnRowText");' +
+  'if(t)t.textContent="Coming soon: "+(n.length>2?n.slice(0,2).join(", ")+" +"+(n.length-2):n.join(", "))}).catch(function(){})})()</script>';
+
 function slugify(text) {
   return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
@@ -1180,7 +1193,7 @@ function generateMainPage() {
     tabs + '\n' +
     '  <!-- The minimum is a TOTAL across the whole catalog -->\n' +
     '  <div class="mix-strip"><b>Min 10 pcs total</b> \u2014 mix any products, colours &amp; sizes \u00b7 1-pc samples available</div>\n' +
-    '  <div class="rate-row-wrap">' + RATE_ROW_HTML + OWN_CATALOG_ROW_HTML + '</div>\n\n' +
+    '  <div class="rate-row-wrap">' + RATE_ROW_HTML + OWN_CATALOG_ROW_HTML + LAUNCH_ROW_HTML + '</div>\n\n' +
     '  <!-- Main Content: All Products -->\n' +
     '  <main class="main-content">\n' +
     grid +
