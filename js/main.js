@@ -231,6 +231,18 @@ function getProductPageUrl(slug) {
   return window.location.origin + '/catalog/p/' + slug + '/';
 }
 
+var SHOP_TAB = {
+  'AcidWash Oversize': 'AcidWash OS',
+  'True Biowash Round Neck': 'True Bio Rneck',
+  'Biowash Round Neck': 'Bio Rneck',
+  'Non Bio Round Neck': 'Non Bio Rneck',
+  'Dropshoulder Hoodie 430gsm': 'Dropsho Hoodie 430gsm',
+  'Kids Round Neck': 'Kids Rneck'
+};
+function shopUrl(product) {
+  return 'https://www.bulkplaintshirt.com/?tab=' + encodeURIComponent(SHOP_TAB[product.name] || product.name);
+}
+
 // ===== SVG Placeholder =====
 function placeholder(icon, color, w, h) {
   return 'data:image/svg+xml,' + encodeURIComponent(
@@ -618,7 +630,7 @@ function openProduct(productId, skipPush) {
   // The website is the order channel — a 1-pc order there gets the sample rate
   // automatically. WhatsApp exists for questions, not as a detour that ends in
   // being sent to the same website.
-  var orderUrl = isDtf ? product.orderUrl : 'https://www.bulkplaintshirt.com/?tab=' + encodeURIComponent(product.name);
+  var orderUrl = isDtf ? product.orderUrl : shopUrl(product);
 
   body.innerHTML =
     '<div class="swipe-container" id="swipeContainer">' +
@@ -657,7 +669,7 @@ function openProduct(productId, skipPush) {
           '</button>' +
         '</div>' +
         '<div class="detail-actions-row">' +
-          '<a href="https://www.bulkplaintshirt.com/?tab=' + encodeURIComponent(product.name) + '" target="_blank" rel="noopener" class="order-now-btn">' +
+          '<a href="' + shopUrl(product) + '" target="_blank" rel="noopener" class="order-now-btn">' +
             '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>' +
             ' Order Now' +
           '</a>' +
