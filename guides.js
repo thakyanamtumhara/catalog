@@ -91,6 +91,26 @@ var GUIDES = [
       ['/p/Dropshoulders.html', '240 GSM drop-shoulder T-shirts: buyer guide'],
       ['/p/index.html', 'All buyer guides']
     ]
+  },
+  {
+    kind: 'kidshoodie',
+    out: 'p/kids-hoodie-wholesale.html',
+    updated: '2026-11-07',
+    main: 'kids-hoodie',
+    crumb: 'Kids hoodies wholesale',
+    h1: 'Kids Hoodies Wholesale in India',
+    tab: 'Kids Hoodie',
+    wa: 'Hi, I want kids hoodies',
+    linkText: 'Read the kids hoodie buyer guide: price by age, size chart, kids vs adult hoodie and delivery',
+    compare: ['kids-hoodie', 'hoodie-320gsm', 'zip-hoodie', 'kids-round-neck'],
+    photos: [['kids-hoodie', 1, 'Black, laid flat'], ['kids-hoodie', 2, 'Black, hood and drawstrings'], ['kids-hoodie', 3, 'Black, size label'],
+             ['kids-hoodie', 4, 'Black, brushed inside'], ['kids-hoodie', 5, 'Black, next to our adult 320 GSM hoodie']],
+    video: { src: '/ph/vid/kids-hoodie-black.mp4', poster: '/ph/vid/kids-hoodie-black.jpg', label: 'The Black kids hoodie' },
+    related: [
+      ['/p/plainhoodie.html', 'Plain hoodies wholesale (adult sizes): buyer guide'],
+      ['/p/430gsm-dropshoulder-hoodie.html', '430 GSM drop-shoulder hoodies: buyer guide'],
+      ['/p/index.html', 'All buyer guides']
+    ]
   }
 ];
 
@@ -776,6 +796,199 @@ function renderHoodie(g, p, list, bySlug, sizeCharts) {
     footerHtml();
 }
 
+// Kids sizes are ages ("3-4 Year", "5-6" ... on the sheet): shown as "3-4 years" here.
+function ageOf(size) { return String(size).replace(/\s*years?$/i, ''); }
+function agesOf(p) { return p.sizes.map(ageOf); }
+function agePriceGroups(p) {
+  var t = p.tiers[0], out = [];
+  p.sizes.forEach(function (s, i) {
+    var pr = t.bulkPrices[i], last = out[out.length - 1];
+    if (last && last.price === pr) last.ages.push(ageOf(s)); else out.push({ price: pr, ages: [ageOf(s)] });
+  });
+  return out;
+}
+function agePriceSentence(p) {
+  return joinAnd(agePriceGroups(p).map(function (gr) { return rs(gr.price) + ' for ' + joinAnd(gr.ages) + ' years'; }));
+}
+
+function kidsSizeSpan(q) {
+  if (!/year/i.test(q.sizes[0])) return sizeSpan(q.sizes);
+  var a = q.sizes.map(ageOf);
+  return a[0] + ' to ' + a[a.length - 1] + ' years';
+}
+
+function kidsCompareTable(list, mainSlug) {
+  var rows = list.map(function (q) {
+    var cls = q.slug === mainSlug ? ' class="here"' : '';
+    var who = /kids/i.test(q.name) ? 'Kids' : 'Adults';
+    var style = /round neck/i.test(q.description) ? 'Round neck T-shirt' : hoodieStyle(q);
+    return '<tr' + cls + '><td><a href="/catalog/p/' + q.slug + '/">' + esc(q.name) + '</a></td><td>' + esc(who) + '</td><td>' + (gsmOf(q) || '') + '</td><td>' + esc(style) +
+      '</td><td>' + esc(range(q.rate, q.rateMax)) + '/pc</td><td>' + esc(range(q.samplePrice, q.samplePriceMax)) + '</td><td>' + esc(kidsSizeSpan(q)) + '</td></tr>';
+  }).join('');
+  return '<div class="tbl"><table class="cmp"><tr><th>Product</th><th>For</th><th>GSM</th><th>Style</th><th>Bulk price</th><th>1 sample</th><th>Sizes</th></tr>' + rows + '</table></div>';
+}
+
+function renderKidsHoodie(g, p, list, bySlug, sizeCharts) {
+  var url = HOST + '/' + g.out;
+  var chart = sizeCharts[p.sizeChart];
+  var chest = chartSpan(chart, /^chest$/i);
+  var len = chartSpan(chart, /^length$/i);
+  var gsm = gsmOf(p);
+  var fabric = fabricOf(p);
+  var knit = knitOf(p);
+  var moq = p.moq || 10;
+  var sample = range(p.samplePrice, p.samplePriceMax);
+  var price = range(p.rate, p.rateMax) + '/pc';
+  var shop = '/?tab=' + encodeURIComponent(g.tab);
+  var ages = agesOf(p);
+  var ageSpan = ages[0] + ' to ' + ages[ages.length - 1] + ' years';
+  var colourWord = p.colors.length === 1 ? p.colors[0] : p.colors.length + ' colours';
+  var others = list.filter(function (q) { return q.slug !== p.slug; });
+  var adult = others.filter(function (q) { return q.slug === 'hoodie-320gsm'; })[0];
+  var zip = others.filter(function (q) { return q.slug === 'zip-hoodie'; })[0];
+  var tee = others.filter(function (q) { return /round neck/i.test(q.description) && /kids/i.test(q.name); })[0];
+  var photos = g._photos;
+
+  var title = 'Kids Hoodies Wholesale India: ' + gsm + ' GSM, ' + ageSpan + ', from ' + rs(p.rate) + '/pc | BulkPlainTshirt.com';
+  var desc = 'Blank kids hoodies wholesale: ' + gsm + ' GSM ' + knit + ' (' + fabric + '), brushed inside, pullover with a drawstring hood, ' +
+    colourWord + ', sizes ' + ageSpan + '. ' + price + ' + GST for ' + moq + '+ pcs, sample ' + sample + '. Ships from our Delhi godown.';
+  var images = photos.map(function (ph) { return HOST + '/catalog/images/' + ph[0] + '/' + ph[1] + '.webp'; });
+  var waText = encodeURIComponent(g.wa);
+  var lede = 'Blank pullover hoodies for kids aged ' + ageSpan + ', in ' + gsm + ' GSM ' + knit + ', the same fabric as our adult hoodie. ' +
+    'Sold wholesale from ' + moq + ' pieces and shipped from our Delhi godown, or buy one sample piece first. The website shows live stock, and when a new lot is on the way you can pre-book it there.';
+
+  var faqs = [
+    ['What is the wholesale price of a kids hoodie?',
+     'Our ' + p.name + ' is ' + agePriceSentence(p) + ', per piece for ' + moq + ' pieces or more. GST 5% is extra and you get a GST bill.'],
+    ['What is the minimum order?',
+     moq + ' pieces. You can mix sizes, and other products too, to reach it.'],
+    ['Can I buy one piece as a sample first?',
+     'Yes. A single sample piece costs ' + sample + ', plus GST, so you can check the fabric and the fit before a bulk order.'],
+    ['Which ages and sizes do you have?',
+     'Sizes by age: ' + joinAnd(ages) + ' years.' + (chest && len ? ' Chest goes from ' + chest.lo + ' to ' + chest.hi + ' inches and length from ' + len.lo + ' to ' + len.hi +
+       ' inches. See the size chart on this page.' : '')],
+    ['Which colours are available?',
+     (p.colors.length === 1 ? p.colors[0] + ' for now.' : p.colors.length + ' colours: ' + joinAnd(p.colors) + '.') + ' The website shows which sizes are in stock right now.'],
+    ['What fabric is it?',
+     gsm + ' GSM ' + knit + ', ' + fabric + '. The inside is brushed, so it feels soft like fleece.'],
+    adult ? ['Is it the same fabric as your adult hoodie?',
+     'Yes. Our ' + adult.name + ' (sizes ' + sizeSpan(adult.sizes) + ', ' + range(adult.rate, adult.rateMax) + '/pc) is the same ' + gsmOf(adult) + ' GSM ' + knit +
+       ', so you can sell kids and adult sizes from one range' + (zip ? '. There is also a ' + zip.name + ' for adults at ' + range(zip.rate, zip.rateMax) + '/pc.' : '.')] : null,
+    tee ? ['Do you have kids T-shirts too?',
+     'Yes. ' + tee.name + ': ' + gsmOf(tee) + ' GSM, ' + tee.colors.length + ' colours, ' + range(tee.rate, tee.rateMax) + '/pc. You can mix them with kids hoodies to reach ' + moq + ' pieces.'] : null,
+    ['How do you deliver?', DELIVERY_FAQ],
+    ['Can I visit the godown?', GODOWN_FAQ]
+  ].filter(Boolean);
+
+  var offers = {
+    '@type': 'AggregateOffer', url: url, priceCurrency: 'INR',
+    lowPrice: p.rate.toFixed(2), highPrice: p.rateMax.toFixed(2), offerCount: p.colors.length * p.sizes.length,
+    itemCondition: 'https://schema.org/NewCondition',
+    eligibleQuantity: { '@type': 'QuantitativeValue', minValue: moq, unitCode: 'C62' },
+    seller: { '@id': HOST + '/#business' }
+  };
+  var ld = [
+    {
+      '@context': 'https://schema.org', '@type': 'Product',
+      name: p.name + ' (blank pullover hoodie for kids)', sku: p.nickname || p.slug,
+      description: p.description, material: fabric,
+      brand: { '@type': 'Brand', name: 'Sale91' },
+      audience: { '@type': 'PeopleAudience', suggestedMinAge: parseInt(ages[0], 10), suggestedMaxAge: parseInt(ages[ages.length - 1].split('-').pop(), 10) },
+      image: images,
+      offers: offers
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'FAQPage',
+      mainEntity: faqs.map(function (x) { return { '@type': 'Question', name: x[0], acceptedAnswer: { '@type': 'Answer', text: x[1] } }; })
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: HOST + '/' },
+        { '@type': 'ListItem', position: 2, name: 'Buyer guides', item: HOST + '/p/index.html' },
+        { '@type': 'ListItem', position: 3, name: g.crumb, item: url }
+      ]
+    },
+    {
+      '@context': 'https://schema.org', '@type': 'WebPage', '@id': url, url: url, name: title, description: desc,
+      dateModified: g.updated, isPartOf: { '@id': HOST + '/#website' }, about: { '@id': HOST + '/#business' }
+    }
+  ];
+
+  var gallery = photos.map(function (ph, i) {
+    return '<figure><img src="/catalog/images/' + ph[0] + '/' + ph[1] + '.webp" width="600" height="600" alt="' + esc(p.name + ': ' + ph[2]) + '"' +
+      (i < 2 ? '' : ' loading="lazy"') + ' decoding="async"><figcaption>' + esc(ph[2]) + '</figcaption></figure>';
+  }).join('');
+  var ageRows = agePriceGroups(p).map(function (gr) {
+    return '<tr><td>' + esc(joinAnd(gr.ages)) + ' years</td><td>' + esc(rs(gr.price)) + '/pc</td></tr>';
+  }).join('');
+  var faqHtml = faqs.map(function (x) { return '<details><summary>' + esc(x[0]) + '</summary><p>' + esc(x[1]) + '</p></details>'; }).join('');
+  var related = g.related.map(function (r) { return '<li><a href="' + r[0] + '">' + esc(r[1]) + '</a></li>'; }).join('');
+  var guideOf = {};
+  GUIDES.forEach(function (x) { if (x.out !== g.out) guideOf[x.main] = '/' + x.out; });
+
+  return headHtml(title, desc, url, images[0], ld) +
+    topHeader(waText) +
+    '<main class="wrap">\n' +
+    '<p class="crumbs"><a href="/">Home</a> › <a href="/p/index.html">Buyer guides</a> › ' + esc(g.crumb) + '</p>\n' +
+    '<h1>' + esc(g.h1) + '</h1>\n' +
+    '<p class="lede">' + esc(lede) + '</p>\n' +
+    '<div class="price"><div class="pill"><b>' + esc(price) + '</b><span>bulk, ' + moq + '+ pcs · by size · GST 5% extra</span></div>' +
+    '<div class="pill"><b>' + esc(sample) + '</b><span>one sample piece</span></div>' +
+    '<div class="pill"><b>' + esc(colourWord) + '</b><span>ages ' + esc(ageSpan) + '</span></div></div>\n' +
+    '<div class="cta"><a class="btn main" href="' + shop + '">Order on the website</a><a class="btn alt" href="/delhi-stock.html">See live stock</a>' +
+    '<a class="btn alt" href="' + WA + waText + '">WhatsApp ' + PHONE_DISPLAY + '</a></div>\n' +
+    '<p class="note">Prices and sizes on this page come from our live catalogue. Guide updated ' + prettyDate(g.updated) + '.</p>\n' +
+    '<div class="gal">' + gallery + '</div>\n' +
+    '<h2>Price by age</h2>\n<div class="tbl"><table class="cmp"><tr><th>Size (age)</th><th>Bulk price per piece</th></tr>' + ageRows + '</table></div>\n' +
+    '<p class="note">For ' + moq + ' pieces or more in total, before 5% GST. One sample piece: ' + esc(sample) + '. You can mix sizes and products.</p>\n' +
+    '<h2>Specifications</h2>\n<div class="tbl"><table class="specs">' +
+    '<tr><th>Product</th><td>' + esc(p.name) + (p.nickname ? ' (' + esc(p.nickname) + ')' : '') + '</td></tr>' +
+    '<tr><th>Fabric</th><td>' + esc(p.description) + '</td></tr>' +
+    '<tr><th>Weight</th><td>' + gsm + ' GSM (grams per square metre)</td></tr>' +
+    '<tr><th>Style</th><td>Pullover hoodie, no zip, drawstring hood</td></tr>' +
+    '<tr><th>Colour</th><td>' + esc(joinAnd(p.colors)) + '</td></tr>' +
+    '<tr><th>Sizes</th><td>' + esc(ages.join(', ')) + ' years</td></tr>' +
+    '<tr><th>Bulk price</th><td>' + esc(agePriceSentence(p)) + ' · GST 5% extra</td></tr>' +
+    '<tr><th>Minimum order</th><td>' + moq + ' pieces, mix any sizes and products</td></tr>' +
+    '<tr><th>Sample</th><td>1 piece: ' + esc(sample) + ', plus GST</td></tr>' +
+    '<tr><th>Ships from</th><td>Our godown in Khanpur, New Delhi · GST bill with every order</td></tr>' +
+    '</table></div>\n' +
+    (g.video ? '<p>' + esc(g.video.label) + ' on video:</p><video controls preload="none" playsinline poster="' + g.video.poster + '"><source src="' + g.video.src + '" type="video/mp4"></video>\n' : '') +
+    '<h2>Size chart by age</h2>\n' + sizeChartTable(chart, ': ') +
+    '<p class="note">Chest is measured all round. Children of the same age differ in size, so compare the chest and length with a hoodie that fits the child.</p>\n' +
+    '<h2>What does ' + gsm + ' GSM brushed loopknit mean?</h2>\n' +
+    '<p>GSM is the weight of the fabric in grams per square metre. A higher number means a thicker, heavier fabric. Everyday T-shirts are usually 160–180 GSM, so a ' +
+    gsm + ' GSM hoodie is a warm winter weight.</p>\n' +
+    '<p>Loopknit has small loops on the inside of the fabric. In brushed loopknit those loops are brushed up, so the inside feels soft like fleece and holds more warmth. ' +
+    'This fabric is ' + esc(fabric) + '.</p>\n' +
+    '<h2>Kids hoodie, adult hoodies and kids T-shirts</h2>\n' +
+    '<p>Bulk prices are per piece for ' + moq + '+ pieces, before 5% GST.</p>\n' +
+    kidsCompareTable(list, p.slug) +
+    '<ul>' + others.map(function (q) {
+      var link = guideOf[q.slug] ? ' <a href="' + guideOf[q.slug] + '">Read its buyer guide</a>' : '';
+      return '<li><b>' + esc(q.name) + '</b>: ' + gsmOf(q) + ' GSM, ' + esc(/round neck/i.test(q.description) ? 'kids round neck T-shirt' : hoodieFeatures(q)) + ', ' +
+        esc(range(q.rate, q.rateMax)) + '/pc, sizes ' + esc(sizeSpan(q.sizes)) + '.' + link + '</li>';
+    }).join('') + '</ul>\n' +
+    '<h2>Printing on kids hoodies</h2>\n<ul>' +
+    '<li><b>DTF</b>: works on cotton and cotton-polyester fabric like this one. We print DTF sheets too: <a href="https://dtf.bulkplaintshirt.com/">order DTF prints</a>. They come as a separate parcel from the hoodies.</li>' +
+    '<li><b>Screen printing</b>: the thick, smooth outside of the fabric takes front and back prints well.</li>' +
+    '<li><b>Embroidery</b>: heavy fabric holds stitches well, good for small chest logos and names.</li>' +
+    '</ul>\n<p class="note">Kids sizes have a smaller print area, so size your design for the chest. Always test your print on one sample piece before a bulk run.</p>\n' +
+    '<h2>How to order</h2>\n<ol>' +
+    '<li>Open <a href="' + shop + '">' + esc(p.name) + '</a> on bulkplaintshirt.com (same as sale91.com) and pick the sizes.</li>' +
+    '<li>Reach ' + moq + ' pieces in total. You can mix sizes and products. For one piece, choose the sample.</li>' +
+    '<li>If a size is sold out and a new lot is on the way, the website offers pre-booking with the day it reaches our godown.</li>' +
+    '<li>Enter your pincode: the website shows the delivery options and the delivery date for it.</li>' +
+    '<li>Pay at checkout. Every order gets a GST bill.</li>' +
+    '</ol>\n' +
+    deliveryHtml() +
+    '<h2>Questions buyers ask</h2>\n' + faqHtml + '\n' +
+    '<h2>More guides</h2>\n<ul>' + related + '<li><a href="/catalog/">Full catalogue with live rates</a></li></ul>\n' +
+    '</main>\n' +
+    footerHtml();
+}
+
 function generateGuides(ctx) {
   var bySlug = {};
   ctx.products.forEach(function (p) { bySlug[p.slug] = p; });
@@ -790,11 +1003,11 @@ function generateGuides(ctx) {
       var f = ph.length === 3 ? path.join(__dirname, 'images', ph[0], ph[1] + '.webp') : path.join(__dirname, 'images', p.slug, ph[0] + '.webp');
       if (!fs.existsSync(f)) throw new Error('guides.js: photo missing ' + f);
     });
-    if (g.kind === 'hoodie') {
+    if (g.kind === 'hoodie' || g.kind === 'kidshoodie') {
       g._photos = g.photos.filter(function (ph) { return p.colors.indexOf(ph[2].split(',')[0].trim()) >= 0; });
       if (!g._photos.length) throw new Error('guides.js: no photo of a listed colour for ' + g.out);
     }
-    var html = (g.kind === 'sublimation' ? renderSublimation : g.kind === 'hoodie' ? renderHoodie : render)(g, p, list, bySlug, ctx.sizeCharts);
+    var html = (g.kind === 'sublimation' ? renderSublimation : g.kind === 'hoodie' ? renderHoodie : g.kind === 'kidshoodie' ? renderKidsHoodie : render)(g, p, list, bySlug, ctx.sizeCharts);
     var out = path.join(__dirname, 'guides', g.out);
     fs.mkdirSync(path.dirname(out), { recursive: true });
     fs.writeFileSync(out, html);
