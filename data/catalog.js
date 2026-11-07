@@ -383,7 +383,7 @@ const CATALOG_DATA = {
           slug: "kids-hoodie",
           id: "hoodies-5",
           nickname: "KidsHood",
-          description: "Kids Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
+          description: "Kids Non-zipper Hoodie, drawstring hood, ribbed cuffs and hem, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
           sizeChart: "kidshoodie",
           rate: 200,
           samplePrice: 250,
