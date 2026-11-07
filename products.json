@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10",
+  "lastUpdated": "2026-11",
   "currency": "INR",
   "gstRate": 5,
   "moq": 10,
@@ -1158,6 +1158,61 @@
           "imageCount": 12,
           "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/hoodie-430gsm/",
           "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/hoodie-430gsm/"
+        },
+        {
+          "name": "Kids Hoodie",
+          "slug": "kids-hoodie",
+          "description": "Kids Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
+          "gsm": 320,
+          "bulkPriceFrom": 200,
+          "bulkPriceTo": 210,
+          "moq": 10,
+          "samplePriceFrom": 250,
+          "samplePriceTo": 250,
+          "sizes": [
+            "3-4 Year",
+            "5-6",
+            "7-8",
+            "9-10",
+            "11-12"
+          ],
+          "rates": [
+            {
+              "colors": [
+                "Black"
+              ],
+              "colorCodes": [
+                "#222222"
+              ],
+              "pricePerSize": {
+                "3-4 Year": 200,
+                "5-6": 200,
+                "7-8": 200,
+                "9-10": 210,
+                "11-12": 210
+              },
+              "priceBands": [
+                {
+                  "sizes": "3-4 Year–7-8",
+                  "price": 200
+                },
+                {
+                  "sizes": "9-10–11-12",
+                  "price": 210
+                }
+              ],
+              "samplePrice": 250
+            }
+          ],
+          "colors": [
+            "Black"
+          ],
+          "colorCodes": [
+            "#222222"
+          ],
+          "imageCount": 6,
+          "catalogUrl": "https://www.bulkplaintshirt.com/catalog/p/kids-hoodie/",
+          "imageBaseUrl": "https://www.bulkplaintshirt.com/catalog/images/kids-hoodie/"
         }
       ]
     },

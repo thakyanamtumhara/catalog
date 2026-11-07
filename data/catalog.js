@@ -374,6 +374,25 @@ const CATALOG_DATA = {
               catalogUrl: "https://docs.google.com/presentation/d/e/2PACX-1vTydxbnJ0832GdVgDfVvgQhq8rOH9kVYJzBLrTRm2gsronXoAy2R_nIl3G0o4DgrR-oZrb3D1GjXVNv/pub?start=false&loop=false&delayms=3000"
             }
           ]
+        },
+        {
+          name: "Kids Hoodie", shipKg: 0.3,
+          videos: [
+            { src: "/ph/vid/kids-hoodie-black.mp4", poster: "/ph/vid/kids-hoodie-black.jpg", color: "Black" }
+          ],
+          slug: "kids-hoodie",
+          id: "hoodies-5",
+          nickname: "KidsHood",
+          description: "Kids Non-zipper Hoodie, 320gsm, Cotton Brushed Loopknit, 88% cotton, 12% polyester",
+          sizeChart: "kidshoodie",
+          rate: 200,
+          samplePrice: 250,
+          moq: 10,
+          colors: ["Black"],
+          colorCodes: ["#222222"],
+          imageFiles: [1,2,3,4,5],
+          sizes: ["3-4 Year", "5-6", "7-8", "9-10", "11-12"],
+          bulkPrices: [200, 200, 200, 210, 210]
         }
       ]
     },

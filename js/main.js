@@ -57,6 +57,16 @@ var SIZE_CHARTS = {
       { label: "Height", values: [25, 26, 27, 28, 29] }
     ]
   },
+  kidshoodie: {
+    title: "Kids Hoodie (320gsm)",
+    sizes: ["3-4 Year", "5-6", "7-8", "9-10", "11-12"],
+    rows: [
+      { label: "Chest", values: [28, 30, 32, 34, 36] },
+      { label: "Length", values: [18, 19.25, 20.5, 22.5, 24.75] },
+      { label: "Sleeve Length", values: [14.5, 16.25, 18, 19.25, 20.5] },
+      { label: "Shoulder", values: [12.75, 13.75, 14.75, 15.75, 16.75] }
+    ]
+  },
   kids: {
     title: "Kids T-Shirt",
     sizes: ["20", "22", "24", "26", "28", "30", "32", "34"],
