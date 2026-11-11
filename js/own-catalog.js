@@ -207,7 +207,9 @@
       x.fillRect(0, 0, w, h);
       x.drawImage(bmp, 0, 0);
       if (bmp.close) bmp.close();
-      var box = Core.trimBox(x.getImageData(0, 0, w, h).data, w, h, 4);
+      var cut = Core.cornerMark(x.getImageData(0, 0, w, h).data, w, h, 4);
+      var box = Core.trimBox(x.getImageData(0, cut, w, h - cut).data, w, h - cut, 4);
+      box.y += cut;
       var s = Math.min(1, 600 / Math.max(box.w, box.h));
       var c2 = document.createElement('canvas');
       c2.width = Math.max(1, Math.round(box.w * s));

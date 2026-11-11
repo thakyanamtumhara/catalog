@@ -53,35 +53,16 @@ async function loadLive() {
 // into the top-left corner (5 Kids Hoodie photos and the Sweatshirt main photo on 11-Nov); a reseller forwards these
 // PDFs to his own customers, who must not learn our name. The label is light text on a darker box at a fixed place, so
 // inside that box the brightness flips many times on every row (15+ on all six; the busiest clean photo, leaves, 9).
-// A photo that has it loses its top strip; a wrong hit only costs a clean photo that same strip.
-var LABEL_BOX = { left: 10, top: 9, width: 118, height: 18 };
-var LABEL_STRIP = 0.065;
+// A photo that has it loses its top strip; a wrong hit only costs a clean photo that same strip. The test itself is
+// Core.cornerMark in js/own-catalog-pdf.js, shared with the my-catalog page, so both PDFs cut the same photos.
 var labelCuts = [];
 
-async function hasSiteLabel(buf) {
-  var raw = await sharp(buf).flatten({ background: '#ffffff' }).resize({ width: 600 }).extract(LABEL_BOX).greyscale().raw().toBuffer();
-  var sorted = Array.from(raw).sort(function (a, b) { return a - b; });
-  var med = sorted[Math.floor(sorted.length / 2)];
-  var bright = 0, flips = 0;
-  for (var y = 0; y < LABEL_BOX.height; y++) {
-    for (var x = 0; x < LABEL_BOX.width; x++) {
-      var i = y * LABEL_BOX.width + x;
-      var on = raw[i] > med + 45;
-      if (on) bright++;
-      if (x > 0 && on !== (raw[i - 1] > med + 45)) flips++;
-    }
-  }
-  var frac = bright / raw.length;
-  return med < 175 && frac > 0.10 && frac < 0.45 && flips / LABEL_BOX.height >= 12;
-}
-
 async function cutSiteLabel(buf, url) {
-  var meta = await sharp(buf).metadata();
-  if (!meta.width || !meta.height || meta.width < 300 || meta.height < 300) return buf;
-  if (!(await hasSiteLabel(buf))) return buf;
-  var cut = Math.ceil(meta.height * LABEL_STRIP);
+  var raw = await sharp(buf).flatten({ background: '#ffffff' }).raw().toBuffer({ resolveWithObject: true });
+  var cut = Core.cornerMark(raw.data, raw.info.width, raw.info.height, raw.info.channels);
+  if (!cut) return buf;
   labelCuts.push(url);
-  return sharp(buf).extract({ left: 0, top: cut, width: meta.width, height: meta.height - cut }).toBuffer();
+  return sharp(buf).extract({ left: 0, top: cut, width: raw.info.width, height: raw.info.height - cut }).toBuffer();
 }
 
 async function readImage(url) {

@@ -194,6 +194,31 @@
     return { x: l, y: t, w: cw, h: ch };
   }
 
+  function cornerMark(px, w, h, channels) {
+    var n = channels || 4;
+    if (w < 300 || h < 300) return 0;
+    var k = w / 600, bw = 118, bh = 18, lum = new Array(bw * bh), i, x, y;
+    for (y = 0; y < bh; y++) {
+      var sy = Math.min(h - 1, Math.round((9 + y) * k));
+      for (x = 0; x < bw; x++) {
+        var sx = Math.min(w - 1, Math.round((10 + x) * k));
+        i = (sy * w + sx) * n;
+        lum[y * bw + x] = n >= 3 ? 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2] : px[i];
+      }
+    }
+    var sorted = lum.slice().sort(function (a, b) { return a - b; });
+    var med = sorted[sorted.length >> 1], bright = 0, flips = 0;
+    for (y = 0; y < bh; y++) {
+      for (x = 0; x < bw; x++) {
+        var on = lum[y * bw + x] > med + 45;
+        if (on) bright++;
+        if (x > 0 && on !== (lum[y * bw + x - 1] > med + 45)) flips++;
+      }
+    }
+    var frac = bright / lum.length;
+    return med < 175 && frac > 0.10 && frac < 0.45 && flips / bh >= 12 ? Math.ceil(h * 0.065) : 0;
+  }
+
   function fileName(products, shop) {
     var base = products.length === 1 ? products[0].name + ' - Catalogue' : (shop ? shop + ' - Catalogue' : 'Catalogue');
     base = safe(base).replace(/[\\/:*?"<>|]+/g, ' ').replace(/\s+/g, ' ').trim() || 'Catalogue';
@@ -535,6 +560,7 @@
     collect: collect,
     undrawable: undrawable,
     trimBox: trimBox,
+    cornerMark: cornerMark,
     cleanRate: cleanRate,
     inr: inr,
     fileName: fileName,
