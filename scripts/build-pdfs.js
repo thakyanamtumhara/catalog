@@ -49,6 +49,41 @@ async function loadLive() {
   return { tbl0: tbl[0], photos: w.PH_PHOTOS };
 }
 
+// OUR OWN LABEL NEVER GOES INTO THESE PDFs (11-Nov-2026). Newer catalogue photos carry a small "sale91.com" label burned
+// into the top-left corner (5 Kids Hoodie photos and the Sweatshirt main photo on 11-Nov); a reseller forwards these
+// PDFs to his own customers, who must not learn our name. The label is light text on a darker box at a fixed place, so
+// inside that box the brightness flips many times on every row (15+ on all six; the busiest clean photo, leaves, 9).
+// A photo that has it loses its top strip; a wrong hit only costs a clean photo that same strip.
+var LABEL_BOX = { left: 10, top: 9, width: 118, height: 18 };
+var LABEL_STRIP = 0.065;
+var labelCuts = [];
+
+async function hasSiteLabel(buf) {
+  var raw = await sharp(buf).flatten({ background: '#ffffff' }).resize({ width: 600 }).extract(LABEL_BOX).greyscale().raw().toBuffer();
+  var sorted = Array.from(raw).sort(function (a, b) { return a - b; });
+  var med = sorted[Math.floor(sorted.length / 2)];
+  var bright = 0, flips = 0;
+  for (var y = 0; y < LABEL_BOX.height; y++) {
+    for (var x = 0; x < LABEL_BOX.width; x++) {
+      var i = y * LABEL_BOX.width + x;
+      var on = raw[i] > med + 45;
+      if (on) bright++;
+      if (x > 0 && on !== (raw[i - 1] > med + 45)) flips++;
+    }
+  }
+  var frac = bright / raw.length;
+  return med < 175 && frac > 0.10 && frac < 0.45 && flips / LABEL_BOX.height >= 12;
+}
+
+async function cutSiteLabel(buf, url) {
+  var meta = await sharp(buf).metadata();
+  if (!meta.width || !meta.height || meta.width < 300 || meta.height < 300) return buf;
+  if (!(await hasSiteLabel(buf))) return buf;
+  var cut = Math.ceil(meta.height * LABEL_STRIP);
+  labelCuts.push(url);
+  return sharp(buf).extract({ left: 0, top: cut, width: meta.width, height: meta.height - cut }).toBuffer();
+}
+
 async function readImage(url) {
   var buf;
   if (SITE_DIR) {
@@ -60,6 +95,7 @@ async function readImage(url) {
     if (!r.ok) return null;
     buf = Buffer.from(await r.arrayBuffer());
   }
+  buf = await cutSiteLabel(buf, url);
   var raw = await sharp(buf).flatten({ background: '#ffffff' }).raw().toBuffer({ resolveWithObject: true });
   var box = Core.trimBox(raw.data, raw.info.width, raw.info.height, raw.info.channels);
   var res = await sharp(buf)
@@ -112,8 +148,20 @@ async function main() {
     });
     console.log(file + '  ' + Math.round(bytes.length / 1024) + ' KB  ' + p.colours.length + ' colours  ' + (p.photos.length - missing) + ' photos' + (missing ? '  (' + missing + ' missing)' : ''));
   }
-  fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify({ builtAt: new Date().toISOString(), products: index }, null, 1));
-  console.log('Done: ' + index.length + ' PDFs in ' + OUT);
+  // Every product in ONE file, for a buyer who wants the whole catalogue for his own customers (Ketu, 11-Nov-2026).
+  var all = null;
+  if (!ONLY.length && products.length > 1) {
+    var allBytes = await Core.buildPdf(PDFLib, { products: products, charts: charts });
+    fs.writeFileSync(path.join(OUT, 'all-products.pdf'), allBytes);
+    all = { file: 'all-products.pdf', filename: 'Catalogue - All Products.pdf', bytes: allBytes.length, products: products.length };
+    console.log('all-products.pdf  ' + Math.round(allBytes.length / 1024) + ' KB  ' + products.length + ' products');
+  }
+  var out = { builtAt: new Date().toISOString(), products: index };
+  if (all) out.all = all;
+  var cuts = labelCuts.filter(function (u, k) { return labelCuts.indexOf(u) === k; });
+  if (cuts.length) console.log('Our label cut off ' + cuts.length + ' photo(s): ' + cuts.join(', '));
+  fs.writeFileSync(path.join(OUT, 'index.json'), JSON.stringify(out, null, 1));
+  console.log('Done: ' + index.length + ' PDFs' + (all ? ' + all-products.pdf' : '') + ' in ' + OUT);
 }
 
 main().catch(function (err) {
