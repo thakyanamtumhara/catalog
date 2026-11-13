@@ -496,7 +496,7 @@ const CATALOG_DATA = {
       { title: "Upload any design", text: "Choose the width and the pieces. The website sets every piece on the sheet for you." }
     ],
     fileRule: "PNG or PDF with a transparent background, 250 DPI or more.",
-    pricePerMetre: 155,
+    pricePerMetre: 130,
     gstPercent: 18,
     sheetWidthIn: 22.8,
     sheetWidthCm: 57.9,

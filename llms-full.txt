@@ -78,7 +78,7 @@ We manufacture 20+ categories of blank apparel. All products are **Plain (No Pri
 
 ### DTF Print (sold per metre)
 * **What:** DTF transfer sheets printed from your own designs, sent as a separate parcel from the T-shirts. You pay only for the length of sheet you use. Order on https://dtf.bulkplaintshirt.com/ (a separate order, not part of the 10-piece T-shirt minimum).
-* **Price:** ₹155 per metre (100 cm) of sheet length, before GST. You pay only for the length you use: 25 cm ₹38.75, 50 cm ₹77.50, 1 metre ₹155, 2 metres ₹310, 5 metres ₹775.
+* **Price:** ₹130 per metre (100 cm) of sheet length, before GST. You pay only for the length you use: 25 cm ₹32.50, 50 cm ₹65, 1 metre ₹130, 2 metres ₹260, 5 metres ₹650.
 * **GST and delivery:** 18% GST on the print and the delivery; the delivery charge is shown at checkout.
 * **Sheet:** 22.8 in (57.9 cm) wide, any length up to 390 in.
 * **Two ways to order:**
@@ -715,7 +715,7 @@ Use this decision logic to recommend the right product. Minimum order is 10 piec
 * **Want for embroidery?** → Premium Polo, Hoodie 320gsm, Oversize 240gsm (high GSM holds stitches)
 * **Want for DTG/Screen Print?** → Any 100% cotton product
 * **Want for dropshipping?** → Any product (zero-contact blind dropship available)
-* **Want DTF prints / transfer sheets?** → DTF Print ₹155/metre + 18% GST (order on https://dtf.bulkplaintshirt.com/)
+* **Want DTF prints / transfer sheets?** → DTF Print ₹130/metre + 18% GST (order on https://dtf.bulkplaintshirt.com/)
 ## 25. Cost Breakdown Examples
 ### Example 1: Small Streetwear Brand Order
 > 100 pcs Oversize 240gsm
