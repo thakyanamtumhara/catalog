@@ -12,12 +12,13 @@ var PHONE_DISPLAY = '+91 93366 95049';
 var GODOWN = 'F-120, Shutter Wali Gali, Near Gujjar Chowk, Khanpur, New Delhi 110062';
 var HOURS = 'Mon–Sat 10 am–6 pm, Sun 12–4 pm';
 var GSTIN = '07BBNPG0866M2Z7';
-var BUS_STATES = 'Bihar, Chandigarh, Haryana, Himachal Pradesh, J&K, Madhya Pradesh, Punjab, Rajasthan, Uttar Pradesh and Uttarakhand';
+var BUS_STATES = 'Bihar, Chandigarh, Goa, Gujarat, Haryana, Himachal Pradesh, J&K, Madhya Pradesh, Maharashtra, Punjab, Rajasthan, Uttar Pradesh and Uttarakhand';
+var FAR_TRANSPORT = 'Gujarat, Maharashtra, Goa and J&K take 2–4 days';
 
 var GUIDES = [
   {
     out: 'p/Dropshoulders.html',
-    updated: '2026-10-17',
+    updated: '2026-11-16',
     main: 'oversize-240gsm',
     gsm: 240,
     compare: ['oversize-180gsm', 'oversize-210gsm', 'oversize-240gsm', 'acidwash-oversize', 'oversize-260gsm', 'shorts'],
@@ -118,6 +119,22 @@ function esc(s) {
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 function rs(n) { return '₹' + n; }
+function inr(n) {
+  var r = Math.round(n * 100), whole = String(Math.floor(r / 100)), paise = r % 100;
+  var last3 = whole.slice(-3), rest = whole.slice(0, -3);
+  return '₹' + (rest ? rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + last3 : last3) + (paise ? '.' + (paise < 10 ? '0' : '') + paise : '');
+}
+function costTable(p) {
+  if (!sameAllSizes(p)) return '';
+  var rows = [10, 50, 100, 500].map(function (n) {
+    var goods = p.rate * n, gst = goods * 0.05;
+    return '<tr><td>' + n + ' pcs</td><td>' + inr(goods) + '</td><td>' + inr(gst) + '</td><td><b>' + inr(goods + gst) + '</b></td></tr>';
+  }).join('');
+  return '<h2>What an order costs</h2>\n' +
+    '<p>The price per piece is the same from ' + (p.moq || 10) + ' pieces up: ' + rs(p.rate) + ' for every size and colour.</p>\n' +
+    '<div class="tbl"><table><tr><th>Order</th><th>T-shirts</th><th>GST 5%</th><th>Total</th></tr>' + rows + '</table></div>\n' +
+    '<p class="note">Before delivery and before the full-carton discount: when every size of a colour is a multiple of 10 pieces, the website takes a per-piece discount off by itself. Checkout shows your exact total.</p>\n';
+}
 function range(lo, hi) { return lo === hi ? rs(lo) : rs(lo) + '–' + hi; }
 function sizeSpan(sizes) { return sizes.length > 1 ? sizes[0] + '–' + sizes[sizes.length - 1] : sizes[0]; }
 function gsmOf(p) { var m = (p.description + ' ' + p.name).match(/(\d{3})\s*gsm/i); return m ? +m[1] : null; }
@@ -155,6 +172,7 @@ function compareTable(list, mainSlug) {
 
 function faqList(g, p, bySlug) {
   var heavy = bySlug['oversize-260gsm'];
+  var light = bySlug['oversize-180gsm'], mid = bySlug['oversize-210gsm'];
   var acid = bySlug['acidwash-oversize'];
   var shorts = bySlug['shorts'];
   var f = [
@@ -179,6 +197,12 @@ function faqList(g, p, bySlug) {
      (acid ? 'Yes: ' + acid.name + ' (240 GSM, ' + acid.colors.length + ' colours, ' + priceLine(acid) + ')' : '') +
      (acid && shorts ? ' and ' : '') +
      (shorts ? shorts.name + ' in 240 GSM terry cotton (' + shorts.colors.length + ' colours, ' + priceLine(shorts) + ')' : '') + '.'],
+    ['Is 240 GSM too warm for summer?',
+     light && mid ? 'It is heavier and a little warmer than a regular T-shirt. Many brands sell 240 GSM oversized tees all year; for peak summer, buyers also pick our ' +
+       light.name + ' (' + priceLine(light) + ') or ' + mid.name + ' (' + priceLine(mid) + ').' : ''],
+    ['Which size ratio should I order?',
+     'In our website orders from May to November 2026, 240 GSM oversized tees sold about 1% XS, 19% S, 27% M, 26% L, 18% XL and 9% XXL. ' +
+     'For 200 pieces of one colour, about 40 S, 50 M, 50 L, 40 XL and 20 XXL.'],
     ['How do you deliver?', DELIVERY_FAQ],
     ['Can I visit the godown?', GODOWN_FAQ]
   ];
@@ -209,7 +233,7 @@ var CSS = '<style>' +
   '@media(max-width:600px){h1{font-size:25px}h2{font-size:20px}}' +
   '</style>\n';
 
-var DELIVERY_FAQ = 'By courier to any pincode in India; the website shows the delivery date for your pincode at checkout. Within about 60 km of our Delhi godown we can send same-day by Porter bike. Bulk orders can also go by train parcel to main railway cities, or by bus transport to ' + BUS_STATES + '. Or collect from the godown.';
+var DELIVERY_FAQ = 'By courier to any pincode in India; the website shows the delivery date for your pincode at checkout. Within about 60 km of our Delhi godown we can send same-day by Porter bike. Bulk orders can also go by train parcel to main railway cities, or by transport to ' + BUS_STATES + ' (' + FAR_TRANSPORT + '). Or collect from the godown.';
 var GODOWN_FAQ = 'Yes. ' + GODOWN + '. Open ' + HOURS + '.';
 
 function headHtml(title, desc, url, image, ld) {
@@ -235,7 +259,7 @@ function deliveryHtml() {
   return '<h2>Delivery</h2>\n<ul>' +
     '<li><b>Courier</b> to any pincode in India.</li>' +
     '<li><b>Same-day bike (Porter)</b> within about 60 km of our Delhi godown.</li>' +
-    '<li><b>Train parcel</b> to main railway cities, and <b>bus transport</b> to ' + BUS_STATES + ', for bulk orders.</li>' +
+    '<li><b>Train parcel</b> to main railway cities, and <b>transport</b> to ' + BUS_STATES + ' (' + FAR_TRANSPORT + '), for bulk orders.</li>' +
     '<li><b>Pick up</b> from the godown: ' + esc(GODOWN) + ' · ' + HOURS + '.</li>' +
     '</ul>\n';
 }
@@ -254,7 +278,7 @@ function render(g, p, list, bySlug, sizeCharts) {
   g._chest = chestRow ? [chestRow.values[0], chestRow.values[chestRow.values.length - 1]] : ['', ''];
   g._len = lenRow ? [lenRow.values[0], lenRow.values[lenRow.values.length - 1]] : ['', ''];
 
-  var title = g.gsm + ' GSM Drop-Shoulder T-Shirts Wholesale India – ' + rs(p.rate) + '/pc, ' + p.colors.length + ' Colours | BulkPlainTshirt.com';
+  var title = g.gsm + ' GSM Oversized Drop-Shoulder T-Shirts Wholesale India – ' + rs(p.rate) + '/pc, ' + p.colors.length + ' Colours | BulkPlainTshirt.com';
   var desc = g.gsm + ' GSM oversized drop-shoulder T-shirts wholesale: ' + rs(p.rate) + '/pc + GST for ' + (p.moq || 10) + '+ pcs, sample ' +
     rs(p.samplePrice) + ', ' + p.colors.length + ' colours, ' + sizeSpan(p.sizes) + ', 100% cotton terry bio-wash. Ships from our Delhi godown.';
   var imgBase = '/catalog/images/' + p.slug + '/';
@@ -310,7 +334,7 @@ function render(g, p, list, bySlug, sizeCharts) {
     topHeader(waText) +
     '<main class="wrap">\n' +
     '<p class="crumbs"><a href="/">Home</a> › <a href="/p/index.html">Buyer guides</a> › ' + g.gsm + ' GSM drop-shoulder T-shirts</p>\n' +
-    '<h1>' + g.gsm + ' GSM Drop-Shoulder T-Shirts — Wholesale in India</h1>\n' +
+    '<h1>' + g.gsm + ' GSM Oversized Drop-Shoulder T-Shirts — Wholesale in India</h1>\n' +
     '<p class="lede">Blank oversized T-shirts in heavyweight ' + g.gsm + ' GSM terry cotton, in ' + p.colors.length +
     ' colours, shipped from our Delhi godown. Buy from ' + (p.moq || 10) + ' pieces, or one sample piece first; the website shows live stock.</p>\n' +
     '<div class="price"><div class="pill"><b>' + esc(priceLine(p)) + '</b><span>bulk, ' + (p.moq || 10) + '+ pcs · GST 5% extra</span></div>' +
@@ -331,6 +355,7 @@ function render(g, p, list, bySlug, sizeCharts) {
     '<tr><th>Sample</th><td>1 piece for ' + esc(range(p.samplePrice, p.samplePriceMax)) + ' + GST</td></tr>' +
     '<tr><th>Ships from</th><td>Our godown in Khanpur, New Delhi · GST bill with every order</td></tr>' +
     '</table></div>\n' +
+    costTable(p) +
     '<h2>Colours</h2>\n<ul class="colors">' + swatches + '</ul>\n' +
     (g.video ? '<p>' + esc(g.video.label) + ' on video:</p><video controls preload="none" playsinline poster="' + g.video.poster + '"><source src="' + g.video.src + '" type="video/mp4"></video>\n' : '') +
     '<h2>Size chart</h2>\n' + sizeChartTable(chart) +
@@ -355,6 +380,54 @@ function render(g, p, list, bySlug, sizeCharts) {
     '<li><b>DTG</b> — direct-to-garment printing gives its best colours on 100% cotton.</li>' +
     '<li><b>Embroidery and puff print</b> — heavier fabric holds stitches and raised prints better than a thin tee.</li>' +
     '</ul>\n<p class="note">Always test your print on one sample piece before a bulk run.</p>\n' +
+    '<h3>Which colours suit which print method</h3>\n<ul>' +
+    '<li><b>DTF</b>: every colour, dark ones too, because the transfer carries its own white base.</li>' +
+    '<li><b>DTG</b>: brightest on white and light colours. Dark colours need a pre-treatment first.</li>' +
+    '<li><b>Screen printing</b>: every colour. On dark colours plan a white under-base, which adds one screen.</li>' +
+    '<li><b>Vinyl (HTV)</b>: every colour. Pick a vinyl colour with strong contrast.</li>' +
+    '</ul>\n' +
+    '<h2>Terry cotton and bio-wash: what you are buying</h2>\n' +
+    '<p>The fabric is ' + esc(p.description) + '. Terry, also called loopknit, is knitted with small loops on the inside and a smooth face on the outside. ' +
+    'The loops give the T-shirt its weight and body without making it stiff, and the smooth outside gives your print a clean, even surface.</p>\n' +
+    '<p>Bio-wash is an enzyme wash done after dyeing. It takes off the loose fibres on the surface, so the T-shirt feels soft from the first wear and stays smoother after washing.</p>\n' +
+    '<h2>Drop-shoulder or regular fit?</h2>\n' +
+    '<p>In a drop-shoulder T-shirt the shoulder seam sits below the wearer\'s own shoulder, on the upper arm, and the body is cut wide and boxy. ' +
+    'That is the relaxed oversized look streetwear buyers ask for, and it gives a wide, flat chest and back for big prints. ' +
+    'A regular-fit T-shirt has its seam on the shoulder and a closer body. For a regular fit, see the round neck T-shirts in our <a href="/catalog/">catalogue</a>.</p>\n' +
+    '<h2>Which sizes to order</h2>\n' +
+    '<p>In our website orders of ' + g.gsm + ' GSM oversized T-shirts from May to November 2026, every 100 pieces split like this. Black alone splits the same way.</p>\n' +
+    '<div class="tbl"><table><tr><th>Size</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr>' +
+    '<tr><th>Pieces in 100</th><td>1</td><td>19</td><td>27</td><td>26</td><td>18</td><td>9</td></tr></table></div>\n' +
+    '<p>So for 200 pieces in one colour, about 40 S, 50 M, 50 L, 40 XL and 20 XXL is a safe start. When every size of a colour is a full carton of 10 pieces, the website takes a per-piece discount off by itself.</p>\n' +
+    '<h2>Who buys ' + g.gsm + ' GSM oversized T-shirts</h2>\n<ul>' +
+    '<li><b>Streetwear and clothing brands</b> that sell oversized tees under their own name.</li>' +
+    '<li><b>Printing businesses</b> doing DTF, screen print, DTG or embroidery for their customers.</li>' +
+    '<li><b>College fests, events and teams</b> that want merchandise that feels premium.</li>' +
+    '<li><b>Companies</b> ordering staff and gift T-shirts with their logo.</li>' +
+    '<li><b>Online sellers and resellers</b> on their own website, Instagram or marketplaces. We also ship <a href="/p/dropshipping.html">drop-shipping orders</a> straight to your customer.</li>' +
+    '</ul>\n' +
+    '<h2>How to check a ' + g.gsm + ' GSM blank before a bulk order</h2>\n<ul>' +
+    '<li>Order one sample piece first: it costs ' + esc(range(p.samplePrice, p.samplePriceMax)) + ' + GST.</li>' +
+    '<li>Feel both sides: smooth outside, small loops inside.</li>' +
+    '<li>Hold it up to the light: the heavier the fabric, the less you can see through it, which matters most in white and light colours.</li>' +
+    '<li>Stretch the neck rib and let go: it should spring back flat.</li>' +
+    '<li>Wash it once, then measure the chest and length against the size chart above.</li>' +
+    '<li>Print your real design on it before you print the whole run.</li>' +
+    '</ul>\n' +
+    '<h2>Mistakes to avoid when buying ' + g.gsm + ' GSM blanks</h2>\n<ul>' +
+    '<li><b>Judging by GSM alone.</b> Two ' + g.gsm + ' GSM T-shirts can feel different: terry (loopknit) and single jersey of the same weight drape differently. Ask what the fabric is.</li>' +
+    '<li><b>Equal pieces in every size.</b> Most buyers sell more M and L than S or XXL; see the size split above.</li>' +
+    '<li><b>Skipping the sample.</b> One piece tells you more about fabric, fit and print than any photo.</li>' +
+    '<li><b>Promising colours before checking stock.</b> Check the <a href="/delhi-stock.html">live stock</a> for every colour and size before you take your customer\'s order.</li>' +
+    '</ul>\n' +
+    '<h2>Care tips for your customers</h2>\n<ul>' +
+    '<li>Wash inside out in cold water.</li>' +
+    '<li>Dry in shade, not in a hot dryer.</li>' +
+    '<li>Iron inside out, and never iron directly on the print.</li>' +
+    '<li>Wash dark and light colours apart for the first few washes.</li>' +
+    '</ul>\n' +
+    '<h2>Made in Tiruppur, shipped from Delhi</h2>\n' +
+    '<p>Our T-shirts are made in Tiruppur, India\'s knitwear hub, and kept ready in our Delhi godown in Khanpur. Orders ship from the godown, and you can visit it to see the fabric and colours before you buy.</p>\n' +
     '<h2>How to order</h2>\n<ol>' +
     '<li>Open <a href="/">bulkplaintshirt.com</a> (same as sale91.com), choose <b>' + esc(p.name) + '</b>, and pick your colours and sizes.</li>' +
     '<li>Reach ' + (p.moq || 10) + ' pieces in total — you can mix products, colours and sizes. For one piece, choose the sample.</li>' +
