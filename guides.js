@@ -387,7 +387,7 @@ function render(g, p, list, bySlug, sizeCharts) {
     '<li><b>Vinyl (HTV)</b>: every colour. Pick a vinyl colour with strong contrast.</li>' +
     '</ul>\n' +
     '<h2>Terry cotton and bio-wash: what you are buying</h2>\n' +
-    '<p>The fabric is ' + esc(p.description) + '. Terry, also called loopknit, is knitted with small loops on the inside and a smooth face on the outside. ' +
+    '<p>Our catalogue lists it as: ' + esc(p.description) + '. Terry, also called loopknit, is knitted with small loops on the inside and a smooth face on the outside. ' +
     'The loops give the T-shirt its weight and body without making it stiff, and the smooth outside gives your print a clean, even surface.</p>\n' +
     '<p>Bio-wash is an enzyme wash done after dyeing. It takes off the loose fibres on the surface, so the T-shirt feels soft from the first wear and stays smoother after washing.</p>\n' +
     '<h2>Drop-shoulder or regular fit?</h2>\n' +
